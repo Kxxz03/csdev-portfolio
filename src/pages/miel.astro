@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MIEL — Confitería & Postres · Área 1, CDE</title>
+  <meta name="description" content="Confitería artesanal en el corazón de Ciudad del Este. Tortas, alfajores y postres hechos el mismo día — sin conservantes." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:     #FFF8F0;
+      --ink:       #1A1008;
+      --terracota: #D4603A;
+      --rosa:      #F4A7B9;
+      --amarillo:  #F9C846;
+      --verde:     #7DBF8E;
+      --card:      #FFFBF6;
+      --border:    rgba(26,16,8,0.1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .font-display {
+      font-family: 'Fraunces', serif;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ── NAV ────────────────────────────────────────────── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(255,248,240,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: 'Fraunces', serif;
+      font-size: 1.5rem;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-logo span { color: var(--terracota); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.875rem;
+      color: var(--ink);
+      text-decoration: none;
+      opacity: 0.65;
+      transition: opacity 0.2s, color 0.2s;
+    }
+
+    .nav-links a:hover { opacity: 1; color: var(--terracota); }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--ink);
+      color: var(--cream);
+      padding: 0.6rem 1.2rem;
+      border-radius: 999px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .nav-cta:hover { background: var(--terracota); }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+    }
+
+    /* ── HERO ───────────────────────────────────────────── */
+    .hero {
+      padding: 5rem 0 6rem;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 1px solid rgba(212,96,58,0.3);
+      background: var(--cream);
+      padding: 0.3rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--terracota);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-badge-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--terracota);
+    }
+
+    .hero-headline {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(3.5rem, 7vw, 6.5rem);
+      line-height: 0.92;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.75rem;
+    }
+
+    .hero-headline .italic { font-style: italic; }
+    .hero-headline .t { color: var(--terracota); }
+    .hero-headline .r { color: #C2185B; }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      line-height: 1.65;
+      color: rgba(26,16,8,0.65);
+      max-width: 400px;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--ink);
+      color: var(--cream);
+      padding: 0.85rem 1.75rem;
+      border-radius: 999px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .btn-primary:hover { background: var(--terracota); }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      border: 1px solid rgba(26,16,8,0.2);
+      padding: 0.85rem 1.75rem;
+      border-radius: 999px;
+      font-weight: 500;
+      text-decoration: none;
+      color: var(--ink);
+      transition: background 0.2s;
+    }
+
+    .btn-outline:hover { background: rgba(26,16,8,0.05); }
+
+    /* Hero image side */
+    .hero-visual {
+      position: relative;
+    }
+
+    .hero-blob-1 {
+      position: absolute;
+      top: -2rem; right: -2rem;
+      width: 160px; height: 160px;
+      border-radius: 50%;
+      background: rgba(249,200,70,0.55);
+      filter: blur(48px);
+      pointer-events: none;
+    }
+
+    .hero-blob-2 {
+      position: absolute;
+      bottom: -2.5rem; left: -2.5rem;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(244,167,185,0.55);
+      filter: blur(56px);
+      pointer-events: none;
+    }
+
+    .hero-img-wrap {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 2rem;
+      overflow: hidden;
+      box-shadow: 0 32px 64px -12px rgba(212,96,58,0.18);
+    }
+
+    .hero-img-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-badge-float {
+      position: absolute;
+      bottom: -1.5rem;
+      left: -1.5rem;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 0.85rem 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      box-shadow: 0 8px 24px -4px rgba(26,16,8,0.1);
+    }
+
+    .hero-badge-float-icon {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: var(--verde);
+      display: grid;
+      place-items: center;
+      font-family: 'Fraunces', serif;
+      font-size: 1.1rem;
+      color: white;
+    }
+
+    .hero-badge-float-text strong { display: block; font-size: 0.875rem; }
+    .hero-badge-float-text span { font-size: 0.75rem; color: rgba(26,16,8,0.5); }
+
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .hero-visual { order: -1; }
+      .hero-blob-1, .hero-blob-2 { display: none; }
+    }
+
+    /* ── SECTION SHARED ─────────────────────────────────── */
+    .section-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--terracota);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+
+    /* ── PRODUCTOS ──────────────────────────────────────── */
+    .productos {
+      padding: 6rem 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .productos-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .productos-sub {
+      max-width: 340px;
+      color: rgba(26,16,8,0.6);
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    .productos-grid {
+      display: grid;
+      grid-template-columns: 7fr 5fr;
+      grid-template-rows: auto auto;
+      gap: 1.25rem;
+    }
+
+    .product-card {
+      border-radius: 1.5rem;
+      overflow: hidden;
+      background: var(--card);
+      border: 1px solid var(--border);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .product-card:hover { transform: translateY(-3px); box-shadow: 0 16px 40px -8px rgba(26,16,8,0.1); }
+
+    .product-card:nth-child(1) { grid-column: 1; }
+    .product-card:nth-child(2) { grid-column: 2; }
+    .product-card:nth-child(3) { grid-column: 1; }
+    .product-card:nth-child(4) { grid-column: 2; }
+
+    .product-img {
+      aspect-ratio: 4/3;
+      overflow: hidden;
+    }
+
+    .product-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s ease;
+    }
+
+    .product-card:hover .product-img img { transform: scale(1.05); }
+
+    .product-body {
+      padding: 1.5rem 2rem 2rem;
+    }
+
+    .product-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .product-tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      font-weight: 500;
+    }
+
+    .tag-rosa     { background: var(--rosa);      color: var(--ink); }
+    .tag-amarillo { background: var(--amarillo);   color: var(--ink); }
+    .tag-verde    { background: var(--verde);      color: white; }
+    .tag-terracota{ background: var(--terracota);  color: white; }
+
+    .product-price { font-size: 0.85rem; color: rgba(26,16,8,0.5); }
+    .product-name {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      margin-bottom: 0.4rem;
+      line-height: 1.1;
+    }
+
+    .product-desc { color: rgba(26,16,8,0.65); font-size: 0.9rem; line-height: 1.6; }
+
+    @media (max-width: 768px) {
+      .productos-grid { grid-template-columns: 1fr; }
+      .product-card:nth-child(n) { grid-column: 1; }
+    }
+
+    /* ── DEL DÍA ────────────────────────────────────────── */
+    .del-dia {
+      padding: 6rem 0;
+      background: var(--ink);
+      color: var(--cream);
+    }
+
+    .del-dia .section-label {
+      color: var(--amarillo);
+      border-color: rgba(255,255,255,0.15);
+    }
+
+    .del-dia-inner {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .del-dia-sticky {
+      position: sticky;
+      top: 6rem;
+    }
+
+    .del-dia-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--amarillo);
+      margin-bottom: 1rem;
+    }
+
+    .del-dia-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      margin-bottom: 1.25rem;
+      color: var(--cream);
+    }
+
+    .del-dia-sub {
+      color: rgba(255,248,240,0.55);
+      max-width: 320px;
+      line-height: 1.65;
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+    }
+
+    .del-dia-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 1.1rem;
+      border: 1px solid rgba(249,200,70,0.5);
+      background: transparent;
+    }
+
+    .del-dia-badge .badge-del {
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      color: var(--amarillo);
+      font-size: 1rem;
+    }
+
+    .del-dia-badge .badge-dia {
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      color: rgba(255,248,240,0.4);
+      font-size: 1rem;
+    }
+
+    .del-dia-list {
+      list-style: none;
+    }
+
+    .del-dia-item {
+      display: grid;
+      grid-template-columns: 110px 1fr auto;
+      align-items: center;
+      gap: 1.25rem;
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      transition: background 0.2s;
+      cursor: default;
+    }
+
+    .del-dia-item:hover {
+      background: rgba(255,255,255,0.05);
+    }
+
+    .del-dia-item:hover .del-dia-day { color: var(--amarillo); opacity: 1; }
+
+    .del-dia-day {
+      font-family: 'Fraunces', serif;
+      font-size: 1.05rem;
+      color: var(--cream);
+      opacity: 0.4;
+      transition: color 0.2s, opacity 0.2s;
+    }
+
+    .del-dia-postre {
+      font-size: 1rem;
+      color: var(--cream);
+      font-weight: 500;
+    }
+
+    .del-dia-price {
+      font-size: 0.8rem;
+      color: rgba(255,248,240,0.3);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 900px) {
+      .del-dia-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .del-dia-sticky { position: static; }
+      .del-dia-item { grid-template-columns: 90px 1fr; }
+      .del-dia-price { display: none; }
+    }
+
+    /* ── ENCARGOS ───────────────────────────────────────── */
+    .encargos {
+      padding: 6rem 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .encargos-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .encargos-img {
+      border-radius: 1.5rem;
+      overflow: hidden;
+      aspect-ratio: 4/5;
+      position: relative;
+    }
+
+    .encargos-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+
+    .encargos-img-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(26,16,8,0.55) 0%, transparent 50%);
+    }
+
+    .encargos-img-caption {
+      position: absolute;
+      bottom: 1.5rem;
+      left: 1.5rem;
+      right: 1.5rem;
+      color: var(--cream);
+    }
+
+    .encargos-img-caption small {
+      display: block;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.7;
+      margin-bottom: 0.3rem;
+    }
+
+    .encargos-img-caption p {
+      font-family: 'Fraunces', serif;
+      font-size: 1.4rem;
+      line-height: 1.2;
+    }
+
+    .encargos-form {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    .form-input, .form-textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 0.875rem;
+      padding: 0.9rem 1.1rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-input:focus, .form-textarea:focus { border-color: var(--terracota); }
+    .form-textarea { resize: none; }
+
+    .form-submit {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: var(--terracota);
+      color: white;
+      border: none;
+      border-radius: 999px;
+      padding: 1rem 1.75rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .form-submit:hover { opacity: 0.88; }
+    .form-note { font-size: 0.75rem; color: rgba(26,16,8,0.4); }
+
+    @media (max-width: 900px) {
+      .encargos-grid { grid-template-columns: 1fr; }
+      .encargos-img { display: none; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+
+    /* ── HISTORIA ───────────────────────────────────────── */
+    .historia {
+      padding: 6rem 0;
+      background: rgba(244,167,185,0.2);
+    }
+
+    .historia-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 0 2rem;
+    }
+
+    .historia-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+    }
+
+    .historia-title em { font-style: italic; }
+
+    .historia-body {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: rgba(26,16,8,0.7);
+    }
+
+    .historia-body strong { color: var(--ink); font-weight: 600; }
+
+    /* ── VISITANOS ──────────────────────────────────────── */
+    .visitanos {
+      padding: 6rem 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .visitanos-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .info-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .info-card {
+      border: 1px solid rgba(26,16,8,0.1);
+      border-radius: 1rem;
+      padding: 1.25rem 1.5rem;
+      background: var(--card);
+      text-decoration: none;
+      color: var(--ink);
+      transition: border-color 0.2s;
+      display: block;
+    }
+
+    .info-card:hover { border-color: rgba(212,96,58,0.5); }
+
+    .info-card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--terracota);
+      margin-bottom: 0.75rem;
+    }
+
+    .info-card-header span {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .info-card-line {
+      font-size: 0.9rem;
+      color: rgba(26,16,8,0.8);
+      line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+      .visitanos-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .info-cards { grid-template-columns: 1fr; }
+    }
+
+    /* ── FOOTER ─────────────────────────────────────────── */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 0;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.85rem;
+      color: rgba(26,16,8,0.45);
+    }
+
+    .footer-logo {
+      font-family: 'Fraunces', serif;
+      font-size: 1.25rem;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .footer-logo span { color: var(--terracota); }
+
+    /* ── REVEAL ─────────────────────────────────────────── */
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+
+    /* SVG icons */
+    .icon {
+      display: inline-block;
+      width: 1.1em;
+      height: 1.1em;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="#top" class="nav-logo">miel<span>.</span></a>
+      <ul class="nav-links">
+        <li><a href="#productos">Productos</a></li>
+        <li><a href="#del-dia">Del día</a></li>
+        <li><a href="#encargos">Encargos</a></li>
+        <li><a href="#historia">Historia</a></li>
+        <li><a href="#visitanos">Visitanos</a></li>
+      </ul>
+      <a href="https://wa.me/595982441207?text=Hola%20MIEL!%20Quisiera%20hacer%20un%20encargo%20%F0%9F%8D%B0" target="_blank" rel="noreferrer" class="nav-cta">
+        Encargar
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          Área 1 · Ciudad del Este
+        </div>
+        <h1 class="hero-headline font-display" id="heroHeadline">
+          Hecho con<br />
+          <span class="italic t">azúcar.</span><br />
+          Hecho con<br />
+          <span class="italic r">amor.</span>
+        </h1>
+        <p class="hero-sub" id="heroSub">
+          Confitería artesanal en el corazón de Ciudad del Este. Tortas, alfajores y postres hechos el mismo día — sin conservantes, con ingredientes locales.
+        </p>
+        <div class="hero-actions">
+          <a href="#productos" class="btn-primary">
+            Ver la vitrina
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#encargos" class="btn-outline">Hacer un encargo</a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-blob-1"></div>
+        <div class="hero-blob-2"></div>
+        <div class="hero-img-wrap">
+          <img src="/miel/hero-cake.jpg" alt="Torta artesanal de MIEL" />
+        </div>
+        <div class="hero-badge-float">
+          <div class="hero-badge-float-icon">★</div>
+          <div class="hero-badge-float-text">
+            <strong>Hecho hoy</strong>
+            <span>Sin conservantes, todos los días</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTOS -->
+  <section class="productos" id="productos">
+    <div class="container">
+      <div class="productos-header">
+        <div>
+          <div class="section-label" data-reveal>La vitrina</div>
+          <h2 class="section-title font-display" data-reveal>Cuatro clásicos,<br />un mismo cariño.</h2>
+        </div>
+        <p class="productos-sub" data-reveal>
+          Todo se prepara el mismo día en nuestra cocina del Paseo Área 1. Ingredientes seleccionados, recetas propias.
+        </p>
+      </div>
+
+      <div class="productos-grid">
+        <article class="product-card" data-reveal>
+          <div class="product-img">
+            <img src="/miel/torta.jpg" alt="Tortas por encargo" loading="lazy" />
+          </div>
+          <div class="product-body">
+            <div class="product-meta">
+              <span class="product-tag tag-rosa">Encargos</span>
+              <span class="product-price">Desde ₲ 120.000</span>
+            </div>
+            <h3 class="product-name font-display">Tortas por encargo</h3>
+            <p class="product-desc">Tortas húmedas, naked cakes, drip cakes y tortas temáticas. Pedido mínimo 48hs de anticipación.</p>
+          </div>
+        </article>
+
+        <article class="product-card" data-reveal>
+          <div class="product-img">
+            <img src="/miel/alfajores.jpg" alt="Alfajores artesanales" loading="lazy" />
+          </div>
+          <div class="product-body">
+            <div class="product-meta">
+              <span class="product-tag tag-amarillo">Clásico</span>
+              <span class="product-price">Caja x6 · ₲ 35.000</span>
+            </div>
+            <h3 class="product-name font-display">Alfajores artesanales</h3>
+            <p class="product-desc">De maicena, chocolate y coco. Rellenos de dulce de leche repostero casero.</p>
+          </div>
+        </article>
+
+        <article class="product-card" data-reveal>
+          <div class="product-img">
+            <img src="/miel/postres.jpg" alt="Postres individuales" loading="lazy" />
+          </div>
+          <div class="product-body">
+            <div class="product-meta">
+              <span class="product-tag tag-verde">Del día</span>
+              <span class="product-price">Porción · ₲ 18.000</span>
+            </div>
+            <h3 class="product-name font-display">Postres individuales</h3>
+            <p class="product-desc">Cheesecake de maracuyá, tiramisú, panna cotta de vainilla, mousse de chocolate.</p>
+          </div>
+        </article>
+
+        <article class="product-card" data-reveal>
+          <div class="product-img">
+            <img src="/miel/cajas.jpg" alt="Cajas de regalo" loading="lazy" />
+          </div>
+          <div class="product-body">
+            <div class="product-meta">
+              <span class="product-tag tag-terracota">Regalo</span>
+              <span class="product-price">Desde ₲ 65.000</span>
+            </div>
+            <h3 class="product-name font-display">Cajas de regalo</h3>
+            <p class="product-desc">Combinaciones armadas de alfajores, brownies y trufas. Ideales para fechas especiales.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEL DÍA -->
+  <section class="del-dia" id="del-dia">
+    <div class="container">
+      <div class="del-dia-inner">
+        <div class="del-dia-sticky">
+          <div class="del-dia-label">Pizarrón semanal</div>
+          <h2 class="del-dia-title" data-reveal>
+            El postre<br />cambia.<br />El amor no.
+          </h2>
+          <p class="del-dia-sub" data-reveal>
+            Cada día horneamos un especial distinto. Guardá el tuyo — se agota antes de la media tarde.
+          </p>
+          <div class="del-dia-badge" aria-hidden="true"><span class="badge-del">del</span><span class="badge-dia">día</span></div>
+        </div>
+
+        <ul class="del-dia-list">
+          <li class="del-dia-item" data-reveal><span class="del-dia-day font-display">Lunes</span><span class="del-dia-postre">Cheesecake de maracuyá</span><span class="del-dia-price">₲ 18.000</span></li>
+          <li class="del-dia-item" data-reveal><span class="del-dia-day font-display">Martes</span><span class="del-dia-postre">Tiramisú clásico</span><span class="del-dia-price">₲ 18.000</span></li>
+          <li class="del-dia-item" data-reveal><span class="del-dia-day font-display">Miércoles</span><span class="del-dia-postre">Torta de chocolate húmeda</span><span class="del-dia-price">₲ 18.000</span></li>
+          <li class="del-dia-item" data-reveal><span class="del-dia-day font-display">Jueves</span><span class="del-dia-postre">Panna cotta de vainilla</span><span class="del-dia-price">₲ 18.000</span></li>
+          <li class="del-dia-item" data-reveal><span class="del-dia-day font-display">Viernes</span><span class="del-dia-postre">Selva Negra</span><span class="del-dia-price">₲ 18.000</span></li>
+          <li class="del-dia-item" data-reveal><span class="del-dia-day font-display">Sábado</span><span class="del-dia-postre">Lemon pie con merengue</span><span class="del-dia-price">₲ 18.000</span></li>
+          <li class="del-dia-item" data-reveal><span class="del-dia-day font-display">Domingo</span><span class="del-dia-postre">Brunch dulce completo</span><span class="del-dia-price">₲ 35.000</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENCARGOS -->
+  <section class="encargos" id="encargos">
+    <div class="container">
+      <div class="encargos-grid">
+        <div class="encargos-img">
+          <img src="/miel/cajas.jpg" alt="Caja regalo MIEL" />
+          <div class="encargos-img-overlay"></div>
+          <div class="encargos-img-caption">
+            <small>Cajas regalo</small>
+            <p>Un dulce que llega envuelto en cariño.</p>
+          </div>
+        </div>
+
+        <div>
+          <div class="section-label" data-reveal>Encargos</div>
+          <h2 class="section-title font-display" data-reveal>
+            Contanos qué<br />estás celebrando.
+          </h2>
+          <p style="margin-top:1.25rem;margin-bottom:2rem;color:rgba(26,16,8,0.65);max-width:380px;line-height:1.65" data-reveal>
+            Cumpleaños, aniversarios, regalos corporativos, mesas dulces. Te respondemos por WhatsApp con un presupuesto en el día.
+          </p>
+
+          <form class="encargos-form" id="encargosForm" data-reveal>
+            <div class="form-row">
+              <input class="form-input" name="nombre" required placeholder="Tu nombre" />
+              <input class="form-input" name="fecha" required type="date" />
+            </div>
+            <textarea class="form-input form-textarea" name="pedido" required rows="4" placeholder="Contanos qué querés encargar — sabores, cantidad, ocasión…"></textarea>
+            <button type="submit" class="form-submit">
+              Enviar por WhatsApp
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            <p class="form-note">Respondemos de lunes a sábado, 8:00 a 20:00.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HISTORIA -->
+  <section class="historia" id="historia">
+    <div class="historia-inner">
+      <div class="section-label" data-reveal>Historia</div>
+      <h2 class="historia-title" data-reveal>
+        Nació en una cocina.<br />
+        <em>Se quedó en el barrio.</em>
+      </h2>
+      <p class="historia-body" data-reveal>
+        MIEL nació en 2019 en la cocina de <strong>Valentina Godoy</strong>, pastelera egresada del Instituto Culinario del Este. Lo que empezó como encargos para amigos hoy es uno de los puntos más queridos del Área 1. Cada postre se hace el mismo día, sin conservantes, con ingredientes locales cuando es posible.
+      </p>
+    </div>
+  </section>
+
+  <!-- VISITANOS -->
+  <section class="visitanos" id="visitanos">
+    <div class="container">
+      <div class="visitanos-grid">
+        <div>
+          <div class="section-label" data-reveal>Visitanos</div>
+          <h2 class="section-title font-display" data-reveal>
+            Estamos en el<br />Paseo Área 1.
+          </h2>
+        </div>
+        <div class="info-cards">
+          <a class="info-card" href="https://maps.google.com/?q=Av+Adrian+Jara+Ciudad+del+Este" target="_blank" rel="noreferrer" data-reveal>
+            <div class="info-card-header">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>Dirección</span>
+            </div>
+            <div class="info-card-line">Avda. Adrián Jara casi Mcal. López</div>
+            <div class="info-card-line">Local 14 — Galería Paseo Área 1, CDE</div>
+          </a>
+          <div class="info-card" data-reveal>
+            <div class="info-card-header">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span>Horario</span>
+            </div>
+            <div class="info-card-line">Lun–Sáb · 8:00 a 20:00</div>
+            <div class="info-card-line">Domingo · 9:00 a 14:00</div>
+          </div>
+          <a class="info-card" href="https://wa.me/595982441207" target="_blank" rel="noreferrer" data-reveal>
+            <div class="info-card-header">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.22 1.18 2 2 0 012.18 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.59-.59a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg>
+              <span>WhatsApp</span>
+            </div>
+            <div class="info-card-line">+595 982 441 207</div>
+          </a>
+          <a class="info-card" href="https://instagram.com/miel.cde" target="_blank" rel="noreferrer" data-reveal>
+            <div class="info-card-header">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              <span>Instagram</span>
+            </div>
+            <div class="info-card-line">@miel.cde</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <a href="#top" class="footer-logo">miel<span>.</span></a>
+      <div>© 2026 MIEL Confitería · Ciudad del Este</div>
+      <div>Hecho con azúcar. Hecho con amor.</div>
+    </div>
+  </footer>
+
+</body>
+
+<script>
+  import gsap from 'gsap';
+  import ScrollTrigger from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Hero entrance
+  gsap.fromTo('#heroHeadline',
+    { opacity: 0, y: 30 },
+    { opacity: 1, y: 0, duration: 1, ease: 'power3.out', delay: 0.1 }
+  );
+  gsap.fromTo('#heroSub',
+    { opacity: 0, y: 20 },
+    { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.35 }
+  );
+
+  // Scroll reveals
+  document.querySelectorAll('[data-reveal]').forEach((el) => {
+    gsap.to(el, {
+      opacity: 1,
+      y: 0,
+      duration: 0.75,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: el,
+        start: 'top 88%',
+        once: true,
+      },
+    });
+  });
+
+  // Encargos form → WhatsApp
+  const WHATSAPP = '595982441207';
+  document.getElementById('encargosForm')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const f = new FormData(e.currentTarget as HTMLFormElement);
+    const msg = encodeURIComponent(
+      `Hola MIEL! Soy ${f.get('nombre')}.\nFecha: ${f.get('fecha')}\nPedido: ${f.get('pedido')}`
+    );
+    window.open(`https://wa.me/${WHATSAPP}?text=${msg}`, '_blank');
+  });
+</script>
+</html>

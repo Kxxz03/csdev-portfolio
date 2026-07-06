@@ -1,0 +1,479 @@
+---
+---
+<section id="hero" class="hero">
+  <canvas class="hero-canvas" aria-hidden="true"></canvas>
+  <div class="hero-noise" aria-hidden="true"></div>
+
+  <div class="container hero-inner">
+
+    <div class="hero-toprow" data-reveal>
+      <span class="hero-label">+CSdev · 2026</span>
+      <span class="hero-label-right">Diseño & Desarrollo Web</span>
+    </div>
+
+    <div class="hero-headline-wrap">
+      <h1 class="hero-headline font-display">
+        <span class="hl-line hl-solid" data-reveal data-reveal-delay="1">Sitios web</span>
+        <span class="hl-line hl-outline" data-reveal data-reveal-delay="2">que convierten.</span>
+      </h1>
+
+      <div class="hero-card" data-reveal data-reveal-delay="3" data-tilt>
+        <div class="hero-card-row">
+          <span class="card-num" data-scramble>100%</span>
+          <span class="card-label">A medida</span>
+        </div>
+        <div class="hero-card-divider"></div>
+        <div class="hero-card-tags">
+          <span>HTML</span><span>CSS</span><span>JS</span>
+          <span>React</span><span>GSAP</span><span>Astro</span>
+        </div>
+        <div class="hero-card-lang">ES · EN</div>
+      </div>
+    </div>
+
+    <div class="hero-bottom" data-reveal data-reveal-delay="4">
+      <div class="hero-rule"></div>
+      <div class="hero-footer">
+        <p class="hero-sub">
+          Código limpio. Diseño que impacta.<br />
+          Sin plantillas. Con resultados reales.
+        </p>
+        <div class="hero-ctas">
+          <a href="/#works" class="hero-btn" data-cursor="hover">Ver trabajos <span>↓</span></a>
+          <a href="/#contact" class="hero-btn ghost" data-cursor="hover">Hablemos <span>→</span></a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="hero-scroll" aria-hidden="true">
+    <div class="scroll-line"></div>
+  </div>
+
+</section>
+
+<style>
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: 7rem;
+    position: relative;
+    overflow: hidden;
+    background: #0D0D0D;
+  }
+
+  .hero-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .hero-noise {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .hero-inner {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 2.5rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-toprow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+  }
+
+  .hero-label-right {
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.18);
+  }
+
+  .hero-headline-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3rem;
+    padding: 1rem 0;
+  }
+
+  .hero-headline {
+    font-size: clamp(4rem, 10vw, 11rem);
+    line-height: 0.92;
+    flex: 1;
+  }
+
+  .hl-line { display: block; }
+  .hl-solid { color: #F7F6F1; }
+
+  .hl-outline {
+    color: transparent;
+    -webkit-text-stroke: 2.5px rgba(247,246,241,0.35);
+    transition: color 0.35s, -webkit-text-stroke-color 0.35s;
+    cursor: default;
+  }
+
+  .hl-outline:hover {
+    color: #FFD000;
+    -webkit-text-stroke-color: transparent;
+  }
+
+  .hero-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    color: #F7F6F1;
+    border-radius: 16px;
+    padding: 2rem 1.75rem;
+    width: 200px;
+    flex-shrink: 0;
+    align-self: center;
+    will-change: transform;
+    transform-style: preserve-3d;
+  }
+
+  .hero-card-row { display: flex; flex-direction: column; gap: 0.15rem; margin-bottom: 1.25rem; }
+
+  .card-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 2.5rem;
+    color: #FFD000;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .card-label { font-size: 0.72rem; opacity: 0.35; letter-spacing: 0.08em; text-transform: uppercase; }
+
+  .hero-card-divider { height: 1px; background: rgba(255,255,255,0.07); margin-bottom: 1.25rem; }
+
+  .hero-card-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1.25rem; }
+
+  .hero-card-tags span {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.5rem;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 3px;
+    opacity: 0.45;
+  }
+
+  .hero-card-lang { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; color: #FFD000; }
+
+  .hero-bottom { margin-top: auto; }
+
+  .hero-rule { height: 1px; background: rgba(255,255,255,0.07); margin-bottom: 1.75rem; }
+
+  .hero-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .hero-sub {
+    font-size: 0.92rem;
+    line-height: 1.75;
+    color: rgba(255,255,255,0.32);
+    max-width: 300px;
+  }
+
+  .hero-ctas { display: flex; gap: 1rem; align-items: center; }
+
+  .hero-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: #0D0D0D;
+    background: #FFD000;
+    padding: 0.75rem 1.5rem;
+    border-radius: 100px;
+    border: 1.5px solid #FFD000;
+    transition: opacity 0.2s, gap 0.2s;
+    cursor: none;
+  }
+
+  .hero-btn:hover { opacity: 0.85; gap: 0.8rem; }
+
+  .hero-btn.ghost {
+    background: transparent;
+    color: rgba(255,255,255,0.38);
+    border-color: rgba(255,255,255,0.1);
+  }
+
+  .hero-btn.ghost:hover { color: #fff; border-color: rgba(255,255,255,0.3); opacity: 1; }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 52px;
+    background: linear-gradient(to bottom, rgba(255,208,0,0.8), transparent);
+    animation: scrollDrop 2s ease-in-out infinite;
+    transform-origin: top center;
+  }
+
+  @keyframes scrollDrop {
+    0%   { transform: scaleY(0); opacity: 0; }
+    25%  { opacity: 1; }
+    100% { transform: scaleY(1); opacity: 0; }
+  }
+
+  @media (max-width: 900px) {
+    .hero-headline-wrap { flex-direction: column; align-items: flex-start; gap: 2rem; }
+    .hero-card { width: 100%; max-width: 280px; }
+    .hero-headline { font-size: clamp(3.5rem, 13vw, 6rem); }
+  }
+
+  @media (max-width: 600px) {
+    .hero-ctas { flex-direction: column; align-items: flex-start; }
+    .hl-outline { -webkit-text-stroke: 1.5px rgba(247,246,241,0.35); }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+
+  const canvas = document.querySelector('.hero-canvas') as HTMLCanvasElement;
+  const ctx = canvas.getContext('2d')!;
+  const hero  = canvas.closest('.hero') as HTMLElement;
+
+  let W = 0, H = 0;
+
+  // ── State ────────────────────────────────────────────────
+  const mouse = { x: -9999, y: -9999, active: false };
+
+  // Trail: array of { x, y, age } — age counts up each frame
+  const TRAIL_MAX = 22;
+  const trail: Array<{ x: number; y: number; age: number }> = [];
+
+  // Floating particles (p5aholic network)
+  interface Dot {
+    x: number; y: number;
+    vx: number; vy: number;
+    r: number;
+    isYellow: boolean;
+  }
+  let dots: Dot[] = [];
+
+  // Static noise pixels
+  interface Pixel { x: number; y: number; isYellow: boolean; }
+  let pixels: Pixel[] = [];
+
+  // ── Init ─────────────────────────────────────────────────
+  function init() {
+    W = hero.offsetWidth;
+    H = hero.offsetHeight;
+    canvas.width  = W;
+    canvas.height = H;
+
+    // Static noise grid
+    pixels = [];
+    const sp = 9;
+    for (let x = 0; x < W; x += sp) {
+      for (let y = 0; y < H; y += sp) {
+        pixels.push({ x, y, isYellow: Math.random() < 0.016 });
+      }
+    }
+
+    // Floating network dots
+    const count = Math.floor((W * H) / 14000);
+    dots = Array.from({ length: Math.max(40, Math.min(count, 90)) }, () => ({
+      x:  Math.random() * W,
+      y:  Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.35,
+      vy: (Math.random() - 0.5) * 0.35,
+      r:  1 + Math.random() * 1.2,
+      isYellow: Math.random() < 0.12,
+    }));
+  }
+
+  // ── Render ───────────────────────────────────────────────
+  function render() {
+    ctx.clearRect(0, 0, W, H);
+
+    // 1. Static noise ─────────────────────────────────────
+    for (const p of pixels) {
+      if (Math.random() > 0.42) continue;
+
+      // Fade near trail
+      let trailAlpha = 1;
+      if (mouse.active) {
+        const dx = p.x - mouse.x;
+        const dy = p.y - mouse.y;
+        const d2 = dx * dx + dy * dy;
+        if (d2 < 90 * 90) trailAlpha = Math.sqrt(d2) / 90; // soft void
+      }
+      if (trailAlpha < 0.02) continue;
+
+      if (p.isYellow) {
+        ctx.fillStyle = `rgba(255,208,0,${((0.25 + Math.random() * 0.35) * trailAlpha).toFixed(2)})`;
+        ctx.fillRect(p.x, p.y, 1.5, 1.5);
+      } else {
+        const b = (0.05 + Math.random() * 0.15) * trailAlpha;
+        ctx.fillStyle = `rgba(255,255,255,${b.toFixed(2)})`;
+        ctx.fillRect(p.x, p.y, 1, 1);
+      }
+    }
+
+    // 2. Mouse trail glow ─────────────────────────────────
+    if (trail.length > 1) {
+      for (let i = 0; i < trail.length; i++) {
+        const pt = trail[i];
+        const progress = i / trail.length; // 0=oldest 1=newest
+        const alpha  = progress * 0.55;
+        const radius = 3 + progress * 14;
+
+        const g = ctx.createRadialGradient(pt.x, pt.y, 0, pt.x, pt.y, radius);
+        g.addColorStop(0, `rgba(255,208,0,${alpha.toFixed(2)})`);
+        g.addColorStop(1, 'rgba(255,208,0,0)');
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // 3. Particle network ─────────────────────────────────
+    const LINK_DIST  = 130;
+    const MOUSE_DIST = 170;
+    const REPEL_R    = 100;
+
+    for (const d of dots) {
+      // Move + wrap
+      d.x = (d.x + d.vx + W) % W;
+      d.y = (d.y + d.vy + H) % H;
+
+      // Repel from mouse
+      if (mouse.active) {
+        const dx = d.x - mouse.x;
+        const dy = d.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < REPEL_R && dist > 0) {
+          const f = (1 - dist / REPEL_R) * 1.8;
+          d.x += (dx / dist) * f;
+          d.y += (dy / dist) * f;
+        }
+      }
+
+      // Connect to nearby dots
+      for (const other of dots) {
+        if (other === d) continue;
+        const dx = d.x - other.x;
+        const dy = d.y - other.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < LINK_DIST) {
+          const a = (1 - dist / LINK_DIST) * 0.18;
+          ctx.strokeStyle = d.isYellow || other.isYellow
+            ? `rgba(255,208,0,${a.toFixed(2)})`
+            : `rgba(255,255,255,${a.toFixed(2)})`;
+          ctx.lineWidth = 0.6;
+          ctx.beginPath();
+          ctx.moveTo(d.x, d.y);
+          ctx.lineTo(other.x, other.y);
+          ctx.stroke();
+        }
+      }
+
+      // Connect to mouse
+      if (mouse.active) {
+        const dx = d.x - mouse.x;
+        const dy = d.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < MOUSE_DIST) {
+          const a = (1 - dist / MOUSE_DIST) * 0.45;
+          ctx.strokeStyle = `rgba(255,208,0,${a.toFixed(2)})`;
+          ctx.lineWidth = 0.7;
+          ctx.beginPath();
+          ctx.moveTo(d.x, d.y);
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.stroke();
+        }
+      }
+
+      // Draw dot
+      ctx.beginPath();
+      ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+      ctx.fillStyle = d.isYellow ? 'rgba(255,208,0,0.75)' : 'rgba(255,255,255,0.55)';
+      ctx.fill();
+    }
+
+    // Age trail points
+    for (const pt of trail) pt.age++;
+
+    // Remove old trail points
+    while (trail.length > 0 && trail[0].age > TRAIL_MAX) trail.shift();
+
+    requestAnimationFrame(render);
+  }
+
+  // ── Events ───────────────────────────────────────────────
+  hero.addEventListener('mousemove', (e: MouseEvent) => {
+    const rect = hero.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+    mouse.active = true;
+    trail.push({ x: mouse.x, y: mouse.y, age: 0 });
+  });
+
+  hero.addEventListener('mouseleave', () => {
+    mouse.active = false;
+    mouse.x = -9999;
+    mouse.y = -9999;
+  });
+
+  let resizeT: ReturnType<typeof setTimeout>;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeT);
+    resizeT = setTimeout(init, 150);
+  });
+
+  // ── Boot ─────────────────────────────────────────────────
+  init();
+  requestAnimationFrame(render);
+
+  gsap.from('.hero-card-tags span', {
+    opacity: 0, y: 8, stagger: 0.06, duration: 0.4, delay: 1.2,
+    ease: 'power2.out',
+  });
+</script>

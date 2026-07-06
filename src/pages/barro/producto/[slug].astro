@@ -1,0 +1,243 @@
+---
+import BarroLayout from '../../../layouts/BarroLayout.astro';
+
+export function getStaticPaths() {
+  const products = [
+    { slug: 'casco-ignition-mx', name: 'Casco Ignition MX', brand: 'BARRO', price: 489, stock: 12, images: ['/barro/prod-helmet.jpg', '/barro/prod-helmet-2.jpg'], short: 'Certificación DOT/ECE. Fibra tricomposite ultra ligera.', cat: 'Cascos', tag: 'Bestseller', isNew: false, sizes: ['S','M','L','XL'], desc: 'Diseñado para pilotos que no negocian con la gravedad. Estructura tricomposite de fibra de carbono, kevlar y fiberglass. Ventilación de 14 canales activos para carreras de alta demanda.', specs: [{ l:'Peso', v:'1,290 g' },{ l:'Certificación', v:'DOT / ECE 22.06' },{ l:'Ventilación', v:'14 canales' },{ l:'Forro', v:'Removible antibacterial' }] },
+    { slug: 'casco-dual-x-enduro', name: 'Casco DUAL-X Enduro', brand: 'APEX', price: 379, stock: 9, images: ['/barro/prod-helmet-3.jpg', '/barro/prod-helmet.jpg'], short: 'Híbrido enduro/MX. Visera aerodinámica ajustable.', cat: 'Cascos', tag: null, isNew: true, sizes: ['S','M','L','XL'], desc: 'Diseño dual-sport para pilotos que rompen el mapa. Estructura policarbonato inyectado, visera anti-glare y sistema de liberación de emergencia en mejillas.', specs: [{ l:'Peso', v:'1,390 g' },{ l:'Certificación', v:'ECE 22.06' },{ l:'Visera', v:'Ajustable 15°' },{ l:'Cierre', v:'Doble D acero' }] },
+    { slug: 'goggles-crosshair-pro', name: 'Goggles Crosshair Pro', brand: 'APEX', price: 129, stock: 34, images: ['/barro/prod-goggles.jpg'], short: 'Lente anti-fog espejada. Sistema tear-off compatible.', cat: 'Goggles', tag: null, isNew: false, sizes: ['Única'], desc: 'Visión periférica ampliada 190°. Doble lente con tratamiento anti-empañante permanente. Compatible con sistemas tear-off y roll-off.', specs: [{ l:'Lente', v:'Espejada iridium naranja' },{ l:'Anti-fog', v:'Permanente' },{ l:'Tear-off', v:'Compatible' },{ l:'Espuma', v:'Triple capa' }] },
+    { slug: 'guantes-grip-24', name: 'Guantes GRIP-24', brand: 'CRUX', price: 59, stock: 48, images: ['/barro/prod-gloves.jpg'], short: 'Palma de cuero perforado. Nudillos con TPR reforzado.', cat: 'Guantes', tag: null, isNew: false, sizes: ['S','M','L','XL'], desc: 'Ergonomía pre-curvada. Absorción de impacto en nudillos con placa TPR. Palma en piel sintética perforada para grip húmedo/seco.', specs: [{ l:'Material', v:'TPR + piel sintética' },{ l:'Cierre', v:'Velcro reforzado' },{ l:'Táctil', v:'Compatible smartphone' }] },
+    { slug: 'botas-siege-boot', name: 'Botas SIEGE', brand: 'BARRO', price: 349, stock: 8, images: ['/barro/prod-boots.jpg'], short: '4 hebillas de aluminio. Suela de goma vulcanizada.', cat: 'Botas', tag: null, isNew: false, sizes: ['40','41','42','43','44','45'], desc: 'Protección total del pie y tibia. Chasis interno de poliuretano rígido. Suela vulcanizada de doble compuesto para máximo agarre en pedal.', specs: [{ l:'Altura', v:'38 cm' },{ l:'Hebillas', v:'4 aluminio ajustable' },{ l:'Suela', v:'Goma vulcanizada dual' },{ l:'Peso par', v:'2.1 kg' }] },
+    { slug: 'peto-fortress', name: 'Peto FORTRESS', brand: 'CRUX', price: 259, stock: 6, images: ['/barro/prod-armor.jpg'], short: 'Placas CE nivel 2. Espuma de memoria D3O.', cat: 'Protección', tag: 'Top rated', isNew: false, sizes: ['S/M','L/XL'], desc: 'Protección modular pecho, espalda, hombros y costillas. Certificación CE nivel 2 en todas las zonas de impacto.', specs: [{ l:'Certificación', v:'EN 1621-2 Nivel 2' },{ l:'Espuma', v:'D3O adaptativa' },{ l:'Ventilación', v:'Malla 3D interior' }] },
+    { slug: 'neck-brace-collar-9', name: 'Neck Brace COLLAR-9', brand: 'BARRO', price: 289, stock: 4, images: ['/barro/prod-neckbrace.jpg'], short: 'Fibra de carbono real. Zonas de fractura controlada.', cat: 'Protección', tag: 'Últimas 4', isNew: true, sizes: ['S/M','L/XL'], desc: 'Redirige la energía del impacto lejos de la columna. Estructura de carbono monocasco con puntos de rotura calibrados para disipar sobrecargas axiales.', specs: [{ l:'Material', v:'Fibra de carbono' },{ l:'Peso', v:'690 g' },{ l:'Ajuste', v:'3 tallas + cuñas' }] },
+    { slug: 'rodilleras-apex-knee', name: 'Rodilleras APEX KNEE', brand: 'APEX', price: 149, stock: 18, images: ['/barro/prod-knee.jpg'], short: 'Caparazón poliuretano. Bisagra biomecánica.', cat: 'Protección', tag: null, isNew: false, sizes: ['S','M','L','XL'], desc: 'Articulación policéntrica que sigue el movimiento natural de la rodilla. Almohadilla lateral contra torsión y correas antideslizantes de silicona.', specs: [{ l:'Certificación', v:'EN 1621-1 Nivel 2' },{ l:'Bisagra', v:'Policéntrica aluminio' },{ l:'Peso par', v:'820 g' }] },
+    { slug: 'jersey-attack-v2', name: 'Jersey ATTACK V2', brand: 'DIRT', price: 79, stock: 62, images: ['/barro/prod-jersey.jpg'], short: 'Tejido dry-mesh. Costuras planas antifricción.', cat: 'Jerseys', tag: null, isNew: false, sizes: ['S','M','L','XL','XXL'], desc: 'Ventilación total con panel dry-mesh en dorso y axilas. Costuras planas para evitar rozaduras bajo el peto.', specs: [{ l:'Tejido', v:'Poliéster dry-mesh 140g' },{ l:'Corte', v:'Athletic fit' }] },
+    { slug: 'pantalon-torque', name: 'Pantalón TORQUE', brand: 'APEX', price: 219, stock: 15, images: ['/barro/prod-pants.jpg'], short: '600D ripstop. Refuerzos de cuero en rodilla.', cat: 'Pantalones', tag: null, isNew: false, sizes: ['30','32','34','36','38'], desc: 'Construido para durar temporada tras temporada. Refuerzos de cuero interno en rodilla y muslo interior, elástico posterior.', specs: [{ l:'Material', v:'600D ripstop' },{ l:'Refuerzos', v:'Cuero genuino' },{ l:'Cierre', v:'Doble hebilla + zipper YKK' }] },
+    { slug: 'hydration-hydro-3l', name: 'Mochila HYDRO 3L', brand: 'BARRO', price: 119, stock: 26, images: ['/barro/prod-hydration.jpg'], short: 'Bolsa 3L. Tubo aislado. Compartimento herramientas.', cat: 'Accesorios', tag: null, isNew: true, sizes: ['Única'], desc: 'Diseñada para carreras enduro largas. Reservorio 3L con válvula anti-derrame, tubo aislado térmico, compartimento trasero para herramientas básicas.', specs: [{ l:'Capacidad', v:'3 litros + 4L carga' },{ l:'Material', v:'Cordura 500D' },{ l:'Peso vacío', v:'540 g' }] },
+    { slug: 'kit-herramientas', name: 'Kit PIT-KIT', brand: 'CRUX', price: 79, stock: 31, images: ['/barro/prod-toolkit.jpg'], short: '12 herramientas. Estuche enrollable de lona.', cat: 'Accesorios', tag: null, isNew: false, sizes: ['Única'], desc: 'Lo esencial para el paddock: llaves, trinquete, palancas de neumático y multi-tool. Estuche de lona 1000D enrollable con cierre magnético.', specs: [{ l:'Piezas', v:'12' },{ l:'Estuche', v:'Lona 1000D' }] },
+    { slug: 'medias-tall-sock', name: 'Medias TALL-SOCK', brand: 'DIRT', price: 29, stock: 84, images: ['/barro/prod-socks.jpg'], short: 'Fibra Coolmax. Compresión asimétrica.', cat: 'Accesorios', tag: null, isNew: false, sizes: ['S/M','L/XL'], desc: 'Altura hasta rodilla para llevar debajo de la bota. Compresión asimétrica pie derecho/izquierdo, refuerzo en talón y espinilla.', specs: [{ l:'Material', v:'Coolmax + elastano' },{ l:'Altura', v:'42 cm' }] },
+    { slug: 'kidney-belt-waistlock', name: 'Faja WAIST-LOCK', brand: 'DIRT', price: 89, stock: 22, images: ['/barro/prod-kidneybelt.jpg'], short: 'Soporte lumbar y anti-vibración. Neopreno + placas.', cat: 'Protección', tag: null, isNew: true, sizes: ['S','M','L','XL'], desc: 'Compresión lumbar para largas jornadas en la moto. Panel rígido posterior + neopreno perforado. Reduce fatiga y protege riñones de vibraciones sostenidas.', specs: [{ l:'Material', v:'Neopreno 5mm + EVA' },{ l:'Cierre', v:'Velcro industrial doble' }] },
+  ];
+  return products.map(p => ({ params: { slug: p.slug }, props: { product: p } }));
+}
+
+const { product: p } = Astro.props;
+---
+
+<BarroLayout title={p.name}>
+  <style>
+    /* BREADCRUMB */
+    .breadcrumb { padding:.9rem 2rem; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:.6rem; }
+    .bc-link { font-family:'Barlow Condensed',sans-serif; font-size:.62rem; letter-spacing:.15em; text-transform:uppercase; color:rgba(240,237,230,.28); text-decoration:none; transition:color .15s; }
+    .bc-link:hover { color:var(--orange); }
+    .bc-sep { font-size:.55rem; color:rgba(240,237,230,.15); }
+    .bc-cur { font-family:'Barlow Condensed',sans-serif; font-size:.62rem; letter-spacing:.15em; text-transform:uppercase; color:rgba(240,237,230,.55); }
+
+    /* PRODUCT LAYOUT */
+    .prod-layout {
+      display: grid; grid-template-columns: 1fr 1fr;
+      min-height: calc(100vh - 100px);
+    }
+
+    /* GALLERY */
+    .gallery { position: sticky; top: 56px; height: calc(100vh - 56px); overflow: hidden; }
+    .gallery-main { width:100%; height:100%; position:relative; }
+    .gallery-main img { width:100%; height:100%; object-fit:cover; display:block; }
+    .gallery-tags { position:absolute; top:1.2rem; left:1.2rem; display:flex; flex-direction:column; gap:.3rem; }
+    .g-tag { font-family:'Barlow Condensed',sans-serif; font-size:.6rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; background:var(--orange); color:var(--black); padding:.2rem .55rem; }
+    .g-tag.sec { background:rgba(13,13,13,.85); color:var(--cream); border:1px solid rgba(255,255,255,.1); }
+    .g-tag.low { background:transparent; border:1px solid var(--orange); color:var(--orange); }
+    .gallery-thumb { position:absolute; bottom:1rem; left:1rem; right:1rem; display:flex; gap:.4rem; }
+    .g-thumb { width:56px; height:56px; overflow:hidden; border:1px solid var(--border); cursor:none; opacity:.5; transition:opacity .2s; flex-shrink:0; }
+    .g-thumb:hover, .g-thumb.active { opacity:1; border-color:var(--orange); }
+    .g-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+
+    /* INFO */
+    .prod-info {
+      padding: 3rem 2.5rem; border-left: 1px solid var(--border);
+      display: flex; flex-direction: column; gap: 1.5rem;
+    }
+    .pi-eyebrow { display:flex; align-items:center; gap:.75rem; }
+    .pi-brand { font-family:'Barlow Condensed',sans-serif; font-size:.62rem; letter-spacing:.25em; text-transform:uppercase; color:var(--orange); }
+    .pi-cat { font-family:'Barlow Condensed',sans-serif; font-size:.62rem; letter-spacing:.2em; text-transform:uppercase; color:rgba(240,237,230,.25); }
+    .pi-name { font-family:'Bebas Neue',sans-serif; font-size:clamp(2.5rem,4vw,3.8rem); line-height:.88; color:var(--cream); }
+    .pi-short { font-size:.85rem; color:rgba(240,237,230,.45); line-height:1.6; }
+    .pi-price { font-family:'Bebas Neue',sans-serif; font-size:3rem; color:var(--orange); line-height:1; }
+    .pi-price span { font-family:'Barlow Condensed',sans-serif; font-size:.8rem; color:rgba(240,237,230,.3); margin-left:.3rem; }
+    .pi-divider { border:none; border-top:1px solid var(--border); }
+
+    /* SIZES */
+    .pi-sizes-label { font-family:'Barlow Condensed',sans-serif; font-size:.62rem; letter-spacing:.2em; text-transform:uppercase; color:rgba(240,237,230,.35); margin-bottom:.75rem; }
+    .sizes-grid { display:flex; flex-wrap:wrap; gap:.4rem; }
+    .size-btn { font-family:'Barlow Condensed',sans-serif; font-size:.7rem; font-weight:600; letter-spacing:.08em; padding:.45rem .9rem; border:1px solid var(--border); color:rgba(240,237,230,.45); background:transparent; cursor:none; transition:all .15s; }
+    .size-btn:hover { border-color:var(--cream); color:var(--cream); }
+    .size-btn.active { border-color:var(--orange); color:var(--orange); background:rgba(255,77,0,.07); }
+
+    /* STOCK */
+    .stock-indicator { display:flex; align-items:center; gap:.5rem; }
+    .stock-dot { width:6px; height:6px; border-radius:50%; background:var(--orange); }
+    .stock-dot.ok { background:#4ade80; }
+    .stock-dot.low { background:var(--orange); animation:blink-d 1.2s infinite; }
+    @keyframes blink-d { 0%,100%{opacity:1} 50%{opacity:.3} }
+    .stock-text { font-family:'Barlow Condensed',sans-serif; font-size:.65rem; letter-spacing:.12em; text-transform:uppercase; color:rgba(240,237,230,.35); }
+
+    /* ADD BTN */
+    .add-btn {
+      width:100%; padding:1rem;
+      font-family:'Bebas Neue',sans-serif; font-size:1.4rem; letter-spacing:.1em;
+      background:var(--orange); color:var(--black); border:none; cursor:none;
+      transition:background .15s; text-transform:uppercase;
+    }
+    .add-btn:hover { background:var(--cream); }
+
+    /* DESC */
+    .pi-desc { font-size:.83rem; color:rgba(240,237,230,.45); line-height:1.75; }
+
+    /* SPECS */
+    .specs-grid { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); }
+    .spec-item { background:var(--black); padding:.75rem 1rem; }
+    .spec-l { font-family:'Barlow Condensed',sans-serif; font-size:.58rem; letter-spacing:.15em; text-transform:uppercase; color:rgba(240,237,230,.25); }
+    .spec-v { font-family:'Barlow Condensed',sans-serif; font-size:.9rem; font-weight:600; color:var(--cream); margin-top:.2rem; }
+
+    /* BACK */
+    .back-bar { padding:1rem 2rem; border-top:1px solid var(--border); display:flex; align-items:center; gap:1rem; }
+    .back-bar a { font-family:'Barlow Condensed',sans-serif; font-size:.65rem; letter-spacing:.18em; text-transform:uppercase; color:rgba(240,237,230,.3); text-decoration:none; transition:color .15s; }
+    .back-bar a:hover { color:var(--orange); }
+
+    @media (max-width:768px) {
+      .prod-layout { grid-template-columns:1fr; }
+      .gallery { position:relative; height:70vw; top:0; }
+      .prod-info { padding:2rem 1.5rem; }
+    }
+  </style>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="/barro" class="bc-link">Base</a>
+    <span class="bc-sep">›</span>
+    <a href="/barro/catalogo" class="bc-link">Catálogo</a>
+    <span class="bc-sep">›</span>
+    <span class="bc-cur">{p.name}</span>
+  </div>
+
+  <!-- PRODUCT -->
+  <div class="prod-layout">
+    <!-- GALLERY -->
+    <div class="gallery">
+      <div class="gallery-main">
+        <img src={p.images[0]} alt={p.name} id="main-img" loading="eager" />
+        <div class="gallery-tags">
+          {p.tag && <span class="g-tag">{p.tag}</span>}
+          {p.isNew && <span class="g-tag sec">NUEVO</span>}
+          {p.stock < 10 && <span class="g-tag low">LOW STOCK</span>}
+        </div>
+      </div>
+      {p.images.length > 1 && (
+        <div class="gallery-thumb">
+          {p.images.map((img, i) => (
+            <div class={`g-thumb ${i === 0 ? 'active' : ''}`} data-img={img} data-idx={i}>
+              <img src={img} alt={`${p.name} vista ${i+1}`} loading="lazy" />
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+
+    <!-- INFO -->
+    <div class="prod-info">
+      <div class="pi-eyebrow">
+        <span class="pi-brand">{p.brand}</span>
+        <span class="pi-cat">/ {p.cat}</span>
+      </div>
+
+      <h1 class="pi-name">{p.name}</h1>
+
+      <div class="pi-price">${p.price}<span>USD</span></div>
+
+      <hr class="pi-divider" />
+
+      <div>
+        <div class="pi-sizes-label">Talla</div>
+        <div class="sizes-grid" id="sizes">
+          {p.sizes.map((s, i) => (
+            <button class={`size-btn ${i === 0 ? 'active' : ''}`}>{s}</button>
+          ))}
+        </div>
+      </div>
+
+      <div class="stock-indicator">
+        <div class={`stock-dot ${p.stock > 10 ? 'ok' : 'low'}`}></div>
+        <span class="stock-text">{p.stock > 10 ? `${p.stock} unidades disponibles` : `Últimas ${p.stock} unidades`}</span>
+      </div>
+
+      <button class="add-btn">Agregar al carrito</button>
+
+      <hr class="pi-divider" />
+
+      <p class="pi-desc">{p.desc}</p>
+
+      {p.specs.length > 0 && (
+        <div>
+          <div class="pi-sizes-label" style="margin-bottom:.75rem">Especificaciones</div>
+          <div class="specs-grid">
+            {p.specs.map(s => (
+              <div class="spec-item">
+                <div class="spec-l">{s.l}</div>
+                <div class="spec-v">{s.v}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+
+  <!-- BACK -->
+  <div class="back-bar">
+    <a href="/barro/catalogo">← Volver al catálogo</a>
+    <a href="/barro">← Base</a>
+  </div>
+
+  <script>
+    // Gallery swap
+    const mainImg = document.getElementById('main-img') as HTMLImageElement;
+    document.querySelectorAll('.g-thumb').forEach(thumb => {
+      thumb.addEventListener('click', () => {
+        document.querySelectorAll('.g-thumb').forEach(t => t.classList.remove('active'));
+        thumb.classList.add('active');
+        if (mainImg) mainImg.src = (thumb as HTMLElement).dataset.img || '';
+      });
+    });
+
+    // Size selector
+    document.querySelectorAll('.size-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+
+    // Add to cart
+    const addBtn = document.querySelector('.add-btn') as HTMLButtonElement | null;
+    const cartCount = document.getElementById('cart-count');
+    addBtn?.addEventListener('click', () => {
+      const activeSize = (document.querySelector('.size-btn.active') as HTMLElement | null)?.textContent || '';
+      const count = parseInt(cartCount?.textContent || '0') + 1;
+      if (cartCount) cartCount.textContent = String(count);
+
+      addBtn.textContent = '✓ AGREGADO AL CARRITO';
+      addBtn.style.background = '#1C1C1C';
+      addBtn.style.color = '#FF4D00';
+      addBtn.style.border = '1px solid #FF4D00';
+      addBtn.disabled = true;
+
+      setTimeout(() => {
+        addBtn.textContent = 'AGREGAR AL CARRITO';
+        addBtn.style.background = '';
+        addBtn.style.color = '';
+        addBtn.style.border = '';
+        addBtn.disabled = false;
+      }, 2000);
+    });
+  </script>
+</BarroLayout>

@@ -1,0 +1,48 @@
+---
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+  <div class="container footer-inner">
+    <a href="/" class="footer-logo">
+      <img src="/logo.png" alt="+CSdev" height="32" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'" />
+      <span style="display:none;font-weight:700">+CSdev</span>
+    </a>
+    <p class="footer-copy">© {year} csdev.qzz.io</p>
+    <div class="footer-links">
+      <a href="https://instagram.com/its_csdev" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://wa.me/595982531706" target="_blank" rel="noopener">WhatsApp</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 0;
+    background: var(--light);
+  }
+
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-logo { text-decoration: none; display: flex; align-items: center; }
+  .footer-logo img { height: 32px; width: auto; }
+
+  .footer-copy { font-size: 0.8rem; color: var(--gray); }
+
+  .footer-links { display: flex; gap: 2rem; }
+
+  .footer-links a {
+    font-size: 0.8rem;
+    color: var(--gray);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--black); }
+</style>

@@ -1,0 +1,102 @@
+---
+const links = [
+  { href: '/#works', label: 'Trabajos' },
+  { href: '/#about', label: 'Sobre mí' },
+  { href: '/#contact', label: 'Contacto' },
+];
+---
+
+<nav id="nav">
+  <div class="nav-inner container">
+    <a href="/" class="nav-logo" aria-label="+CSdev">
+      <img src="/logo.png" alt="+CSdev" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" />
+      <span class="nav-logo-text" style="display:none">+CSdev</span>
+    </a>
+
+    <ul class="nav-links">
+      {links.map(l => <li><a href={l.href}>{l.label}</a></li>)}
+    </ul>
+
+    <a href="/#contact" class="nav-cta">Hablemos</a>
+  </div>
+</nav>
+
+<style>
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.5rem 0;
+    transition: background 0.3s, padding 0.3s, border-color 0.3s;
+    border-bottom: 1px solid transparent;
+  }
+
+  nav.scrolled {
+    background: rgba(247, 246, 241, 0.92);
+    backdrop-filter: blur(16px);
+    padding: 1rem 0;
+    border-color: var(--border);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .nav-logo {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-logo img { height: 40px; width: auto; }
+
+  .nav-logo-text {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--black);
+    letter-spacing: -0.5px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--black);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+  }
+
+  .nav-links a:hover { opacity: 1; }
+
+  .nav-cta {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--black);
+    text-decoration: none;
+    border-bottom: 2px solid var(--yellow);
+    padding-bottom: 2px;
+    transition: color 0.2s;
+  }
+
+  .nav-cta:hover { color: var(--gray); }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+  }
+</style>
+
+<script>
+  const nav = document.getElementById('nav')!;
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+</script>

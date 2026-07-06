@@ -1,0 +1,220 @@
+---
+const works = [
+  {
+    slug: 'mjolnir',
+    index: '01',
+    title: 'Mjölnir Gym',
+    category: 'Landing Page · Branding Digital',
+    year: '2026',
+    tags: ['HTML', 'CSS', 'GSAP', 'Diseño'],
+    available: true,
+    accent: '#E85D04',
+  },
+  {
+    slug: 'miel',
+    index: '02',
+    title: 'MIEL Confitería',
+    category: 'Landing Page · Identidad',
+    year: '2026',
+    tags: ['HTML', 'CSS', 'GSAP', 'Diseño'],
+    available: true,
+    accent: '#F4A7B9',
+  },
+  {
+    slug: 'barro',
+    index: '03',
+    title: 'BARRO MX Store',
+    category: 'E-commerce · Motocross',
+    year: '2026',
+    tags: ['Astro', 'Tailwind', 'GSAP', 'Diseño'],
+    available: true,
+    accent: '#FF4D00',
+  },
+  {
+    slug: 'pendiente-3',
+    index: '04',
+    title: 'Próximamente',
+    category: 'Portfolio Personal',
+    year: '2026',
+    tags: [],
+    available: false,
+    accent: '#555',
+  },
+];
+---
+
+<section id="works" class="works">
+
+  <!-- HUGE BG NUMBER -->
+  <div class="works-bg-num" aria-hidden="true">WORKS</div>
+
+  <div class="container">
+    <div class="works-header">
+      <span class="section-label" data-reveal>Trabajos seleccionados</span>
+      <span class="works-total" data-reveal data-reveal-delay="1">({works.length})</span>
+    </div>
+
+    <div class="works-list">
+      {works.map((w, i) => (
+        <div class={`work-row${!w.available ? ' pending' : ''}`} data-reveal data-reveal-delay={String(i % 3)} style={`--work-accent: ${w.accent}`}>
+          {w.available ? (
+            <a href={`/${w.slug}`} class="work-inner" data-cursor="view" data-tilt>
+              <span class="work-num">{w.index}</span>
+              <span class="work-info">
+                <span class="work-cat">{w.category}</span>
+                <span class="work-title font-display">{w.title}</span>
+              </span>
+              <span class="work-tags-wrap">
+                {w.tags.map(t => <span class="tag">{t}</span>)}
+              </span>
+              <span class="work-right">
+                <span class="work-year">{w.year}</span>
+                <span class="work-arrow">↗</span>
+              </span>
+            </a>
+          ) : (
+            <div class="work-inner no-link">
+              <span class="work-num">{w.index}</span>
+              <span class="work-info">
+                <span class="work-cat">{w.category}</span>
+                <span class="work-title font-display">{w.title}</span>
+              </span>
+              <span class="work-right">
+                <span class="work-year">{w.year}</span>
+              </span>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .works {
+    padding: 8rem 0 6rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .works-bg-num {
+    position: absolute;
+    top: -1rem;
+    right: -2rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(8rem, 18vw, 18rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255,255,255,0.06);
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+  }
+
+  .container { position: relative; z-index: 1; }
+
+  .works-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 3rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 1.5rem;
+  }
+
+  .works-total {
+    font-size: 0.72rem;
+    opacity: 0.3;
+    letter-spacing: 0.1em;
+  }
+
+  .works-list { display: flex; flex-direction: column; }
+
+  .work-row {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    transition: border-color 0.3s;
+  }
+
+  .work-row:last-child { border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .work-row:hover { border-color: rgba(255,255,255,0.2); }
+  .work-row.pending { opacity: 0.2; }
+
+  .work-inner {
+    display: grid;
+    grid-template-columns: 60px 1fr auto auto;
+    align-items: center;
+    gap: 2.5rem;
+    padding: 2rem 0;
+    text-decoration: none;
+    color: inherit;
+    cursor: none;
+    transition: padding-left 0.3s;
+  }
+
+  a.work-inner:hover { padding-left: 1rem; }
+  a.work-inner:hover .work-title { color: var(--work-accent, #E85D04); }
+  a.work-inner:hover .work-arrow { opacity: 1; transform: translate(2px, -2px); color: var(--work-accent, #E85D04); }
+
+  .work-inner.no-link { cursor: default; }
+
+  .work-num {
+    font-size: 0.72rem;
+    opacity: 0.3;
+    letter-spacing: 0.05em;
+  }
+
+  .work-info { display: flex; flex-direction: column; gap: 0.3rem; }
+
+  .work-cat {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.4;
+  }
+
+  .work-title {
+    font-size: clamp(1.4rem, 2.8vw, 2.2rem);
+    transition: color 0.25s;
+  }
+
+  .work-tags-wrap {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.55rem;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 2px;
+    opacity: 0.5;
+  }
+
+  .work-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.35rem;
+    flex-shrink: 0;
+  }
+
+  .work-year { font-size: 0.72rem; opacity: 0.3; }
+
+  .work-arrow {
+    font-size: 1.1rem;
+    opacity: 0;
+    transform: translate(-4px, 4px);
+    transition: opacity 0.2s, transform 0.25s;
+    color: var(--yellow);
+  }
+
+  @media (max-width: 768px) {
+    .work-inner { grid-template-columns: 1fr auto; gap: 1rem; }
+    .work-num, .work-tags-wrap { display: none; }
+    .work-arrow { opacity: 0.6; transform: none; }
+  }
+</style>

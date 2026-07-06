@@ -1,0 +1,265 @@
+---
+import BarroLayout from '../../layouts/BarroLayout.astro';
+
+const team = [
+  { name: "Nico 'Torque' Alarcón", role: 'Fundador & Head of Pit', bio: 'Ex piloto regional reconvertido en ingeniero de producto. 15 años con las manos en el barro.', num: '01' },
+  { name: 'Vera Salas', role: 'Diseño & Materiales', bio: 'Selecciona cada tejido y espuma a mano. Su criterio es simple: si no lo usaría en una caída, no sale.', num: '02' },
+  { name: 'Marco Peña', role: 'Piloto Test & QC', bio: 'Todo prototipo pasa por sus ruedas primero. Tres títulos regionales. Nueve fracturas. Cero concesiones.', num: '03' },
+  { name: 'Julia Reyes', role: 'Logística & Distribución', bio: 'Garantiza que el pedido de Paraguay o Panamá llegue igual de rápido y sin excusas.', num: '04' },
+];
+
+const valores = [
+  { n:'01', title:'Sin intermediarios.', body:'Diseñamos, probamos y enviamos. Cada peso va al producto, no al margen de reventa.' },
+  { n:'02', title:'El barro no miente.', body:'La pista revela lo que el laboratorio oculta. Por eso cada pieza sale de la pista, no del catálogo.' },
+  { n:'03', title:'Fractura controlada.', body:'Si algo se rompe, que sea en el punto correcto. Ingeniería de sacrificio para que el piloto llegue entero.' },
+  { n:'04', title:'Obsesión serial.', body:'No hacemos líneas completas. Hacemos pocas piezas que funcionan de manera perfecta.' },
+];
+---
+
+<BarroLayout title="Nosotros" activePage="nosotros">
+  <style>
+    /* HERO */
+    .nos-hero { display:grid; grid-template-columns:1fr 1fr; min-height:520px; border-bottom:1px solid var(--border); }
+    .nos-hero-left { padding:4rem 2.5rem; display:flex; flex-direction:column; justify-content:flex-end; border-right:1px solid var(--border); }
+    .nos-eyebrow { font-family:'Barlow Condensed',sans-serif; font-size:.75rem; letter-spacing:.4em; text-transform:uppercase; color:var(--orange); margin-bottom:1.5rem; }
+    .nos-hero-left h1 { font-family:'Bebas Neue',sans-serif; font-size:clamp(3.5rem,7vw,7rem); line-height:.88; }
+    .nos-hero-left h1 .fill { color:var(--orange); }
+    .nos-hero-left h1 .stroke { color:transparent; -webkit-text-stroke:2px var(--orange); }
+    .nos-hero-right { overflow:hidden; position:relative; min-height:480px; }
+    .nos-hero-right img { width:100%; height:100%; object-fit:cover; object-position:center top; display:block; }
+    .nos-hero-right-label { position:absolute; bottom:1.5rem; left:1.5rem; font-family:monospace; font-size:.625rem; letter-spacing:.15em; text-transform:uppercase; background:rgba(13,13,13,.85); color:var(--muted); padding:.375rem .75rem; }
+
+    /* STATS */
+    .nos-stats { display:grid; grid-template-columns:repeat(4,1fr); border-bottom:1px solid var(--border); }
+    .nos-stat { padding:2rem; border-right:1px solid var(--border); display:flex; flex-direction:column; gap:.3rem; }
+    .nos-stat:last-child { border-right:none; }
+    .nos-stat-num { font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); color:var(--orange); line-height:1; }
+    .nos-stat-label { font-family:monospace; font-size:.625rem; letter-spacing:.15em; text-transform:uppercase; color:var(--muted); }
+
+    /* VALORES */
+    .valores { max-width:1600px; margin:0 auto; padding:6rem 2rem; }
+    .valores-hd { border-bottom:1px solid var(--border); padding-bottom:1.5rem; margin-bottom:3rem; }
+    .valores-eyebrow { font-family:'Barlow Condensed',sans-serif; font-size:.75rem; letter-spacing:.4em; text-transform:uppercase; color:var(--orange); margin-bottom:.75rem; }
+    .valores-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(3rem,8vw,6rem); line-height:.9; color:var(--cream); }
+    .valores-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1.5rem; }
+    .valor-card { border:1px solid var(--border); padding:2rem; background:var(--card); display:flex; flex-direction:column; gap:1rem; }
+    .valor-n { font-family:monospace; font-size:.625rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); }
+    .valor-title { font-family:'Bebas Neue',sans-serif; font-size:2rem; color:var(--cream); line-height:1; }
+    .valor-body { font-size:.875rem; color:rgba(240,237,230,.7); line-height:1.7; }
+
+    /* TEAM */
+    .team { border-top:1px solid var(--border); }
+    .team-inner { max-width:1600px; margin:0 auto; padding:6rem 2rem; }
+    .team-hd { border-bottom:1px solid var(--border); padding-bottom:1.5rem; margin-bottom:3rem; }
+    .team-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1.5rem; }
+    @media (min-width:1024px) { .team-grid { grid-template-columns:repeat(4,1fr); } }
+    .team-card { border:1px solid var(--border); background:var(--card); overflow:hidden; cursor:none; transition:all .15s; }
+    .team-card:hover { border-color:var(--orange); background:var(--orange); }
+    .team-card:hover .tc-name { color:var(--black); }
+    .team-card:hover .tc-role { color:rgba(0,0,0,.7); }
+    .team-card:hover .tc-bio { color:rgba(0,0,0,.7); }
+    .team-card:hover .tc-num { background:var(--black); color:var(--orange); }
+    .tc-header { display:flex; align-items:center; justify-content:space-between; padding:1.25rem 1.25rem .75rem; border-bottom:1px solid var(--border); }
+    .team-card:hover .tc-header { border-bottom-color:rgba(0,0,0,.2); }
+    .tc-num { font-family:monospace; font-size:.625rem; letter-spacing:.15em; text-transform:uppercase; background:var(--orange); color:var(--black); padding:.25rem .5rem; transition:all .15s; }
+    .tc-body { padding:1.25rem; display:flex; flex-direction:column; gap:.5rem; }
+    .tc-name { font-family:'Bebas Neue',sans-serif; font-size:1.5rem; color:var(--cream); line-height:1.1; transition:color .15s; }
+    .tc-role { font-family:monospace; font-size:.625rem; letter-spacing:.12em; text-transform:uppercase; color:var(--orange); transition:color .15s; }
+    .tc-bio { margin-top:.5rem; font-size:.8rem; color:rgba(240,237,230,.6); line-height:1.6; transition:color .15s; }
+
+    /* HAZARD CTA */
+    .hazard-cta { border-top:1px solid var(--border); }
+    .hazard-h { height:12px; background-image:repeating-linear-gradient(45deg, var(--orange) 0 12px, var(--black) 12px 24px); }
+    .hazard-cta-inner { max-width:1600px; margin:0 auto; padding:5rem 2rem; text-align:center; }
+    .hazard-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(3rem,10vw,9rem); line-height:.9; color:var(--cream); margin:1.5rem auto; max-width:900px; }
+    .hazard-title span { color:var(--orange); }
+    .hazard-sub { max-width:28rem; margin:0 auto 2rem; color:rgba(240,237,230,.7); font-size:.95rem; }
+    .btn-fill { display:inline-flex; align-items:center; gap:.75rem; background:var(--orange); color:var(--black); font-family:'Barlow Condensed',sans-serif; font-size:1.125rem; font-weight:700; letter-spacing:.15em; text-transform:uppercase; padding:1rem 2rem; text-decoration:none; transition:background .15s; }
+    .btn-fill:hover { background:var(--cream); }
+
+    @media (max-width:768px) {
+      .nos-hero { grid-template-columns:1fr; }
+      .nos-hero-right { min-height:300px; }
+      .nos-stats { grid-template-columns:repeat(2,1fr); }
+      .valores-grid { grid-template-columns:1fr; }
+    }
+  </style>
+
+  <!-- HERO -->
+  <section class="nos-hero">
+    <div class="nos-hero-left">
+      <div class="nos-eyebrow">/// Sobre nosotros</div>
+      <h1>
+        <span class="block" style="color:var(--cream)">UN TALLER.</span>
+        <span class="block stroke">CINCO PILOTOS.</span>
+        <span class="block fill">UNA OBSESIÓN.</span>
+      </h1>
+    </div>
+    <div class="nos-hero-right">
+      <img src="/barro/team.jpg" alt="Equipo BARRO en el taller" loading="eager" />
+      <div class="nos-hero-right-label">Taller HQ — Córdoba</div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="nos-stats">
+    {[
+      { n:'12', l:'Años en pista' },
+      { n:'340', l:'Podios respaldados' },
+      { n:'87', l:'SKU en stock' },
+      { n:'24', l:'Países servidos' },
+    ].map(s => (
+      <div class="nos-stat">
+        <div class="nos-stat-num">{s.n}</div>
+        <div class="nos-stat-label">{s.l}</div>
+      </div>
+    ))}
+  </div>
+
+  <!-- VALORES -->
+  <section class="valores">
+    <div class="valores-hd" data-reveal>
+      <div class="valores-eyebrow">/// Cómo trabajamos</div>
+      <div class="valores-title glitch" data-text="PRINCIPIOS.">PRINCIPIOS.</div>
+    </div>
+    <div class="valores-grid">
+      {valores.map((v, i) => (
+        <div class="valor-card" data-reveal style={`transition-delay:${i*80}ms`}>
+          <div class="valor-n">{v.n}</div>
+          <div class="valor-title">{v.title}</div>
+          <p class="valor-body">{v.body}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section class="team">
+    <div class="team-inner">
+      <div class="team-hd" data-reveal>
+        <div class="valores-eyebrow">/// El equipo</div>
+        <div class="valores-title glitch" data-text="QUIÉNES SOMOS.">QUIÉNES SOMOS.</div>
+      </div>
+      <div class="team-grid">
+        {team.map((m, i) => (
+          <div class="team-card" data-reveal style={`transition-delay:${i*80}ms`}>
+            <div class="tc-header">
+              <span class="tc-num">{m.num}</span>
+            </div>
+            <div class="tc-body">
+              <div class="tc-name">{m.name}</div>
+              <div class="tc-role">{m.role}</div>
+              <p class="tc-bio">{m.bio}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT + SOCIAL -->
+  <section class="border-t border-border">
+    <div style="max-width:1600px;margin:0 auto;padding:6rem 2rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start">
+
+      <!-- Contact form -->
+      <div data-reveal>
+        <div class="valores-eyebrow">/// Contacto directo</div>
+        <div class="valores-title" style="margin-bottom:2rem">ESCRIBINOS.</div>
+        <form id="contact-form" style="display:flex;flex-direction:column;gap:1rem">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+            <div style="display:flex;flex-direction:column;gap:.4rem">
+              <label style="font-family:monospace;font-size:.625rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)">Nombre</label>
+              <input name="nombre" type="text" required placeholder="Nico Alarcón" style="background:var(--card);border:1px solid var(--border);color:var(--cream);font-family:'Barlow Condensed',sans-serif;font-size:1rem;padding:.75rem 1rem;outline:none;transition:border .15s;width:100%" onfocus="this.style.borderColor='var(--orange)'" onblur="this.style.borderColor='var(--border)'" />
+            </div>
+            <div style="display:flex;flex-direction:column;gap:.4rem">
+              <label style="font-family:monospace;font-size:.625rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)">Email</label>
+              <input name="email" type="email" required placeholder="nico@pista.mx" style="background:var(--card);border:1px solid var(--border);color:var(--cream);font-family:'Barlow Condensed',sans-serif;font-size:1rem;padding:.75rem 1rem;outline:none;transition:border .15s;width:100%" onfocus="this.style.borderColor='var(--orange)'" onblur="this.style.borderColor='var(--border)'" />
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:.4rem">
+            <label style="font-family:monospace;font-size:.625rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)">Mensaje</label>
+            <textarea name="mensaje" rows="5" required placeholder="Necesito un kit completo para enduro..." style="background:var(--card);border:1px solid var(--border);color:var(--cream);font-family:'Barlow Condensed',sans-serif;font-size:1rem;padding:.75rem 1rem;outline:none;transition:border .15s;width:100%;resize:vertical" onfocus="this.style.borderColor='var(--orange)'" onblur="this.style.borderColor='var(--border)'"></textarea>
+          </div>
+          <button type="submit" class="btn-fill hover-shake" style="align-self:flex-start;margin-top:.5rem">
+            ENVIAR MENSAJE →
+          </button>
+          <p id="form-ok" style="display:none;font-family:monospace;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--orange)">✓ MENSAJE ENVIADO. TE RESPONDEMOS EN 24H.</p>
+        </form>
+      </div>
+
+      <!-- Social + info -->
+      <div data-reveal style="display:flex;flex-direction:column;gap:2.5rem">
+        <div>
+          <div class="valores-eyebrow">/// Seguinos</div>
+          <div class="valores-title" style="font-size:clamp(2rem,4vw,3.5rem);margin-bottom:1.5rem">REDES.</div>
+          <div style="display:flex;flex-direction:column;gap:.75rem">
+            <a href="https://instagram.com/barromx" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:1rem;border:1px solid var(--border);padding:1rem 1.25rem;background:var(--card);text-decoration:none;transition:all .15s;color:var(--cream)" onmouseover="this.style.borderColor='var(--orange)';this.style.background='var(--orange)';this.style.color='var(--black)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--card)';this.style.color='var(--cream)'">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+              <div>
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;line-height:1">Instagram</div>
+                <div style="font-family:monospace;font-size:.625rem;letter-spacing:.12em;text-transform:uppercase">@barromx</div>
+              </div>
+            </a>
+            <a href="https://wa.me/595982000000" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:1rem;border:1px solid var(--border);padding:1rem 1.25rem;background:var(--card);text-decoration:none;transition:all .15s;color:var(--cream)" onmouseover="this.style.borderColor='var(--orange)';this.style.background='var(--orange)';this.style.color='var(--black)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--card)';this.style.color='var(--cream)'">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              <div>
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;line-height:1">WhatsApp</div>
+                <div style="font-family:monospace;font-size:.625rem;letter-spacing:.12em;text-transform:uppercase">+595 982 000 000</div>
+              </div>
+            </a>
+            <a href="https://tiktok.com/@barromx" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:1rem;border:1px solid var(--border);padding:1rem 1.25rem;background:var(--card);text-decoration:none;transition:all .15s;color:var(--cream)" onmouseover="this.style.borderColor='var(--orange)';this.style.background='var(--orange)';this.style.color='var(--black)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--card)';this.style.color='var(--cream)'">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.78 1.52V6.77a4.85 4.85 0 01-1-.08z"/></svg>
+              <div>
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;line-height:1">TikTok</div>
+                <div style="font-family:monospace;font-size:.625rem;letter-spacing:.12em;text-transform:uppercase">@barromx</div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:2rem">
+          <div class="nos-stat-label" style="margin-bottom:.5rem">Ubicación</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--cream);line-height:1.1">Taller HQ<br><span style="color:var(--orange)">Asunción, Paraguay</span></div>
+          <p style="margin-top:.75rem;font-size:.8rem;color:rgba(240,237,230,.5);line-height:1.6">Atención con cita previa.<br>Lun–Vie · 09:00–18:00</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- HAZARD CTA -->
+  <section class="hazard-cta">
+    <div class="hazard-h"></div>
+    <div class="hazard-cta-inner">
+      <div class="valores-eyebrow">/// Zona de impacto</div>
+      <div class="hazard-title">
+        PONÉ EL CULO <span>EN LA MOTO.</span>
+      </div>
+      <p class="hazard-sub">Tensión, velocidad, polvo. Cada pieza pasó por barro real antes de llegar acá.</p>
+      <a href="/barro/catalogo" class="btn-fill hover-shake">
+        ARMÁ TU KIT →
+      </a>
+    </div>
+    <div class="hazard-h"></div>
+  </section>
+
+  <script>
+    const revealEls = document.querySelectorAll<HTMLElement>('[data-reveal]');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          (e.target as HTMLElement).classList.add('revealed');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el => obs.observe(el));
+
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    const ok = document.getElementById('form-ok');
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      form.style.display = 'none';
+      if (ok) ok.style.display = 'block';
+    });
+  </script>
+</BarroLayout>

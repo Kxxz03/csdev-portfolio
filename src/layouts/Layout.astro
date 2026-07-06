@@ -1,0 +1,258 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+const {
+  title = '+CSdev — Diseño & Desarrollo Web',
+  description = 'Sitios web que convierten. Diseño y desarrollo a medida.'
+} = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="cursor-label" id="cursorLabel">VER</div>
+
+  <slot />
+
+  <script>
+    import Lenis from 'lenis';
+    import gsap from 'gsap';
+    import ScrollTrigger from 'gsap/ScrollTrigger';
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* ── Smooth scroll ── */
+    const lenis = new Lenis({ duration: 1.1, easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+
+    /* ── Dynamic background ── */
+    const themes = [
+      { selector: '#hero',    bg: '#F7F6F1', fg: '#0D0D0D', accent: '#FFD000' },
+      { selector: '#works',   bg: '#0D0D0D', fg: '#F7F6F1', accent: '#FFD000' },
+      { selector: '#about',   bg: '#F7F6F1', fg: '#0D0D0D', accent: '#FFD000' },
+      { selector: '#contact', bg: '#FFD000', fg: '#0D0D0D', accent: '#0D0D0D' },
+    ];
+
+    themes.forEach(({ selector, bg, fg, accent }) => {
+      const el = document.querySelector(selector);
+      if (!el) return;
+      ScrollTrigger.create({
+        trigger: el,
+        start: 'top 50%',
+        end: 'bottom 50%',
+        onEnter: () => applyTheme(bg, fg, accent),
+        onEnterBack: () => applyTheme(bg, fg, accent),
+      });
+    });
+
+    function applyTheme(bg: string, fg: string, accent: string) {
+      gsap.to('body', { backgroundColor: bg, color: fg, duration: 0.7, ease: 'power2.out' });
+      gsap.to('.cursor-dot', { backgroundColor: fg, duration: 0.4 });
+      gsap.to('.cursor-ring', { borderColor: fg, duration: 0.4 });
+      gsap.to('nav', { borderBottomColor: fg + '22', duration: 0.4 });
+      document.documentElement.style.setProperty('--fg', fg);
+      document.documentElement.style.setProperty('--bg', bg);
+      document.documentElement.style.setProperty('--accent', accent);
+    }
+
+    /* ── Cursor ── */
+    const dot = document.getElementById('cursorDot')!;
+    const ring = document.getElementById('cursorRing')!;
+    const label = document.getElementById('cursorLabel')!;
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+
+    (function animCursor() {
+      rx += (mx - rx) * 0.1;
+      ry += (my - ry) * 0.1;
+      dot.style.left = mx + 'px';  dot.style.top = my + 'px';
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      label.style.left = rx + 'px'; label.style.top = ry + 'px';
+      requestAnimationFrame(animCursor);
+    })();
+
+    document.querySelectorAll('[data-cursor="view"]').forEach(el => {
+      el.addEventListener('mouseenter', () => { ring.classList.add('view'); label.classList.add('visible'); });
+      el.addEventListener('mouseleave', () => { ring.classList.remove('view'); label.classList.remove('visible'); });
+    });
+
+    document.querySelectorAll('[data-cursor="hover"]').forEach(el => {
+      el.addEventListener('mouseenter', () => ring.classList.add('hover'));
+      el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
+    });
+
+    /* ── Scroll reveal ── */
+    document.querySelectorAll('[data-reveal]').forEach((el, i) => {
+      const delay = Number(el.getAttribute('data-reveal-delay') || 0) * 0.12;
+      gsap.fromTo(el,
+        { opacity: 0, y: 48 },
+        { opacity: 1, y: 0, duration: 0.9, delay, ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+        }
+      );
+    });
+
+    /* ── 3D tilt on cards ── */
+    document.querySelectorAll('[data-tilt]').forEach(card => {
+      const el = card as HTMLElement;
+      el.addEventListener('mousemove', (e: MouseEvent) => {
+        const rect = el.getBoundingClientRect();
+        const cx = (e.clientX - rect.left) / rect.width  - 0.5;
+        const cy = (e.clientY - rect.top)  / rect.height - 0.5;
+        gsap.to(el, { rotateY: cx * 14, rotateX: -cy * 14, transformPerspective: 800, ease: 'power2.out', duration: 0.4 });
+      });
+      el.addEventListener('mouseleave', () => {
+        gsap.to(el, { rotateY: 0, rotateX: 0, duration: 0.6, ease: 'elastic.out(1, 0.6)' });
+      });
+    });
+
+    /* ── Scramble text ── */
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&';
+    function scramble(el: HTMLElement, original: string, duration = 1200) {
+      let frame = 0;
+      const totalFrames = Math.floor(duration / 30);
+      const interval = setInterval(() => {
+        el.textContent = original.split('').map((ch, i) => {
+          if (ch === ' ') return ' ';
+          if (frame / totalFrames > i / original.length) return ch;
+          return chars[Math.floor(Math.random() * chars.length)];
+        }).join('');
+        if (++frame >= totalFrames) { el.textContent = original; clearInterval(interval); }
+      }, 30);
+    }
+
+    document.querySelectorAll('[data-scramble]').forEach(el => {
+      const original = (el as HTMLElement).textContent || '';
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { scramble(el as HTMLElement, original); observer.unobserve(el); }
+        });
+      }, { threshold: 0.5 });
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
+
+<style is:global>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --yellow: #FFD000;
+    --black: #0D0D0D;
+    --white: #F7F6F1;
+    --gray: #888;
+    --border-light: rgba(0,0,0,0.1);
+    --border-dark: rgba(255,255,255,0.1);
+    --bg: #F7F6F1;
+    --fg: #0D0D0D;
+    --accent: #FFD000;
+  }
+
+  html { scroll-behavior: auto; }
+
+  body {
+    background: var(--white);
+    color: var(--black);
+    font-family: 'Space Grotesk', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    cursor: none;
+    overflow-x: hidden;
+    transition: background 0.7s ease, color 0.7s ease;
+  }
+
+  /* CURSOR */
+  .cursor-dot {
+    width: 6px; height: 6px;
+    background: var(--black);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: background 0.3s;
+  }
+
+  .cursor-ring {
+    width: 32px; height: 32px;
+    border: 1.5px solid var(--black);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s, border-color 0.3s, border-radius 0.3s, background 0.3s;
+  }
+
+  .cursor-ring.hover { width: 52px; height: 52px; }
+
+  .cursor-ring.view {
+    width: 52px; height: 52px;
+    background: var(--yellow);
+    border-color: var(--yellow);
+    border-radius: 50%;
+  }
+
+  .cursor-label {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--black);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .cursor-label.visible { opacity: 1; }
+
+  /* CONTAINER */
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 3rem;
+  }
+
+  @media (max-width: 768px) {
+    .container { padding: 0 1.5rem; }
+  }
+
+  /* SECTION LABEL */
+  .section-label {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin-bottom: 1.5rem;
+  }
+
+  /* FONT DISPLAY */
+  .font-display {
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 0.93;
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--yellow); }
+</style>

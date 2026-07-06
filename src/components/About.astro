@@ -1,0 +1,199 @@
+---
+const skills = ['HTML', 'CSS', 'JavaScript', 'React', 'Astro', 'GSAP', 'Figma', 'SEO', 'Responsive', 'Animación web'];
+---
+
+<section id="about" class="about">
+  <div class="about-overflow-text" aria-hidden="true">CESAR</div>
+
+  <div class="container">
+    <div class="about-grid">
+
+      <div class="about-left">
+        <span class="section-label" data-reveal>Sobre mí</span>
+        <h2 class="about-heading font-display" data-reveal data-reveal-delay="1">
+          Hola.<br />
+          Soy<br />
+          <span class="outline-text">CESAR.</span>
+        </h2>
+        <div class="about-skills" data-reveal data-reveal-delay="2">
+          {skills.map((s, i) => (
+            <span class="skill" style={`--i:${i}`}>{s}</span>
+          ))}
+        </div>
+      </div>
+
+      <div class="about-right">
+        <div class="about-bio" data-reveal data-reveal-delay="2">
+          <p>
+            Creo sitios web desde cero — desde la primera línea de código hasta el último píxel.
+            Me obsesiona el detalle: que la tipografía respire, que las transiciones se sientan naturales,
+            que el sitio cargue rápido aunque se vea complejo.
+          </p>
+          <p>
+            Trabajo con clientes en <strong>español e inglés</strong>, adaptando el tono y la experiencia
+            a cada mercado. No uso plantillas. Cada proyecto es una conversación entre lo que tu negocio
+            necesita y lo que el diseño puede lograr.
+          </p>
+        </div>
+
+        <blockquote class="about-quote" data-reveal data-reveal-delay="3">
+          <p>
+            Me gustan los proyectos con personalidad. Los sitios aburridos no me interesan
+            y probablemente tampoco a tus clientes. Y creo que los dominios deben ser gratis.
+          </p>
+          <cite>— Cesar, +CSdev</cite>
+        </blockquote>
+
+        <div class="about-cta" data-reveal data-reveal-delay="4">
+          <a href="/#contact" class="btn-link" data-cursor="hover">¿Trabajamos juntos? →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    padding: 8rem 0;
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid rgba(0,0,0,0.08);
+  }
+
+  .about-overflow-text {
+    position: absolute;
+    bottom: -4rem;
+    left: -2rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(10rem, 22vw, 22rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(0,0,0,0.05);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .container { position: relative; z-index: 1; }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
+  }
+
+  .section-label {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.4;
+    margin-bottom: 2rem;
+  }
+
+  .about-heading {
+    font-size: clamp(3rem, 6vw, 6rem);
+    margin-bottom: 3rem;
+  }
+
+  .outline-text {
+    color: transparent;
+    -webkit-text-stroke: 2px var(--black);
+    display: inline-block;
+    cursor: default;
+    transition: color 0.3s;
+  }
+
+  .outline-text:hover {
+    color: var(--yellow);
+    -webkit-text-stroke: 0px;
+  }
+
+  .about-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .skill {
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.3rem 0.75rem;
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 100px;
+    opacity: 0;
+    transform: translateY(12px);
+    animation: skillIn 0.4s forwards;
+    animation-delay: calc(var(--i) * 0.05s + 0.3s);
+    color: inherit;
+  }
+
+  @keyframes skillIn {
+    to { opacity: 0.6; transform: translateY(0); }
+  }
+
+  .skill:hover { opacity: 1; border-color: var(--yellow); }
+
+  /* RIGHT */
+  .about-bio {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .about-bio p {
+    font-size: 1rem;
+    line-height: 1.85;
+    opacity: 0.6;
+  }
+
+  .about-bio strong { opacity: 1; color: inherit; }
+
+  .about-quote {
+    border-left: 3px solid var(--yellow);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 2.5rem;
+    background: rgba(0,0,0,0.03);
+  }
+
+  .about-quote p {
+    font-size: 0.95rem;
+    font-style: italic;
+    line-height: 1.75;
+    opacity: 0.8;
+    margin-bottom: 0.75rem;
+    color: inherit;
+  }
+
+  .about-quote cite {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.4;
+    font-style: normal;
+  }
+
+  .btn-link {
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: inherit;
+    border-bottom: 2px solid var(--yellow);
+    padding-bottom: 2px;
+    cursor: none;
+    transition: opacity 0.2s;
+  }
+
+  .btn-link:hover { opacity: 0.5; }
+
+  @media (max-width: 900px) {
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .about-overflow-text { font-size: 22vw; }
+  }
+</style>

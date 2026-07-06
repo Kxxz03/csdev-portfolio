@@ -1,0 +1,289 @@
+---
+import BarroLayout from '../../layouts/BarroLayout.astro';
+
+const products = [
+  { slug:'casco-ignition-mx',    name:'Casco Ignition MX',    brand:'BARRO', price:489, stock:12, img:'/barro/prod-helmet.jpg',    img2:'/barro/prod-helmet-2.jpg', short:'Certificación DOT/ECE. Fibra tricomposite ultra ligera.',  tag:'Bestseller', isNew:false, cat:'cascos' },
+  { slug:'casco-dual-x-enduro',  name:'Casco DUAL-X Enduro',  brand:'APEX',  price:379, stock:9,  img:'/barro/prod-helmet-3.jpg',  img2:null,                       short:'Híbrido enduro/MX. Visera aerodinámica ajustable.',        tag:null, isNew:true,  cat:'cascos' },
+  { slug:'goggles-crosshair-pro',name:'Goggles Crosshair Pro',brand:'APEX',  price:129, stock:34, img:'/barro/prod-goggles.jpg',   img2:null,                       short:'Lente anti-fog espejada. Sistema tear-off compatible.',   tag:null, isNew:false, cat:'goggles' },
+  { slug:'guantes-grip-24',      name:'Guantes GRIP-24',      brand:'CRUX',  price:59,  stock:48, img:'/barro/prod-gloves.jpg',    img2:null,                       short:'Palma de cuero perforado. Nudillos con TPR reforzado.',   tag:null, isNew:false, cat:'guantes' },
+  { slug:'botas-siege-boot',     name:'Botas SIEGE',          brand:'BARRO', price:349, stock:8,  img:'/barro/prod-boots.jpg',     img2:null,                       short:'4 hebillas de aluminio. Suela de goma vulcanizada.',      tag:null, isNew:false, cat:'botas' },
+  { slug:'peto-fortress',        name:'Peto FORTRESS',        brand:'CRUX',  price:259, stock:6,  img:'/barro/prod-armor.jpg',     img2:null,                       short:'Placas CE nivel 2. Espuma de memoria D3O.',              tag:'Top rated', isNew:false, cat:'proteccion' },
+  { slug:'neck-brace-collar-9',  name:'Neck Brace COLLAR-9',  brand:'BARRO', price:289, stock:4,  img:'/barro/prod-neckbrace.jpg', img2:null,                       short:'Fibra de carbono real. Zonas de fractura controlada.',    tag:'Últimas 4', isNew:true, cat:'proteccion' },
+  { slug:'rodilleras-apex-knee', name:'Rodilleras APEX KNEE', brand:'APEX',  price:149, stock:18, img:'/barro/prod-knee.jpg',      img2:null,                       short:'Caparazón poliuretano. Bisagra biomecánica.',            tag:null, isNew:false, cat:'proteccion' },
+  { slug:'jersey-attack-v2',     name:'Jersey ATTACK V2',     brand:'DIRT',  price:79,  stock:62, img:'/barro/prod-jersey.jpg',    img2:null,                       short:'Tejido dry-mesh. Costuras planas antifricción.',          tag:null, isNew:false, cat:'jerseys' },
+  { slug:'pantalon-torque',      name:'Pantalón TORQUE',      brand:'APEX',  price:219, stock:15, img:'/barro/prod-pants.jpg',     img2:null,                       short:'600D ripstop. Refuerzos de cuero en rodilla.',           tag:null, isNew:false, cat:'pantalones' },
+  { slug:'hydration-hydro-3l',   name:'Mochila HYDRO 3L',     brand:'BARRO', price:119, stock:26, img:'/barro/prod-hydration.jpg', img2:null,                       short:'Bolsa 3L. Tubo aislado. Compartimento herramientas.',    tag:null, isNew:true,  cat:'accesorios' },
+  { slug:'kit-herramientas',     name:'Kit PIT-KIT',          brand:'CRUX',  price:79,  stock:31, img:'/barro/prod-toolkit.jpg',   img2:null,                       short:'12 herramientas. Estuche enrollable de lona.',           tag:null, isNew:false, cat:'accesorios' },
+  { slug:'medias-tall-sock',     name:'Medias TALL-SOCK',     brand:'DIRT',  price:29,  stock:84, img:'/barro/prod-socks.jpg',     img2:null,                       short:'Fibra Coolmax. Compresión asimétrica.',                  tag:null, isNew:false, cat:'accesorios' },
+  { slug:'kidney-belt-waistlock',name:'Faja WAIST-LOCK',      brand:'DIRT',  price:89,  stock:22, img:'/barro/prod-kidneybelt.jpg',img2:null,                       short:'Soporte lumbar y anti-vibración. Neopreno + placas.',    tag:null, isNew:true,  cat:'proteccion' },
+];
+
+const categories = [
+  { id:'all',        label:'Todo' },
+  { id:'cascos',     label:'Cascos' },
+  { id:'goggles',    label:'Goggles' },
+  { id:'guantes',    label:'Guantes' },
+  { id:'botas',      label:'Botas' },
+  { id:'jerseys',    label:'Jerseys' },
+  { id:'pantalones', label:'Pantalones' },
+  { id:'proteccion', label:'Protección' },
+  { id:'accesorios', label:'Accesorios' },
+];
+const brands = ['BARRO','APEX','CRUX','DIRT'];
+---
+
+<BarroLayout title="Catálogo" activePage="catalogo">
+
+  <div class="grain">
+
+    <!-- HERO -->
+    <header class="border-b border-border">
+      <div class="mx-auto max-w-[1600px] px-6 py-16">
+        <div class="font-condensed text-xs uppercase tracking-[0.4em] text-primary">/// Arsenal completo</div>
+        <h1 class="mt-3 font-display text-7xl md:text-9xl">Catálogo</h1>
+        <p class="mt-4 max-w-xl text-muted-foreground" id="hero-sub">
+          {products.length} piezas en stock. Filtrá, comparás, armás.
+        </p>
+      </div>
+    </header>
+
+    <!-- BODY: sidebar + grid -->
+    <div class="mx-auto grid max-w-[1600px] gap-8 px-6 py-10 lg:grid-cols-[280px_1fr]">
+
+      <!-- SIDEBAR -->
+      <aside class="space-y-8 border border-border bg-card p-6 lg:sticky lg:top-24 lg:self-start">
+
+        <!-- Categoría -->
+        <div>
+          <div class="mb-3 font-condensed text-xs uppercase tracking-[0.3em] text-primary">Categoría</div>
+          <div class="flex flex-col gap-1" id="cat-btns">
+            {categories.map(c => (
+              <button
+                data-cat={c.id}
+                class={`flex w-full items-center justify-between border-l-2 px-3 py-2 text-left font-condensed uppercase tracking-widest transition-all
+                  ${c.id === 'all'
+                    ? 'border-primary bg-primary/10 text-primary'
+                    : 'border-transparent text-foreground/70 hover:border-foreground hover:text-foreground'}`}>
+                {c.label}
+                {c.id === 'all' && <span class="arrow">→</span>}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <!-- Marca -->
+        <div>
+          <div class="mb-3 font-condensed text-xs uppercase tracking-[0.3em] text-primary">Marca</div>
+          <div class="flex flex-wrap gap-2" id="brand-btns">
+            <button data-brand="all"
+              class="border border-primary bg-primary px-3 py-1 font-condensed text-xs uppercase tracking-widest text-background transition-all">
+              Todas
+            </button>
+            {brands.map(b => (
+              <button data-brand={b}
+                class="border border-border px-3 py-1 font-condensed text-xs uppercase tracking-widest text-foreground/70 transition-all hover:border-primary hover:text-primary">
+                {b}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <!-- Precio -->
+        <div>
+          <div class="mb-3 flex justify-between font-condensed text-xs uppercase tracking-[0.3em] text-primary">
+            <span>Precio máx</span>
+            <span class="text-foreground" id="price-lbl">$500</span>
+          </div>
+          <input type="range" min="50" max="500" step="10" value="500" id="price-range"
+            class="w-full accent-primary" />
+        </div>
+
+        <!-- Orden -->
+        <div>
+          <div class="mb-3 font-condensed text-xs uppercase tracking-[0.3em] text-primary">Orden</div>
+          <select id="sort-sel"
+            class="w-full border border-border bg-background px-3 py-2 font-condensed text-sm uppercase tracking-widest text-foreground focus:border-primary focus:outline-none">
+            <option value="featured">Destacados</option>
+            <option value="price-asc">Precio ↑</option>
+            <option value="price-desc">Precio ↓</option>
+          </select>
+        </div>
+
+        <button id="reset-btn"
+          class="w-full border border-primary py-2 font-condensed text-sm uppercase tracking-widest text-primary hover:bg-primary hover:text-background transition-all">
+          Reset filtros
+        </button>
+      </aside>
+
+      <!-- GRID -->
+      <div>
+        <div id="empty" class="hidden border border-border bg-card p-16 text-center">
+          <div class="font-display text-5xl text-outline-primary">SIN RESULTADOS</div>
+          <p class="mt-3 text-muted-foreground">Ajustá los filtros y volvé a probar.</p>
+        </div>
+
+        <div id="grid" class="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+          {products.map((p, i) => (
+            <a
+              href={`/barro/producto/${p.slug}`}
+              class="animate-wipe-in group relative block border border-border bg-card transition-colors hover:border-primary"
+              data-cat={p.cat}
+              data-brand={p.brand}
+              data-price={p.price}
+              data-idx={i}
+              style={`animation-delay:${i*60}ms`}
+            >
+              <!-- Image -->
+              <div class="relative aspect-square overflow-hidden bg-background">
+                <img src={p.img} alt={p.name} loading="lazy"
+                  class="absolute inset-0 h-full w-full object-cover transition-opacity duration-100 group-hover:opacity-0" />
+                {p.img2 && (
+                  <img src={p.img2} alt="" loading="lazy"
+                    class="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-100 group-hover:opacity-100" />
+                )}
+                <!-- Badges top-left -->
+                <div class="absolute left-0 top-0 flex flex-col gap-1 p-3">
+                  <span class="bg-primary px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-background">
+                    {String(i+1).padStart(2,'0')}
+                  </span>
+                  {p.isNew && (
+                    <span class="clip-tag bg-foreground px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-background">
+                      Nuevo
+                    </span>
+                  )}
+                  {p.tag && (
+                    <span class="bg-background/80 px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-primary">
+                      {p.tag}
+                    </span>
+                  )}
+                  {p.stock < 10 && (
+                    <span class="animate-flicker bg-foreground px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-background">
+                      Low stock
+                    </span>
+                  )}
+                </div>
+                <!-- Brand bottom-right -->
+                <div class="absolute bottom-0 right-0 bg-background/90 px-3 py-1 font-condensed text-xs uppercase tracking-widest text-muted-foreground">
+                  {p.brand}
+                </div>
+              </div>
+              <!-- Body -->
+              <div class="flex items-end justify-between gap-4 p-4">
+                <div>
+                  <div class="font-display text-2xl leading-none">{p.name}</div>
+                  <p class="mt-1 line-clamp-1 text-xs text-muted-foreground">{p.short}</p>
+                </div>
+                <div class="text-right">
+                  <div class="font-display text-3xl leading-none text-primary">${p.price}</div>
+                  <div class="mt-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">USD</div>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const cards   = Array.from(document.querySelectorAll<HTMLElement>('#grid [data-cat]'));
+    const heroSub = document.getElementById('hero-sub')!;
+    const emptyEl = document.getElementById('empty')!;
+    const gridEl  = document.getElementById('grid')!;
+    const priceLbl = document.getElementById('price-lbl')!;
+
+    let activeCat   = 'all';
+    let activeBrand = 'all';
+    let maxPrice    = 500;
+    let sortMode    = 'featured';
+
+    function render() {
+      let visible = cards.filter(c =>
+        (activeCat   === 'all' || c.dataset.cat   === activeCat) &&
+        (activeBrand === 'all' || c.dataset.brand === activeBrand) &&
+        parseInt(c.dataset.price || '0') <= maxPrice
+      );
+      if (sortMode === 'price-asc')  visible.sort((a,b) => +a.dataset.price! - +b.dataset.price!);
+      if (sortMode === 'price-desc') visible.sort((a,b) => +b.dataset.price! - +a.dataset.price!);
+      if (sortMode === 'featured')   visible.sort((a,b) => +a.dataset.idx!   - +b.dataset.idx!);
+
+      const hidden = new Set(cards);
+      visible.forEach((c,i) => { hidden.delete(c); c.style.order = String(i); c.style.display = ''; });
+      hidden.forEach(c => c.style.display = 'none');
+
+      const n = visible.length;
+      heroSub.textContent = `${n} pieza${n!==1?'s':''} en stock. Filtrá, comparás, armás.`;
+      emptyEl.classList.toggle('hidden', n > 0);
+      gridEl.style.display = n === 0 ? 'none' : '';
+    }
+
+    // Category buttons
+    document.getElementById('cat-btns')!.addEventListener('click', e => {
+      const btn = (e.target as HTMLElement).closest('button');
+      if (!btn || !btn.dataset.cat) return;
+      activeCat = btn.dataset.cat;
+      document.querySelectorAll<HTMLElement>('#cat-btns button').forEach(b => {
+        const on = b.dataset.cat === activeCat;
+        b.className = `flex w-full items-center justify-between border-l-2 px-3 py-2 text-left font-condensed uppercase tracking-widest transition-all ${
+          on ? 'border-primary bg-primary/10 text-primary' : 'border-transparent text-foreground/70 hover:border-foreground hover:text-foreground'
+        }`;
+        const arrow = b.querySelector('.arrow');
+        if (arrow) arrow.remove();
+        if (on) { const s = document.createElement('span'); s.className='arrow'; s.textContent='→'; b.appendChild(s); }
+      });
+      render();
+    });
+
+    // Brand chips
+    document.getElementById('brand-btns')!.addEventListener('click', e => {
+      const btn = (e.target as HTMLElement).closest('button');
+      if (!btn || !btn.dataset.brand) return;
+      activeBrand = btn.dataset.brand;
+      document.querySelectorAll<HTMLElement>('#brand-btns button').forEach(b => {
+        const on = b.dataset.brand === activeBrand;
+        b.className = `border px-3 py-1 font-condensed text-xs uppercase tracking-widest transition-all ${
+          on ? 'border-primary bg-primary text-background' : 'border-border text-foreground/70 hover:border-primary hover:text-primary'
+        }`;
+      });
+      render();
+    });
+
+    // Price
+    document.getElementById('price-range')!.addEventListener('input', e => {
+      maxPrice = +(e.target as HTMLInputElement).value;
+      priceLbl.textContent = `$${maxPrice}`;
+      render();
+    });
+
+    // Sort
+    document.getElementById('sort-sel')!.addEventListener('change', e => {
+      sortMode = (e.target as HTMLSelectElement).value;
+      render();
+    });
+
+    // Reset
+    document.getElementById('reset-btn')!.addEventListener('click', () => {
+      activeCat = 'all'; activeBrand = 'all'; maxPrice = 500; sortMode = 'featured';
+      (document.getElementById('price-range') as HTMLInputElement).value = '500';
+      priceLbl.textContent = '$500';
+      (document.getElementById('sort-sel') as HTMLSelectElement).value = 'featured';
+      document.querySelectorAll<HTMLElement>('#cat-btns button').forEach(b => {
+        const on = b.dataset.cat === 'all';
+        b.className = `flex w-full items-center justify-between border-l-2 px-3 py-2 text-left font-condensed uppercase tracking-widest transition-all ${
+          on ? 'border-primary bg-primary/10 text-primary' : 'border-transparent text-foreground/70 hover:border-foreground hover:text-foreground'
+        }`;
+        const arrow = b.querySelector('.arrow');
+        if (arrow) arrow.remove();
+        if (on) { const s = document.createElement('span'); s.className='arrow'; s.textContent='→'; b.appendChild(s); }
+      });
+      document.querySelectorAll<HTMLElement>('#brand-btns button').forEach(b => {
+        const on = b.dataset.brand === 'all';
+        b.className = `border px-3 py-1 font-condensed text-xs uppercase tracking-widest transition-all ${
+          on ? 'border-primary bg-primary text-background' : 'border-border text-foreground/70 hover:border-primary hover:text-primary'
+        }`;
+      });
+      render();
+    });
+  </script>
+
+</BarroLayout>

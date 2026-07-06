@@ -1,0 +1,153 @@
+---
+---
+<section id="contact" class="contact">
+  <div class="contact-bg-text" aria-hidden="true">TALK</div>
+
+  <div class="container">
+    <div class="contact-top" data-reveal>
+      <span class="section-label">Contacto</span>
+    </div>
+
+    <h2 class="contact-heading font-display" data-reveal data-reveal-delay="1">
+      <span class="line">¿Tenés un</span>
+      <span class="line indent">proyecto</span>
+      <span class="line outline-word">EN MENTE?</span>
+    </h2>
+
+    <div class="contact-body">
+      <p class="contact-sub" data-reveal data-reveal-delay="2">
+        Contame de qué se trata.<br />Te respondo con lo que necesitás saber.
+      </p>
+
+      <div class="contact-links" data-reveal data-reveal-delay="3">
+        <a href="https://wa.me/595982531706" target="_blank" rel="noopener" class="contact-link" data-cursor="hover" data-tilt>
+          <span class="link-label">WhatsApp</span>
+          <span class="link-val">+595 982 531 706</span>
+          <span class="link-arr">↗</span>
+        </a>
+        <a href="https://instagram.com/its_csdev" target="_blank" rel="noopener" class="contact-link" data-cursor="hover" data-tilt>
+          <span class="link-label">Instagram</span>
+          <span class="link-val">@its_csdev</span>
+          <span class="link-arr">↗</span>
+        </a>
+        <a href="mailto:contactame@csdev.qzz.io" class="contact-link" data-cursor="hover" data-tilt>
+          <span class="link-label">Email</span>
+          <span class="link-val">contactame@csdev.qzz.io</span>
+          <span class="link-arr">↗</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    padding: 8rem 0 6rem;
+    position: relative;
+    overflow: hidden;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .contact-bg-text {
+    position: absolute;
+    bottom: -3rem;
+    right: -3rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(10rem, 24vw, 24rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(0,0,0,0.1);
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+  }
+
+  .container { position: relative; z-index: 1; }
+
+  .contact-top { margin-bottom: 2rem; }
+
+  .section-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.4;
+  }
+
+  .contact-heading {
+    font-size: clamp(3.5rem, 9vw, 10rem);
+    margin-bottom: 4rem;
+  }
+
+  .contact-heading .line { display: block; }
+  .contact-heading .indent { padding-left: clamp(2rem, 12vw, 14rem); }
+
+  .outline-word {
+    color: transparent;
+    -webkit-text-stroke: 3px var(--black);
+  }
+
+  .contact-body {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .contact-sub {
+    font-size: 1rem;
+    line-height: 1.8;
+    opacity: 0.5;
+  }
+
+  .contact-links { display: flex; flex-direction: column; }
+
+  .contact-link {
+    display: grid;
+    grid-template-columns: 120px 1fr auto;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid rgba(0,0,0,0.15);
+    text-decoration: none;
+    color: inherit;
+    cursor: none;
+    transition: padding-left 0.25s;
+  }
+
+  .contact-link:last-child { border-bottom: 1px solid rgba(0,0,0,0.15); }
+  .contact-link:hover { padding-left: 1rem; }
+  .contact-link:hover .link-arr { opacity: 1; transform: translate(2px, -2px); }
+
+  .link-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.4;
+  }
+
+  .link-val {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .link-arr {
+    font-size: 1.1rem;
+    opacity: 0;
+    transform: translate(-4px, 4px);
+    transition: opacity 0.2s, transform 0.25s;
+  }
+
+  @media (max-width: 768px) {
+    .contact-body { grid-template-columns: 1fr; gap: 2.5rem; }
+    .contact-link { grid-template-columns: 90px 1fr auto; }
+    .link-arr { opacity: 0.5; transform: none; }
+    .outline-word { -webkit-text-stroke: 2px var(--black); }
+  }
+</style>

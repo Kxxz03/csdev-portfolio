@@ -1,0 +1,523 @@
+---
+import BarroLayout from '../../layouts/BarroLayout.astro';
+
+const featured = [
+  { slug: 'casco-ignition-mx', name: 'Casco Ignition MX', brand: 'BARRO', price: 489, stock: 12, img: '/barro/prod-helmet.jpg', img2: '/barro/prod-helmet-2.jpg', short: 'Certificación DOT/ECE. Fibra tricomposite ultra ligera.', tag: 'Bestseller', isNew: false },
+  { slug: 'casco-dual-x-enduro', name: 'Casco DUAL-X Enduro', brand: 'APEX', price: 379, stock: 9, img: '/barro/prod-helmet-3.jpg', img2: null, short: 'Híbrido enduro/MX. Visera aerodinámica ajustable.', tag: null, isNew: true },
+  { slug: 'goggles-crosshair-pro', name: 'Goggles Crosshair Pro', brand: 'APEX', price: 129, stock: 34, img: '/barro/prod-goggles.jpg', img2: null, short: 'Lente anti-fog espejada. Sistema tear-off compatible.', tag: null, isNew: false },
+  { slug: 'guantes-grip-24', name: 'Guantes GRIP-24', brand: 'CRUX', price: 59, stock: 48, img: '/barro/prod-gloves.jpg', img2: null, short: 'Palma de cuero perforado. Nudillos con TPR reforzado.', tag: null, isNew: false },
+];
+
+const nuevos = [
+  { slug: 'neck-brace-collar-9', name: 'Neck Brace COLLAR-9', brand: 'BARRO', price: 289, stock: 4, img: '/barro/prod-neckbrace.jpg', img2: null, short: 'Fibra de carbono real. Zonas de fractura controlada.', tag: 'Últimas 4', isNew: true },
+  { slug: 'hydration-hydro-3l', name: 'Mochila HYDRO 3L', brand: 'BARRO', price: 119, stock: 26, img: '/barro/prod-hydration.jpg', img2: null, short: 'Bolsa 3L. Tubo aislado. Compartimento herramientas.', tag: null, isNew: true },
+  { slug: 'kidney-belt-waistlock', name: 'Faja WAIST-LOCK', brand: 'DIRT', price: 89, stock: 22, img: '/barro/prod-kidneybelt.jpg', img2: null, short: 'Soporte lumbar y anti-vibración. Neopreno + placas.', tag: null, isNew: true },
+];
+
+const events = [
+  { date: '12·07', name: 'Copa Sierra — Fecha 3', place: 'Villa Ascasubi, PY', status: 'ABIERTA' },
+  { date: '26·07', name: 'Endurocross Nocturno', place: 'Asunción, PY', status: '48h' },
+  { date: '09·08', name: 'BARRO Test Day', place: 'Taller HQ · Asunción', status: 'GRATIS' },
+  { date: '23·08', name: 'MX Nacional — Fecha 5', place: 'Encarnación, PY', status: 'PRO' },
+];
+
+const brands = ['APEX', 'CRUX', 'DIRT', 'BARRO'];
+
+const tickerItems = ['STOCK LIVE', '12 PILOTOS EN PISTA', 'ENVÍOS 24H', '3 KITS ARMADOS HOY', 'SIN INTERMEDIARIOS'];
+---
+
+<BarroLayout title="Base" activePage="home">
+  <style>
+    .grain { position:relative; }
+    .grain::after { content:''; position:absolute; inset:0; pointer-events:none; opacity:.06; mix-blend-mode:overlay; background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"); z-index:1; }
+
+    /* HERO */
+    .hero { position:relative; overflow:hidden; border-bottom:1px solid var(--border); }
+    .hero-inner { max-width:1600px; margin:0 auto; display:flex; flex-direction:column; justify-content:space-between; min-height:88vh; padding:6rem 2rem 2.5rem; }
+    .hero-bg { position:absolute; inset:0; }
+    .hero-bg img { width:100%; height:100%; object-fit:cover; opacity:.7; will-change:transform; transform-origin:center top; }
+    .hero-bg::after { content:''; position:absolute; inset:0; background:linear-gradient(to top, var(--black) 0%, rgba(13,13,13,.5) 50%, transparent 100%); }
+    .hero-bg::before { content:''; position:absolute; inset:0; background:linear-gradient(to right, rgba(13,13,13,.8) 0%, transparent 60%); z-index:1; }
+    .hero-content { position:relative; z-index:2; max-width:780px; }
+    .hero-eyebrow { display:flex; align-items:center; gap:.75rem; margin-bottom:1.5rem; }
+    .hero-eyebrow .line { width:3rem; height:1px; background:var(--orange); flex-shrink:0; }
+    .hero-eyebrow span { font-family:'Barlow Condensed',sans-serif; font-size:.75rem; letter-spacing:.4em; text-transform:uppercase; color:var(--orange); }
+    .hero h1 { font-family:'Bebas Neue',sans-serif; font-size:clamp(5rem,16vw,15rem); line-height:.85; letter-spacing:.01em; }
+    .hero-sub { margin-top:2rem; max-width:28rem; font-family:'Barlow Condensed',sans-serif; font-size:1.125rem; color:rgba(240,237,230,.8); line-height:1.5; }
+    .hero-btns { display:flex; flex-wrap:wrap; gap:.75rem; margin-top:2rem; }
+    .btn-fill { display:inline-flex; align-items:center; gap:.75rem; background:var(--orange); color:var(--black); font-family:'Barlow Condensed',sans-serif; font-size:1.125rem; font-weight:700; letter-spacing:.15em; text-transform:uppercase; padding:1rem 2rem; text-decoration:none; transition:background .15s; }
+    .btn-fill:hover { background:var(--cream); }
+    .btn-border { display:inline-flex; align-items:center; border:1px solid rgba(240,237,230,.3); color:var(--cream); font-family:'Barlow Condensed',sans-serif; font-size:1.125rem; letter-spacing:.15em; text-transform:uppercase; padding:1rem 2rem; text-decoration:none; transition:all .15s; }
+    .btn-border:hover { border-color:var(--orange); color:var(--orange); }
+
+    /* LIVE TICKER */
+    .live-ticker { display:inline-flex; align-items:center; gap:1rem; border:1px solid var(--border); background:rgba(13,13,13,.6); padding:.5rem 1rem; backdrop-filter:blur(8px); margin-top:2.5rem; width:fit-content; }
+    .live-dot-wrap { position:relative; width:.5rem; height:.5rem; }
+    .live-ping { position:absolute; inset:0; background:var(--orange); animation:ping 1s cubic-bezier(0,0,.2,1) infinite; }
+    .live-dot { position:relative; width:.5rem; height:.5rem; background:var(--orange); border-radius:50%; }
+    @keyframes ping { 0%{transform:scale(1);opacity:1} 75%,100%{transform:scale(2.5);opacity:0} }
+    .live-label { font-family:monospace; font-size:.625rem; letter-spacing:.15em; text-transform:uppercase; color:var(--muted); }
+    .ticker-wrap { height:1rem; overflow:hidden; }
+    .ticker-inner { animation:ticker 12s infinite; }
+    .ticker-item { height:1rem; font-family:'Barlow Condensed',sans-serif; font-size:.75rem; letter-spacing:.15em; text-transform:uppercase; color:var(--cream); line-height:1rem; }
+
+    /* HERO STATS */
+    .hero-stats { position:relative; z-index:2; display:grid; grid-template-columns:repeat(2,1fr); gap:1.5rem; border-top:1px solid var(--border); padding-top:2rem; margin-top:4rem; }
+    @media (min-width:768px) { .hero-stats { grid-template-columns:repeat(4,1fr); } }
+    .stat-num { font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,5vw,3.5rem); color:var(--orange); line-height:1; }
+    .stat-label { margin-top:.25rem; font-family:monospace; font-size:.625rem; letter-spacing:.15em; text-transform:uppercase; color:var(--muted); }
+
+    /* MARQUEE — cinta policial */
+    .b-marquee {
+      border-top:3px solid #000; border-bottom:3px solid #000;
+      overflow:hidden; padding:.75rem 0;
+      background-image: repeating-linear-gradient(
+        -45deg,
+        #FFE600 0px, #FFE600 20px,
+        #000 20px, #000 40px
+      );
+    }
+    .b-mq-outer { display:flex; width:max-content; animation:bmq 25s linear infinite; }
+    .b-mq-track { display:flex; align-items:center; white-space:nowrap; flex-shrink:0; }
+    .b-mq-track span { font-family:'Bebas Neue',sans-serif; font-size:1.75rem; text-transform:uppercase; letter-spacing:.05em; padding:.15rem 1.5rem; background:#FFE600; color:#000; margin:0 2px; display:inline-block; }
+    @keyframes bmq { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    /* SECTION HEADER */
+    .sec-hd { display:flex; align-items:flex-end; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:1.5rem; margin-bottom:3rem; }
+    .sec-eyebrow { font-family:'Barlow Condensed',sans-serif; font-size:.75rem; letter-spacing:.4em; text-transform:uppercase; color:var(--orange); margin-bottom:.75rem; }
+    .sec-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(3rem,8vw,6rem); line-height:.9; color:var(--cream); }
+    .sec-link { font-family:'Barlow Condensed',sans-serif; letter-spacing:.15em; text-transform:uppercase; color:var(--cream); text-decoration:none; transition:color .15s; white-space:nowrap; }
+    .sec-link:hover { color:var(--orange); }
+
+    /* FEATURED & NUEVOS */
+    .products-section { max-width:1600px; margin:0 auto; padding:6rem 2rem; }
+
+    /* PILOTO 54 */
+    .piloto { border-top:1px solid var(--border); border-bottom:1px solid var(--border); background:var(--card); }
+    .piloto-inner { max-width:1600px; margin:0 auto; display:grid; grid-template-columns:1.1fr 1fr; }
+    .piloto-img { position:relative; overflow:hidden; aspect-ratio:4/3; }
+    .piloto-img img { width:100%; height:100%; object-fit:cover; transition:transform .7s; }
+    .piloto-img:hover img { transform:scale(1.05); }
+    .piloto-img-overlay { position:absolute; inset:0; background:linear-gradient(to right, transparent, rgba(28,28,28,.4)); }
+    .piloto-badges { position:absolute; top:1rem; left:1rem; display:flex; flex-direction:column; gap:.25rem; }
+    .badge-rec { font-family:monospace; font-size:.625rem; letter-spacing:.15em; text-transform:uppercase; background:var(--orange); color:var(--black); font-weight:700; padding:.25rem .75rem; }
+    .badge-num { font-family:monospace; font-size:.625rem; letter-spacing:.12em; text-transform:uppercase; background:rgba(13,13,13,.7); color:var(--cream); padding:.25rem .75rem; }
+    .piloto-speed { position:absolute; bottom:1rem; right:1rem; font-family:'Bebas Neue',sans-serif; font-size:clamp(3rem,7vw,6rem); color:var(--orange); line-height:1; }
+    .piloto-info { display:flex; flex-direction:column; justify-content:center; gap:1.5rem; padding:2.5rem 4rem; }
+    .piloto-name { font-family:'Bebas Neue',sans-serif; font-size:clamp(2.5rem,5vw,4.5rem); color:var(--cream); line-height:.9; }
+    .piloto-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(1.5rem,3vw,2.5rem); color:transparent; -webkit-text-stroke:1.5px var(--orange); line-height:.9; }
+    .piloto-bio { max-width:28rem; color:rgba(240,237,230,.7); line-height:1.7; font-size:.9rem; }
+    .piloto-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; border-top:1px solid var(--border); padding-top:1.5rem; }
+    .ps-num { font-family:'Bebas Neue',sans-serif; font-size:2.25rem; color:var(--orange); line-height:1; }
+    .ps-label { font-family:monospace; font-size:.625rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-top:.25rem; }
+    .btn-outline-sm { display:inline-flex; border:1px solid var(--orange); color:var(--orange); font-family:'Barlow Condensed',sans-serif; font-size:.875rem; letter-spacing:.15em; text-transform:uppercase; padding:.75rem 1.5rem; text-decoration:none; transition:all .15s; width:fit-content; }
+    .btn-outline-sm:hover { background:var(--orange); color:var(--black); }
+
+    /* EVENTOS */
+    .eventos { position:relative; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+    .eventos-bg { position:absolute; inset:0; opacity:.3; }
+    .eventos-bg img { width:100%; height:100%; object-fit:cover; }
+    .eventos-bg::after { content:''; position:absolute; inset:0; background:linear-gradient(to right, var(--black) 0%, rgba(13,13,13,.85) 50%, rgba(13,13,13,.4) 100%); }
+    .eventos-inner { position:relative; max-width:1600px; margin:0 auto; padding:6rem 2rem; display:grid; gap:2.5rem; grid-template-columns:1fr 1.4fr; }
+    .event-item { display:grid; grid-template-columns:80px 1fr auto; align-items:center; gap:1rem; border-bottom:1px solid var(--border); padding:1.25rem 1.5rem; transition:all .15s; cursor:none; }
+    .event-item:last-child { border-bottom:none; }
+    .event-item:hover { background:var(--orange); color:var(--black); }
+    .event-item:hover .event-place { color:rgba(0,0,0,.7); }
+    .event-item:hover .event-status { background:var(--black); color:var(--orange); border-color:var(--black); }
+    .event-date { font-family:'Bebas Neue',sans-serif; font-size:2.25rem; line-height:1; }
+    .event-name { font-family:'Barlow Condensed',sans-serif; font-size:1.125rem; font-weight:600; letter-spacing:.05em; text-transform:uppercase; line-height:1.2; }
+    .event-place { font-family:monospace; font-size:.625rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
+    .event-status { font-family:monospace; font-size:.625rem; letter-spacing:.12em; text-transform:uppercase; border:1px solid var(--orange); color:var(--orange); background:var(--black); padding:.25rem .5rem; white-space:nowrap; }
+    .events-list { border:1px solid var(--border); background:rgba(28,28,28,.8); backdrop-filter:blur(8px); }
+
+    /* PORTRAIT GRID */
+    .portrait-grid-section { max-width:1600px; margin:0 auto; padding:6rem 2rem; }
+    .portrait-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; }
+    .portrait-img { position:relative; aspect-ratio:3/4; overflow:hidden; border:1px solid var(--border); }
+    .portrait-img img { width:100%; height:100%; object-fit:cover; transition:transform .7s; }
+    .portrait-img:hover img { transform:scale(1.05); }
+    .portrait-overlay { position:absolute; inset:0; background:linear-gradient(to top, var(--black) 0%, rgba(13,13,13,.2) 50%, transparent 100%); }
+    .portrait-caption { position:absolute; bottom:0; left:0; right:0; padding:1.25rem; }
+    .portrait-tag { font-family:monospace; font-size:.625rem; letter-spacing:.12em; text-transform:uppercase; color:var(--orange); margin-bottom:.5rem; }
+    .portrait-quote { font-family:'Bebas Neue',sans-serif; font-size:1.5rem; line-height:1.1; color:var(--cream); }
+    .portrait-attr { margin-top:.75rem; font-family:'Barlow Condensed',sans-serif; font-size:.75rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
+    .portrait-cards { display:flex; flex-direction:column; gap:1rem; }
+    .quote-card { border:1px solid var(--border); background:var(--card); padding:1.5rem; }
+    .quote-card .portrait-tag { display:block; margin-bottom:1rem; }
+    .quote-card .portrait-quote { font-size:1.875rem; }
+    .cta-card { border:1px solid var(--border); background:var(--orange); padding:1.5rem; }
+    .cta-card .portrait-tag { color:var(--black); }
+    .cta-card .portrait-quote { color:var(--black); font-size:1.875rem; }
+    .cta-card p { font-size:.875rem; color:rgba(0,0,0,.7); margin-top:.75rem; }
+    .cta-card a { display:inline-block; margin-top:1.5rem; border-bottom:1px solid var(--black); font-family:'Barlow Condensed',sans-serif; font-size:.75rem; letter-spacing:.15em; text-transform:uppercase; color:var(--black); text-decoration:none; }
+    .mini-stats { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    .mini-stat { border:1px solid var(--border); background:var(--card); padding:1rem; text-align:center; }
+    .mini-stat-num { font-family:'Bebas Neue',sans-serif; font-size:2.5rem; color:var(--orange); line-height:1; }
+    .mini-stat-label { font-family:monospace; font-size:.5rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-top:.25rem; }
+
+    /* BRANDS */
+    .brands-section { border-top:1px solid var(--border); border-bottom:1px solid var(--border); background:var(--card); }
+    .brands-inner { max-width:1600px; margin:0 auto; padding:3rem 2rem; }
+    .brands-eyebrow { font-family:'Barlow Condensed',sans-serif; font-size:.75rem; letter-spacing:.4em; text-transform:uppercase; color:var(--orange); margin-bottom:2rem; }
+    .brands-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1.5rem; }
+    @media (min-width:768px) { .brands-grid { grid-template-columns:repeat(4,1fr); } }
+    .brand-card { display:flex; align-items:center; justify-content:center; aspect-ratio:2/1; border:1px solid var(--border); background:var(--black); transition:all .15s; cursor:none; }
+    .brand-card:hover { border-color:var(--orange); background:var(--orange); }
+    .brand-card:hover span { color:var(--black); }
+    .brand-card span { font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3rem); letter-spacing:.05em; color:var(--cream); transition:color .15s; }
+
+    /* HAZARD CTA */
+    .hazard-cta { position:relative; overflow:hidden; border-bottom:1px solid var(--border); }
+    .hazard-cta .hazard-h { height:12px; background-image:repeating-linear-gradient(45deg, var(--orange) 0 12px, var(--black) 12px 24px); }
+    .hazard-cta-inner { max-width:1600px; margin:0 auto; padding:6rem 2rem; text-align:center; }
+    .hazard-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(3rem,10vw,9rem); line-height:.9; color:var(--cream); max-width:900px; margin:0 auto 1.5rem; }
+    .hazard-title span { color:var(--orange); }
+    .hazard-sub { max-width:28rem; margin:0 auto 2.5rem; color:rgba(240,237,230,.7); }
+
+    @media (max-width:768px) {
+      .piloto-inner { grid-template-columns:1fr; }
+      .piloto-info { padding:2rem; }
+      .eventos-inner { grid-template-columns:1fr; }
+      .portrait-grid { grid-template-columns:1fr; }
+      .event-item { grid-template-columns:60px 1fr auto; }
+    }
+  </style>
+
+  <div class="grain">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-bg">
+        <img id="hero-img" src="/barro/hero-moto.jpg" alt="" loading="eager" />
+      </div>
+      <div class="hero-inner">
+        <div class="hero-content">
+          <div class="hero-eyebrow">
+            <div class="line"></div>
+            <span>/// Serie MX 24 · Drop en vivo</span>
+          </div>
+          <h1>
+            <span class="block" style="color:var(--cream)">FORJADO</span>
+            <span class="block text-outline-primary">EN EL</span>
+            <span class="block glitch is-glitching" data-text="BARRO." style="color:var(--orange)">BARRO.</span>
+          </h1>
+          <p class="hero-sub">Equipamiento de motocross para pilotos que no negocian con la gravedad. Sin filtros. Sin excusas.</p>
+          <div class="hero-btns">
+            <a href="/barro/catalogo" class="btn-fill hover-shake">
+              VER CATÁLOGO <span>→</span>
+            </a>
+            <a href="/barro/nosotros" class="btn-border">NUESTRA HISTORIA</a>
+          </div>
+          <!-- Social links -->
+          <div style="display:flex;align-items:center;gap:1rem;margin-top:1.5rem">
+            <a href="https://instagram.com" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.4rem;font-family:'Barlow Condensed',sans-serif;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,230,.4);text-decoration:none;transition:color .15s" onmouseover="this.style.color='var(--orange)'" onmouseout="this.style.color='rgba(240,237,230,.4)'">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+              @barromx
+            </a>
+            <span style="width:1px;height:1rem;background:rgba(240,237,230,.15)"></span>
+            <a href="https://wa.me/595982000000" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.4rem;font-family:'Barlow Condensed',sans-serif;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,230,.4);text-decoration:none;transition:color .15s" onmouseover="this.style.color='var(--orange)'" onmouseout="this.style.color='rgba(240,237,230,.4)'">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              WhatsApp
+            </a>
+            <span style="width:1px;height:1rem;background:rgba(240,237,230,.15)"></span>
+            <a href="https://tiktok.com/@barromx" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.4rem;font-family:'Barlow Condensed',sans-serif;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,230,.4);text-decoration:none;transition:color .15s" onmouseover="this.style.color='var(--orange)'" onmouseout="this.style.color='rgba(240,237,230,.4)'">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.78 1.52V6.77a4.85 4.85 0 01-1-.08z"/></svg>
+              TikTok
+            </a>
+          </div>
+          <div class="live-ticker">
+            <div class="live-dot-wrap">
+              <span class="live-ping"></span>
+              <span class="live-dot"></span>
+            </div>
+            <span class="live-label">LIVE</span>
+            <div class="ticker-wrap">
+              <div class="ticker-inner">
+                {tickerItems.map(t => <div class="ticker-item">{t}</div>)}
+                <div class="ticker-item">{tickerItems[0]}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-stats">
+          {[
+            { num: '12', label: 'Años en pista' },
+            { num: '340', label: 'Podios respaldados' },
+            { num: '87', label: 'SKU en stock' },
+            { num: '24', label: 'Países servidos' },
+          ].map(s => (
+            <div>
+              <div class="stat-num">{s.num}</div>
+              <div class="stat-label">{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- MARQUEE — cinta policial -->
+    <div class="b-marquee">
+      <div class="b-mq-outer">
+        <div class="b-mq-track">
+          {(['DIRT','SPEED','IMPACT','SWEAT','BARRO','BURN','GRIP','CRASH','REPEAT']).map(w => (
+            <span>{w}</span>
+          ))}
+        </div>
+        <div class="b-mq-track" aria-hidden="true">
+          {(['DIRT','SPEED','IMPACT','SWEAT','BARRO','BURN','GRIP','CRASH','REPEAT']).map(w => (
+            <span>{w}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- FEATURED PRODUCTS -->
+    <section class="products-section">
+      <div class="sec-hd" data-reveal>
+        <div>
+          <div class="sec-eyebrow">/// 01 — Kit destacado</div>
+          <div class="sec-title glitch" data-text="EQUIPO PESADO.">EQUIPO PESADO.</div>
+        </div>
+        <a href="/barro/catalogo" class="sec-link">Todos los productos →</a>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-border">
+        {featured.map((p, i) => (
+          <a href={`/barro/producto/${p.slug}`} class="group relative block border border-border bg-card transition-colors hover:border-primary animate-wipe-in">
+            <div class="relative aspect-square overflow-hidden bg-background">
+              <img src={p.img} alt={p.name} class="absolute inset-0 h-full w-full object-cover transition-opacity duration-100 group-hover:opacity-0" loading={i < 2 ? 'eager' : 'lazy'} />
+              {p.img2 && <img src={p.img2} alt="" class="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-100 group-hover:opacity-100" loading="lazy" />}
+              <div class="absolute top-2 left-2 flex flex-col gap-1">
+                <span class="bg-primary px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-background">{String(i+1).padStart(2,'0')}</span>
+                {p.isNew && <span class="clip-tag bg-foreground px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-background">Nuevo</span>}
+                {p.tag && <span class="bg-primary px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-background">{p.tag}</span>}
+                {p.stock < 10 && <span class="bg-foreground/20 px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-foreground">Low stock</span>}
+              </div>
+              <span class="absolute bottom-2 right-2 font-mono text-[10px] uppercase tracking-widest text-foreground/40">{p.brand}</span>
+            </div>
+            <div class="flex items-end justify-between gap-4 p-4">
+              <div>
+                <div class="font-display text-2xl leading-none">{p.name}</div>
+                <p class="mt-1 line-clamp-1 text-xs text-muted-foreground">{p.short}</p>
+              </div>
+              <div class="text-right shrink-0">
+                <div class="font-display text-3xl leading-none text-primary">${p.price}</div>
+                <div class="mt-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">USD</div>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- PILOTO 54 -->
+    <section class="piloto">
+      <div class="piloto-inner">
+        <div class="piloto-img">
+          <img src="/barro/action-jump.jpg" alt="Piloto MX en salto whip contra atardecer" loading="lazy" />
+          <div class="piloto-img-overlay"></div>
+          <div class="piloto-badges">
+            <span class="badge-rec">REC · 04:22</span>
+            <span class="badge-num">#54 M.PEÑA</span>
+          </div>
+          <div class="piloto-speed">+42 KM/H</div>
+        </div>
+        <div class="piloto-info">
+          <div class="sec-eyebrow">/// 02 — Piloto oficial</div>
+          <div>
+            <div class="piloto-name">MARCO "54" PEÑA</div>
+            <div class="piloto-title glitch" data-text="TRES VECES CAMPEÓN REGIONAL.">TRES VECES CAMPEÓN REGIONAL.</div>
+          </div>
+          <p class="piloto-bio">Cada nuevo prototipo pasa por su rueda trasera antes de tocar la calle. Si aguanta 20 aterrizajes con Marco, aguanta tu temporada entera.</p>
+          <div class="piloto-stats">
+            {[{n:'03',l:'Títulos'},{n:'128',l:'Carreras'},{n:'09',l:'Fracturas'}].map(s => (
+              <div>
+                <div class="ps-num">{s.n}</div>
+                <div class="ps-label">{s.l}</div>
+              </div>
+            ))}
+          </div>
+          <a href="/barro/nosotros" class="btn-outline-sm">Conocé al equipo →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- NUEVOS INGRESOS -->
+    <section class="products-section">
+      <div class="sec-hd" data-reveal>
+        <div>
+          <div class="sec-eyebrow">/// 03 — Recién salidos del taller</div>
+          <div class="sec-title glitch" data-text="NUEVOS INGRESOS.">NUEVOS INGRESOS.</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:.5rem">
+          <span style="width:.5rem;height:.5rem;background:var(--orange);animation:ping 2s infinite;display:block"></span>
+          <span style="font-family:monospace;font-size:.625rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)">actualizado hoy</span>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border">
+        {nuevos.map((p, i) => (
+          <a href={`/barro/producto/${p.slug}`} class="group relative block border border-border bg-card transition-colors hover:border-primary animate-wipe-in" style={`animation-delay:${i*100}ms`}>
+            <div class="relative aspect-square overflow-hidden bg-background">
+              <img src={p.img} alt={p.name} class="absolute inset-0 h-full w-full object-cover" loading="lazy" />
+              <div class="absolute top-2 left-2 flex flex-col gap-1">
+                <span class="bg-primary px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-background">{String(i+1).padStart(2,'0')}</span>
+                {p.isNew && <span class="clip-tag bg-foreground px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-background">Nuevo</span>}
+                {p.tag && <span class="bg-primary px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-background">{p.tag}</span>}
+                {p.stock < 10 && <span class="bg-foreground/20 px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-foreground">Low stock</span>}
+              </div>
+              <span class="absolute bottom-2 right-2 font-mono text-[10px] uppercase tracking-widest text-foreground/40">{p.brand}</span>
+            </div>
+            <div class="flex items-end justify-between gap-4 p-4">
+              <div>
+                <div class="font-display text-2xl leading-none">{p.name}</div>
+                <p class="mt-1 line-clamp-1 text-xs text-muted-foreground">{p.short}</p>
+              </div>
+              <div class="text-right shrink-0">
+                <div class="font-display text-3xl leading-none text-primary">${p.price}</div>
+                <div class="mt-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">USD</div>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- EVENTOS -->
+    <section class="eventos">
+      <div class="eventos-bg">
+        <img src="/barro/action-startgate.jpg" alt="" loading="lazy" />
+      </div>
+      <div class="eventos-inner">
+        <div data-reveal>
+          <div class="sec-eyebrow">/// 04 — Agenda de barro</div>
+          <div class="sec-title" style="font-size:clamp(3rem,8vw,6rem);line-height:.9">PRÓXIMAS<br><span style="color:var(--orange)">SALIDAS</span></div>
+          <p style="margin-top:1.5rem;max-width:20rem;color:rgba(240,237,230,.7);font-size:.9rem;line-height:1.7">Test days, carreras y noches de pit abiertas al público. Sumate con tu casco o probá el nuestro.</p>
+          <a href="#" style="display:inline-block;margin-top:2rem;border-bottom:1px solid var(--orange);padding-bottom:.25rem;font-family:'Barlow Condensed',sans-serif;font-size:.875rem;letter-spacing:.15em;text-transform:uppercase;color:var(--orange);text-decoration:none">Suscribirse al calendario →</a>
+        </div>
+        <div class="events-list" data-reveal data-reveal-delay="1">
+          {events.map((e, i) => (
+            <div class="event-item">
+              <div class="event-date">{e.date}</div>
+              <div>
+                <div class="event-name">{e.name}</div>
+                <div class="event-place">{e.place} · #{String(i+1).padStart(2,'0')}</div>
+              </div>
+              <div class="event-status">{e.status}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- PORTRAIT + PIT GRID -->
+    <section class="portrait-grid-section">
+      <div style="margin-bottom:3rem;border-bottom:1px solid var(--border);padding-bottom:1.5rem" data-reveal>
+        <div class="sec-eyebrow">/// 05 — Detrás del casco</div>
+        <div class="sec-title">PILOTOS REALES. <span style="color:var(--orange)">BARRO REAL.</span></div>
+      </div>
+      <div class="portrait-grid">
+        <div class="portrait-img">
+          <img src="/barro/rider-portrait.jpg" alt="Retrato de piloto con casco embarrado" loading="lazy" />
+          <div class="portrait-overlay"></div>
+          <div class="portrait-caption">
+            <div class="portrait-tag">Testimonio · 01</div>
+            <div class="portrait-quote">"El casco me salvó la cara dos veces esta temporada."</div>
+            <div class="portrait-attr">— Julián R. · Piloto amateur</div>
+          </div>
+        </div>
+        <div class="portrait-img">
+          <img src="/barro/pit-mechanic.jpg" alt="Mecánico trabajando en la moto" loading="lazy" />
+          <div class="portrait-overlay"></div>
+          <div class="portrait-caption">
+            <div class="portrait-tag">Pit · HQ Asunción</div>
+            <div class="portrait-quote">Cada pieza pasa por el pit antes de salir al mundo.</div>
+            <div class="portrait-attr">— QC obsesivo</div>
+          </div>
+        </div>
+        <div class="portrait-cards">
+          <div class="quote-card">
+            <span class="portrait-tag">Frase del box</span>
+            <div class="portrait-quote">"Si no te ensuciás, no está funcionando."</div>
+            <div class="portrait-attr">— Nico "Torque" Alarcón</div>
+          </div>
+          <div class="cta-card">
+            <span class="portrait-tag">Enviá tu foto</span>
+            <div class="portrait-quote">#FORJADOENBARRO</div>
+            <p>Subí tu vuelta con equipo BARRO y aparecé en el próximo drop.</p>
+            <a href="#">Enviar por Instagram →</a>
+          </div>
+          <div class="mini-stats">
+            <div class="mini-stat">
+              <div class="mini-stat-num">92%</div>
+              <div class="mini-stat-label">Vuelve a comprar</div>
+            </div>
+            <div class="mini-stat">
+              <div class="mini-stat-num">4.9★</div>
+              <div class="mini-stat-label">1,240 reviews</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BRANDS -->
+    <div class="brands-section">
+      <div class="brands-inner">
+        <div class="brands-eyebrow">/// 06 — Marcas del arsenal</div>
+        <div class="brands-grid">
+          {brands.map(b => (
+            <div class="brand-card hover-shake">
+              <span>{b}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- HAZARD CTA -->
+    <section class="hazard-cta">
+      <div class="hazard-h"></div>
+      <div class="hazard-cta-inner">
+        <div class="sec-eyebrow">/// 07 — Zona de impacto</div>
+        <div class="hazard-title">
+          NADA DE TARJETAS <span>PERFECTAS.</span>
+        </div>
+        <p class="hazard-sub">Tensión, velocidad, polvo. Cada pieza pasó por barro real antes de llegar acá.</p>
+        <a href="/barro/catalogo" class="btn-fill hover-shake" style="display:inline-flex;padding:1.25rem 2.5rem;font-size:1.25rem">
+          ARMÁ TU KIT →
+        </a>
+      </div>
+      <div class="hazard-h"></div>
+    </section>
+  </div>
+
+  <script>
+    // Parallax hero
+    const heroImg = document.getElementById('hero-img') as HTMLImageElement;
+    if (heroImg) {
+      window.addEventListener('scroll', () => {
+        heroImg.style.transform = `translateY(${window.scrollY * 0.35}px)`;
+      }, { passive: true });
+    }
+
+    // Scroll reveal
+    const revealEls = document.querySelectorAll<HTMLElement>('[data-reveal]');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const el = e.target as HTMLElement;
+          const delay = el.dataset.revealDelay ? parseInt(el.dataset.revealDelay) * 80 : 0;
+          setTimeout(() => el.classList.add('revealed'), delay);
+          obs.unobserve(el);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el => obs.observe(el));
+
+    // Glitch trigger on mount for BARRO.
+    setTimeout(() => {
+      const glitch = document.querySelector('.hero .glitch.is-glitching');
+      if (glitch) {
+        setTimeout(() => glitch.classList.remove('is-glitching'), 1200);
+      }
+    }, 800);
+  </script>
+</BarroLayout>

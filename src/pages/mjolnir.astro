@@ -1,0 +1,1155 @@
+---
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mjölnir Gym — Forja tu fuerza</title>
+  <meta name="description" content="En Mjölnir no entrenamos cuerpos débiles. Forjamos guerreros. Fuerza, CrossTraining vikingo, coaching y nutrición." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:  #080808;
+      --iron:   #111111;
+      --steel:  #1a1a1a;
+      --ember:  #E85D04;
+      --gold:   #FFB703;
+      --ash:    rgba(255,255,255,0.55);
+      --smoke:  rgba(255,255,255,0.18);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+      background: var(--black);
+      color: #F0EDE8;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ── NAV ─────────────────────────────────────────── */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.25rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.4s;
+    }
+
+    .nav.scrolled {
+      background: rgba(8,8,8,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+
+    .nav-logo-img {
+      width: 32px; height: 32px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 6px rgba(232,93,4,0.5));
+    }
+
+    .nav-logo-text {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #F0EDE8;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--smoke);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--ember); }
+
+    .nav-cta {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--black);
+      background: var(--ember);
+      padding: 0.6rem 1.4rem;
+      transition: background 0.2s;
+    }
+
+    .nav-cta:hover { background: var(--gold); }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+    }
+
+    /* ── HERO ─────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-bottom: 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom, rgba(8,8,8,0.75) 0%, rgba(8,8,8,0.4) 40%, rgba(8,8,8,0.9) 85%, var(--black) 100%),
+        radial-gradient(ellipse 80% 60% at 50% 110%, rgba(232,93,4,0.28) 0%, transparent 70%),
+        url('/mjolnir/hero-forge.jpg') center/cover no-repeat;
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%);
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--ember);
+      opacity: 0;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 24px; height: 1px;
+      background: var(--ember);
+    }
+
+    .hero-headline {
+      font-size: clamp(5rem, 15vw, 17rem);
+      font-weight: 900;
+      line-height: 0.88;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      opacity: 0;
+    }
+
+    .hero-headline em {
+      font-style: normal;
+      color: transparent;
+      -webkit-text-stroke: 2px rgba(240,237,232,0.25);
+    }
+
+    .hero-headline .accent {
+      color: var(--ember);
+      -webkit-text-stroke: 0;
+    }
+
+    .hero-sub-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 2rem;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      opacity: 0;
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--ash);
+      max-width: 400px;
+    }
+
+    .hero-sub strong { color: #F0EDE8; }
+
+    .hero-stats {
+      display: flex;
+      gap: 3rem;
+      flex-shrink: 0;
+    }
+
+    .stat-num {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--ember);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    .stat-label {
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--smoke);
+      margin-top: 0.3rem;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      z-index: 3;
+    }
+
+    .hero-scroll-line {
+      width: 1px;
+      height: 56px;
+      background: linear-gradient(to bottom, var(--ember), transparent);
+      animation: drop 2s ease-in-out infinite;
+      transform-origin: top;
+    }
+
+    @keyframes drop {
+      0%   { transform: scaleY(0); opacity: 0; }
+      30%  { opacity: 1; }
+      100% { transform: scaleY(1); opacity: 0; }
+    }
+
+    /* ── DIVIDER ──────────────────────────────────────── */
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.08), transparent);
+    }
+
+    /* ── ABOUT ────────────────────────────────────────── */
+    .about {
+      padding: 10rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-bg-text {
+      position: absolute;
+      bottom: -3rem;
+      right: -2rem;
+      font-size: clamp(8rem, 20vw, 22rem);
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(232,93,4,0.07);
+      pointer-events: none;
+      user-select: none;
+      text-transform: uppercase;
+    }
+
+    .about-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .about-label::before {
+      content: '';
+      display: block;
+      width: 24px; height: 1px;
+      background: var(--ember);
+    }
+
+    .about-quote {
+      font-size: clamp(2rem, 4.5vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      max-width: 900px;
+    }
+
+    .about-quote em {
+      font-style: normal;
+      color: var(--ember);
+    }
+
+    .about-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      margin-top: 5rem;
+      padding-top: 3rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .about-p {
+      font-size: 1rem;
+      line-height: 1.85;
+      color: var(--ash);
+    }
+
+    /* ── PROGRAMS ─────────────────────────────────────── */
+    .programs {
+      padding: 4rem 0 8rem;
+    }
+
+    .programs-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 2rem;
+      margin-bottom: 4rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .section-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 20px; height: 1px;
+      background: var(--ember);
+    }
+
+    .programs-title {
+      font-size: clamp(2.5rem, 5vw, 5rem);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+    }
+
+    .programs-sub {
+      font-size: 0.95rem;
+      color: var(--ash);
+      max-width: 320px;
+      line-height: 1.75;
+    }
+
+    /* ── Full-row reveal ─────────────────────────────── */
+    .programs-list { display: flex; flex-direction: column; }
+
+    .program-row {
+      position: relative;
+      overflow: hidden;
+      height: 88px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      cursor: default;
+    }
+
+    .program-row:last-child { border-bottom: 1px solid rgba(255,255,255,0.07); }
+
+    /* Background image — always present, revealed on hover */
+    .program-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      opacity: 0;
+      transform: scale(1.06);
+      transition: opacity 0.55s ease, transform 0.7s ease;
+      pointer-events: none;
+    }
+
+    .program-bg img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    /* Gradient overlay on top of image */
+    .program-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to right,
+        rgba(8,8,8,0.88) 0%,
+        rgba(8,8,8,0.55) 60%,
+        rgba(8,8,8,0.2) 100%
+      );
+    }
+
+    /* Content layer */
+    .program-content {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 72px 1fr auto;
+      align-items: center;
+      gap: 2rem;
+      padding: 1.5rem 0;
+    }
+
+    /* Expanded desc — hidden by default */
+    .program-desc {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.65;
+      max-width: 560px;
+      margin-top: 0.6rem;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.3s ease 0.15s, transform 0.3s ease 0.15s;
+    }
+
+    .program-num {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: var(--ember);
+      opacity: 0.4;
+      align-self: start;
+      padding-top: 0.25rem;
+      transition: opacity 0.25s;
+    }
+
+    .program-info { align-self: center; }
+
+    .program-cat {
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 0.3rem;
+      transition: color 0.25s;
+    }
+
+    .program-title {
+      font-size: clamp(1.3rem, 2.4vw, 2.2rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      transition: color 0.25s;
+    }
+
+    .program-arrow {
+      font-size: 1.4rem;
+      color: var(--ember);
+      opacity: 0;
+      align-self: start;
+      padding-top: 0.15rem;
+      transform: translate(-6px, 4px);
+      transition: opacity 0.25s, transform 0.3s;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 768px) {
+      .program-arrow { display: none; }
+    }
+
+    /* ── CHALLENGE ────────────────────────────────────── */
+    .challenge {
+      padding: 10rem 0;
+      position: relative;
+      background: var(--iron);
+      overflow: hidden;
+    }
+
+    .challenge::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at 50% 50%, rgba(232,93,4,0.12) 0%, transparent 70%);
+    }
+
+    .challenge-inner {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .challenge-hammer {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .challenge-mark {
+      width: 72px; height: 72px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 20px rgba(232,93,4,0.6));
+      animation: floatMark 3s ease-in-out infinite;
+    }
+
+    @keyframes floatMark {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .challenge-quote {
+      font-size: clamp(2.5rem, 6vw, 7rem);
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+    }
+
+    .challenge-quote em {
+      font-style: normal;
+      color: var(--ember);
+    }
+
+    .challenge-cta {
+      display: inline-block;
+      margin-top: 4rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--ember);
+      border: 1px solid var(--ember);
+      padding: 1rem 2.5rem;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .challenge-cta:hover {
+      background: var(--ember);
+      color: var(--black);
+    }
+
+    /* ── TESTIMONIAL ──────────────────────────────────── */
+    .testimonial {
+      padding: 10rem 0;
+    }
+
+    .testimonial-inner {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .testimonial-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--ember);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .testimonial-label::before {
+      content: '';
+      display: block;
+      width: 20px; height: 1px;
+      background: var(--ember);
+    }
+
+    .testimonial-name {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      line-height: 1;
+    }
+
+    .testimonial-since {
+      font-size: 0.7rem;
+      color: var(--smoke);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 0.5rem;
+    }
+
+    .testimonial-quote {
+      font-size: clamp(1.5rem, 3vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+
+    .testimonial-quote::before {
+      content: '"';
+      color: var(--ember);
+      margin-right: 0.1em;
+    }
+
+    .testimonial-quote::after {
+      content: '"';
+      color: var(--ember);
+      margin-left: 0.1em;
+    }
+
+    /* ── VISIT ────────────────────────────────────────── */
+    .visit {
+      padding: 4rem 0 10rem;
+    }
+
+    .visit-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: rgba(255,255,255,0.06);
+    }
+
+    .visit-cell {
+      background: var(--iron);
+      padding: 4rem;
+    }
+
+    .visit-icon {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      display: block;
+      color: var(--ember);
+    }
+
+    .visit-cell-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 0.75rem;
+    }
+
+    .visit-cell-title {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.5rem;
+    }
+
+    .visit-cell p {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: var(--ash);
+    }
+
+    .visit-hours {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #F0EDE8;
+      margin-top: 1rem;
+      letter-spacing: -0.01em;
+    }
+
+    .visit-note {
+      font-size: 0.8rem;
+      color: var(--smoke);
+      margin-top: 0.4rem;
+      letter-spacing: 0.05em;
+    }
+
+    .visit-btns {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--black);
+      background: var(--ember);
+      padding: 0.85rem 1.75rem;
+      transition: background 0.2s;
+    }
+
+    .btn-primary:hover { background: var(--gold); }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--ash);
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 0.85rem 1.75rem;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-ghost:hover { border-color: var(--ember); color: var(--ember); }
+
+    /* ── FOOTER ───────────────────────────────────────── */
+    .footer {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 5rem 0 3rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .footer-mark-img {
+      width: 36px; height: 36px;
+      object-fit: contain;
+      opacity: 0.8;
+      filter: drop-shadow(0 0 8px rgba(232,93,4,0.4));
+    }
+
+    .footer-name {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--ash);
+    }
+
+    .footer-tagline {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--smoke);
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .footer-social a {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--smoke);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-social a:hover { color: var(--ember); }
+
+    .footer-copy {
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.15);
+      width: 100%;
+      padding-top: 3rem;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      margin-top: 3rem;
+    }
+
+    /* ── REVEAL ───────────────────────────────────────── */
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(32px);
+    }
+
+    /* ── RESPONSIVE ───────────────────────────────────── */
+    @media (max-width: 900px) {
+      .about-body { grid-template-columns: 1fr; gap: 2rem; }
+      .testimonial-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .visit-grid { grid-template-columns: 1fr; }
+      .programs-header { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 600px) {
+      .hero-sub-row { flex-direction: column; align-items: flex-start; }
+      .hero-stats { gap: 2rem; }
+      .visit-cell { padding: 2.5rem 1.5rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <header class="nav" id="nav">
+    <a href="#top" class="nav-logo">
+      <img src="/mjolnir/mjolnir-mark.png" alt="Mjölnir" class="nav-logo-img" />
+      <span class="nav-logo-text">Mjölnir</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#forja">La Forja</a></li>
+      <li><a href="#programas">Programas</a></li>
+      <li><a href="#reto">El Reto</a></li>
+      <li><a href="#visita">Visita</a></li>
+    </ul>
+    <a href="#unete" class="nav-cta">Únete</a>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <div class="hero-bg"></div>
+      <div class="hero-grid"></div>
+
+      <div class="container hero-inner">
+        <div class="hero-eyebrow" id="heroEyebrow">Forja del Norte · Est. MMXXIV</div>
+
+        <h1 class="hero-headline" id="heroHeadline">
+          FORJA<br />
+          TU <em>FUERZ<span class="accent">A</span></em>
+        </h1>
+
+        <div class="hero-sub-row" id="heroSub">
+          <p class="hero-sub">
+            En Mjölnir no entrenamos cuerpos débiles.<br />
+            <strong>Forjamos guerreros.</strong>
+          </p>
+          <div class="hero-stats">
+            <div>
+              <div class="stat-num">500+</div>
+              <div class="stat-label">Guerreros</div>
+            </div>
+            <div>
+              <div class="stat-num">16h</div>
+              <div class="stat-label">Diarias</div>
+            </div>
+            <div>
+              <div class="stat-num">1</div>
+              <div class="stat-label">Tribu</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-scroll" aria-hidden="true">
+        <div class="hero-scroll-line"></div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ABOUT -->
+    <section class="about" id="forja">
+      <div class="about-bg-text" aria-hidden="true">ACERO</div>
+      <div class="container">
+        <div class="about-label" data-reveal>La Forja</div>
+        <h2 class="about-quote" data-reveal data-reveal-delay="1">
+          Como el martillo de Thor,<br />
+          solo los <em>dignos</em> lo levantan.
+        </h2>
+        <div class="about-body">
+          <p class="about-p" data-reveal data-reveal-delay="2">
+            Mjölnir Gym nació para quienes buscan algo más que un gimnasio: una <strong style="color:#F0EDE8">forja</strong> donde
+            el sudor, el hierro y la disciplina te convierten en la mejor versión de ti mismo.
+          </p>
+          <p class="about-p" data-reveal data-reveal-delay="3">
+            Aquí no hay atajos. No hay excusas. Solo acero, sudor y voluntad.
+            Cada repetición es un martillazo. Cada sesión, una prueba de dignidad.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- PROGRAMS -->
+    <section class="programs" id="programas">
+      <div class="container">
+        <div class="programs-header">
+          <div>
+            <div class="section-label" data-reveal>Programas</div>
+            <h2 class="programs-title" data-reveal data-reveal-delay="1">El arsenal<br />del guerrero</h2>
+          </div>
+          <p class="programs-sub" data-reveal data-reveal-delay="2">
+            Cuatro caminos. Una sola meta: ser inquebrantable.
+          </p>
+        </div>
+
+        <div class="programs-list" id="programsList">
+
+          <div class="program-row">
+            <div class="program-bg">
+              <img src="/mjolnir/strength.jpg" alt="" />
+            </div>
+            <div class="program-content" data-reveal>
+              <span class="program-num">01</span>
+              <div class="program-info">
+                <div class="program-cat">Fuerza máxima</div>
+                <div class="program-title">Entrenamiento de Fuerza</div>
+                <div class="program-desc">Levanta como un Asgardiano. Programas de fuerza máxima con seguimiento personalizado y métricas reales.</div>
+              </div>
+              <span class="program-arrow">↗</span>
+            </div>
+          </div>
+
+          <div class="program-row">
+            <div class="program-bg">
+              <img src="/mjolnir/cross.jpg" alt="" />
+            </div>
+            <div class="program-content" data-reveal data-reveal-delay="1">
+              <span class="program-num">02</span>
+              <div class="program-info">
+                <div class="program-cat">Alta intensidad</div>
+                <div class="program-title">CrossTraining Vikingo</div>
+                <div class="program-desc">Circuitos de alta intensidad que ponen a prueba cuerpo y mente. Sin excusas.</div>
+              </div>
+              <span class="program-arrow">↗</span>
+            </div>
+          </div>
+
+          <div class="program-row">
+            <div class="program-bg">
+              <img src="/mjolnir/coach.jpg" alt="" />
+            </div>
+            <div class="program-content" data-reveal data-reveal-delay="2">
+              <span class="program-num">03</span>
+              <div class="program-info">
+                <div class="program-cat">Desarrollo personal</div>
+                <div class="program-title">Coaching 1 a 1</div>
+                <div class="program-desc">Un guía personal para tu travesía hacia el Valhalla del fitness. Resultados garantizados.</div>
+              </div>
+              <span class="program-arrow">↗</span>
+            </div>
+          </div>
+
+          <div class="program-row">
+            <div class="program-bg">
+              <img src="/mjolnir/nutrition.jpg" alt="" />
+            </div>
+            <div class="program-content" data-reveal data-reveal-delay="3">
+              <span class="program-num">04</span>
+              <div class="program-info">
+                <div class="program-cat">Alimentación</div>
+                <div class="program-title">Nutrición de Guerrero</div>
+                <div class="program-desc">Planes alimenticios que alimentan el músculo, no la excusa. Ciencia aplicada.</div>
+              </div>
+              <span class="program-arrow">↗</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CHALLENGE -->
+    <section class="challenge" id="reto">
+      <div class="container">
+        <div class="challenge-inner">
+          <div class="challenge-hammer" aria-hidden="true">
+            <img src="/mjolnir/mjolnir-mark.png" alt="" class="challenge-mark" />
+          </div>
+          <h2 class="challenge-quote" data-reveal>
+            No todos pueden<br />
+            levantar el martillo.<br />
+            <em>¿Eres digno?</em>
+          </h2>
+          <a href="#unete" class="challenge-cta" data-reveal data-reveal-delay="1">
+            Acepto el reto
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIAL -->
+    <section class="testimonial">
+      <div class="container">
+        <div class="testimonial-inner">
+          <div data-reveal>
+            <div class="testimonial-label">Guerrero</div>
+            <div class="testimonial-name">Erik</div>
+            <div class="testimonial-since">Miembro desde 2024</div>
+          </div>
+          <blockquote class="testimonial-quote" data-reveal data-reveal-delay="1">
+            Entré como mortal, salí como guerrero.
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- VISIT -->
+    <section class="visit" id="visita">
+      <div class="container">
+        <div class="section-label" data-reveal style="margin-bottom:3rem">Ubicación & Horarios</div>
+        <div class="visit-grid" id="unete">
+          <div class="visit-cell" data-reveal>
+            <span class="visit-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </span>
+            <div class="visit-cell-label">Horarios</div>
+            <h3 class="visit-cell-title">Las puertas<br />de la forja</h3>
+            <p>Abrimos las puertas de la forja:</p>
+            <div class="visit-hours">Lun – Sáb · 6:00 — 22:00</div>
+            <div class="visit-note">Domingo: descansa, guerrero.</div>
+          </div>
+          <div class="visit-cell" data-reveal data-reveal-delay="1">
+            <span class="visit-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            </span>
+            <div class="visit-cell-label">Únete</div>
+            <h3 class="visit-cell-title">Cruza<br />el umbral</h3>
+            <p>Escribe a la tribu. Te decimos cuándo presentarte ante el yunque.</p>
+            <div class="visit-btns">
+              <a href="https://wa.me/595982531706" target="_blank" rel="noopener" class="btn-primary">
+                WhatsApp
+              </a>
+              <a href="https://instagram.com/its_csdev" target="_blank" rel="noopener" class="btn-ghost">
+                Instagram
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-logo">
+          <img src="/mjolnir/mjolnir-mark.png" alt="Mjölnir" class="footer-mark-img" />
+          <div>
+            <div class="footer-name">Mjölnir Gym</div>
+            <div class="footer-tagline">No se pide permiso para ser fuerte</div>
+          </div>
+        </div>
+        <div class="footer-social">
+          <a href="#">Instagram</a>
+          <a href="#">WhatsApp</a>
+        </div>
+      </div>
+      <div class="footer-copy">
+        © 2026 Mjölnir Gym · Forjado en el norte
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+<script>
+  import gsap from 'gsap';
+  import ScrollTrigger from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Nav scroll state
+  const nav = document.getElementById('nav')!;
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  // Programs full-row reveal (GSAP-driven)
+  const rows = document.querySelectorAll<HTMLElement>('.program-row');
+  const COLLAPSED = 88;
+  const EXPANDED = 280;
+
+  rows.forEach(row => {
+    const content = row.querySelector<HTMLElement>('.program-content')!;
+    const bg = row.querySelector<HTMLElement>('.program-bg')!;
+    const desc = row.querySelector<HTMLElement>('.program-desc')!;
+    const num = row.querySelector<HTMLElement>('.program-num')!;
+    const arrow = row.querySelector<HTMLElement>('.program-arrow')!;
+    const cat = row.querySelector<HTMLElement>('.program-cat')!;
+
+    // overflow already set in CSS; GSAP animates height
+
+    row.addEventListener('mouseenter', () => {
+      gsap.to(row, { height: EXPANDED, duration: 0.55, ease: 'power3.out' });
+      gsap.to(bg, { opacity: 1, scale: 1, duration: 0.55, ease: 'power3.out' });
+      gsap.to(desc, { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out', delay: 0.15 });
+      gsap.to(arrow, { opacity: 1, x: 2, y: -2, duration: 0.25, ease: 'power2.out' });
+      gsap.to(cat, { color: '#E85D04', duration: 0.2 });
+      gsap.to(num, { opacity: 1, duration: 0.2 });
+    });
+
+    row.addEventListener('mouseleave', () => {
+      gsap.to(row, { height: COLLAPSED, duration: 0.4, ease: 'power3.inOut' });
+      gsap.to(bg, { opacity: 0, scale: 1.06, duration: 0.4, ease: 'power3.inOut' });
+      gsap.to(desc, { opacity: 0, y: 6, duration: 0.2, ease: 'power2.in' });
+      gsap.to(arrow, { opacity: 0, x: -6, y: 4, duration: 0.2 });
+      gsap.to(cat, { color: 'rgba(255,255,255,0.35)', duration: 0.2 });
+      gsap.to(num, { opacity: 0.4, duration: 0.2 });
+    });
+  });
+
+  // Hero entrance
+  const tl = gsap.timeline({ delay: 0.2 });
+  tl.to('#heroEyebrow', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' })
+    .to('#heroHeadline', { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }, '-=0.4')
+    .to('#heroSub',     { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.5');
+
+  // Scroll reveals
+  document.querySelectorAll('[data-reveal]').forEach((el) => {
+    const delay = parseFloat((el as HTMLElement).dataset.revealDelay || '0') * 0.15;
+    gsap.to(el, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      delay,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: el,
+        start: 'top 88%',
+        once: true,
+      },
+    });
+  });
+</script>
+</html>
