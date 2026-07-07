@@ -149,10 +149,10 @@
   }
 
   .hero-card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.14);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
     color: #F7F6F1;
     border-radius: 16px;
     padding: 2rem 1.75rem;
@@ -161,6 +161,23 @@
     align-self: center;
     will-change: transform;
     transform-style: preserve-3d;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+    transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+  }
+  .hero-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 60%);
+    pointer-events: none;
+  }
+  .hero-card:hover {
+    background: rgba(255,255,255,0.09);
+    border-color: rgba(255,255,255,0.22);
+    box-shadow: 0 12px 48px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.15);
   }
 
   .hero-card-row { display: flex; flex-direction: column; gap: 0.15rem; margin-bottom: 1.25rem; }

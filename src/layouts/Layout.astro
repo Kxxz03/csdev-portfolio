@@ -93,6 +93,18 @@ const {
       el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
     });
 
+    /* cursor detrás del vidrio en hero-card */
+    document.querySelectorAll('.hero-card').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        dot.style.zIndex = '0';
+        ring.style.zIndex = '0';
+      });
+      el.addEventListener('mouseleave', () => {
+        dot.style.zIndex = '9999';
+        ring.style.zIndex = '9998';
+      });
+    });
+
     /* ── Scroll reveal ── */
     document.querySelectorAll('[data-reveal]').forEach((el, i) => {
       const delay = Number(el.getAttribute('data-reveal-delay') || 0) * 0.12;

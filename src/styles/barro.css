@@ -36,6 +36,11 @@
   --muted-foreground: #8a8a8a;
   --border: #2a2a2a;
   --radius: 0px;
+  /* aliases usados en páginas */
+  --black: #0D0D0D;
+  --orange: #FF4D00;
+  --cream: #F0EDE6;
+  --muted: #8a8a8a;
 }
 
 @layer base {
