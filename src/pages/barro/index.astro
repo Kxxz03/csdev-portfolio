@@ -519,5 +519,39 @@ const tickerItems = ['STOCK LIVE', '12 PILOTOS EN PISTA', 'ENVÍOS 24H', '3 KITS
         setTimeout(() => glitch.classList.remove('is-glitching'), 1200);
       }
     }, 800);
+
+    // Counter animation on hero stats
+    function animCount(el: HTMLElement, target: number, suffix: string, dur = 1200) {
+      let start: number | null = null;
+      const run = (ts: number) => {
+        if (!start) start = ts;
+        const p = Math.min((ts - start) / dur, 1);
+        const ease = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(ease * target) + suffix;
+        if (p < 1) requestAnimationFrame(run);
+      };
+      requestAnimationFrame(run);
+    }
+
+    const heroStats = document.querySelector('.hero-stats');
+    if (heroStats) {
+      const nums = heroStats.querySelectorAll<HTMLElement>('.stat-num');
+      const data = [
+        { el: nums[0], target: 240, suffix: '+' },
+        { el: nums[1], target: 3,   suffix: 'h' },
+        { el: nums[2], target: 12,  suffix: '' },
+        { el: nums[3], target: 4,   suffix: ' marcas' },
+      ];
+      new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
+          data.forEach(({ el, target, suffix }) => el && animCount(el, target, suffix));
+        }
+      }, { threshold: 0.4 }).observe(heroStats);
+    }
+
+    // Product cards stagger delay on reveal
+    document.querySelectorAll<HTMLElement>('.products-section [data-reveal]').forEach((el, i) => {
+      if (!el.dataset.revealDelay) el.dataset.revealDelay = String(i % 4);
+    });
   </script>
 </BarroLayout>

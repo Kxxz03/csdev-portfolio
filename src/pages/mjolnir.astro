@@ -79,23 +79,7 @@
       color: #F0EDE8;
     }
 
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-      list-style: none;
-    }
-
-    .nav-links a {
-      font-size: 0.7rem;
-      font-weight: 500;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--smoke);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover { color: var(--ember); }
+    .nav-links { display: none; }
 
     .nav-cta {
       font-size: 0.7rem;
@@ -115,13 +99,16 @@
       .nav-links { display: none; }
     }
 
+    @keyframes livePulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(232,93,4,0.7); }
+      50% { opacity: 0.8; box-shadow: 0 0 0 5px rgba(232,93,4,0); }
+    }
+
     /* ── HERO ─────────────────────────────────────────── */
     .hero {
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding-bottom: 6rem;
+      display: grid;
+      grid-template-rows: 1fr auto;
       position: relative;
       overflow: hidden;
     }
@@ -130,31 +117,128 @@
       position: absolute;
       inset: 0;
       background:
-        linear-gradient(to bottom, rgba(8,8,8,0.75) 0%, rgba(8,8,8,0.4) 40%, rgba(8,8,8,0.9) 85%, var(--black) 100%),
-        radial-gradient(ellipse 80% 60% at 50% 110%, rgba(232,93,4,0.28) 0%, transparent 70%),
+        linear-gradient(to bottom, rgba(8,8,8,0.6) 0%, rgba(8,8,8,0.25) 45%, rgba(8,8,8,0.85) 80%, var(--black) 100%),
+        linear-gradient(to right, rgba(8,8,8,0.7) 0%, transparent 55%),
+        radial-gradient(ellipse 80% 60% at 60% 80%, rgba(232,93,4,0.22) 0%, transparent 65%),
         url('/mjolnir/hero-forge.jpg') center/cover no-repeat;
+    }
+
+    .hero-bg-watermark {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: -2rem;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .hero-bg-watermark-text {
+      font-size: clamp(12rem, 28vw, 32rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.06em;
+      text-transform: uppercase;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(232,93,4,0.08);
+      user-select: none;
+      white-space: nowrap;
+      margin-right: -4rem;
     }
 
     .hero-grid {
       position: absolute;
       inset: 0;
       background-image:
-        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-      background-size: 80px 80px;
-      mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%);
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: linear-gradient(to bottom, transparent 5%, black 25%, black 75%, transparent 100%);
+      z-index: 1;
     }
 
+    /* ── CORNER DECORATIONS ───────────────────────────── */
+    .hero-corner {
+      position: absolute;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .hero-corner-tl {
+      top: 5rem; left: 2rem;
+    }
+
+    .hero-corner-tr {
+      top: 5rem; right: 2rem;
+      text-align: right;
+    }
+
+    .hero-corner-br {
+      bottom: 5rem; right: 2rem;
+      text-align: right;
+    }
+
+    .corner-crosshair {
+      width: 20px; height: 20px;
+      position: relative;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+    }
+
+    .corner-crosshair::before, .corner-crosshair::after {
+      content: '';
+      position: absolute;
+      background: var(--ember);
+      opacity: 0.6;
+    }
+
+    .corner-crosshair::before { width: 1px; height: 100%; left: 50%; }
+    .corner-crosshair::after  { height: 1px; width: 100%; top: 50%; }
+
+    .corner-label {
+      display: block;
+      font-size: 0.55rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.2);
+      line-height: 1.8;
+    }
+
+    /* ── VERTICAL TEXT ────────────────────────────────── */
+    .hero-vert-text {
+      position: absolute;
+      right: 2rem;
+      top: 50%;
+      transform: translateY(-50%) rotate(90deg);
+      transform-origin: center;
+      z-index: 3;
+      white-space: nowrap;
+      font-size: 0.55rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.15);
+      pointer-events: none;
+    }
+
+    /* ── HERO INNER ──────────────────────────────────── */
     .hero-inner {
       position: relative;
-      z-index: 2;
+      z-index: 4;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-top: 5rem;
+      padding-bottom: 3rem;
+      flex: 1;
     }
 
     .hero-eyebrow {
       display: inline-flex;
       align-items: center;
       gap: 0.75rem;
-      margin-bottom: 2rem;
+      margin-bottom: 1.75rem;
       font-size: 0.65rem;
       font-weight: 600;
       letter-spacing: 0.35em;
@@ -171,41 +255,84 @@
     }
 
     .hero-headline {
-      font-size: clamp(5rem, 15vw, 17rem);
+      font-size: clamp(3.5rem, 9.5vw, 12rem);
       font-weight: 900;
-      line-height: 0.88;
-      letter-spacing: -0.03em;
+      line-height: 1;
+      letter-spacing: -0.04em;
       text-transform: uppercase;
-      opacity: 0;
+      white-space: nowrap;
     }
 
     .hero-headline em {
       font-style: normal;
-      color: transparent;
-      -webkit-text-stroke: 2px rgba(240,237,232,0.25);
+      color: var(--ember);
     }
 
     .hero-headline .accent {
-      color: var(--ember);
-      -webkit-text-stroke: 0;
+      color: var(--gold);
     }
 
+    /* ── HERO CTA (NEW) ──────────────────────────────── */
+    .hero-cta-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 2.75rem;
+      opacity: 0;
+      flex-wrap: wrap;
+    }
+
+    .hero-btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--black);
+      background: var(--ember);
+      padding: 1rem 2rem;
+      transition: background 0.2s, transform 0.25s cubic-bezier(0.23,1,0.32,1);
+    }
+
+    .hero-btn-primary:hover { background: var(--gold); }
+
+    .hero-btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: rgba(240,237,232,0.65);
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 1rem 1.75rem;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .hero-btn-ghost:hover { border-color: var(--ember); color: var(--ember); }
+
+    /* ── HERO SUB ROW ─────────────────────────────────── */
     .hero-sub-row {
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
       gap: 2rem;
-      margin-top: 3rem;
+      margin-top: 3.5rem;
       padding-top: 2rem;
       border-top: 1px solid rgba(255,255,255,0.06);
       opacity: 0;
     }
 
     .hero-sub {
-      font-size: 1.05rem;
+      font-size: 1rem;
       line-height: 1.7;
       color: var(--ash);
-      max-width: 400px;
+      max-width: 360px;
     }
 
     .hero-sub strong { color: #F0EDE8; }
@@ -225,7 +352,7 @@
     }
 
     .stat-label {
-      font-size: 0.62rem;
+      font-size: 0.6rem;
       font-weight: 500;
       letter-spacing: 0.18em;
       text-transform: uppercase;
@@ -233,22 +360,127 @@
       margin-top: 0.3rem;
     }
 
+    /* ── NEXT CLASS BADGE ─────────────────────────────── */
+    .hero-next-class {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 2.5rem;
+      z-index: 4;
+      background: rgba(8,8,8,0.75);
+      border: 1px solid rgba(232,93,4,0.3);
+      backdrop-filter: blur(12px);
+      padding: 1rem 1.25rem;
+      min-width: 180px;
+      opacity: 0;
+    }
+
+    .next-class-label {
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 0.4rem;
+    }
+
+    .next-class-time {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      color: #F0EDE8;
+    }
+
+    .next-class-name {
+      font-size: 0.65rem;
+      color: var(--smoke);
+      margin-top: 0.35rem;
+      letter-spacing: 0.08em;
+    }
+
+    .next-class-spots {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 0.75rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ember);
+    }
+
+    .spots-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--ember);
+      animation: livePulse 1.5s ease-in-out infinite;
+    }
+
+    /* ── HERO MARQUEE STRIP ───────────────────────────── */
+    .hero-marquee-strip {
+      position: relative;
+      z-index: 4;
+      overflow: hidden;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 0.6rem 0;
+      background: rgba(8,8,8,0.6);
+      backdrop-filter: blur(4px);
+    }
+
+    .hero-marquee-track {
+      display: flex;
+      width: max-content;
+      animation: heroMQ 20s linear infinite;
+      gap: 0;
+    }
+
+    .hero-marquee-item {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      padding: 0 2.5rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(240,237,232,0.3);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .hero-marquee-sep {
+      color: var(--ember);
+      opacity: 0.5;
+    }
+
+    @keyframes heroMQ {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
     .hero-scroll {
       position: absolute;
       bottom: 2.5rem;
-      left: 50%;
-      transform: translateX(-50%);
+      right: 2rem;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 0.5rem;
-      z-index: 3;
+      z-index: 5;
+      opacity: 0;
+    }
+
+    .hero-scroll-label {
+      font-size: 0.55rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.2);
+      writing-mode: vertical-rl;
     }
 
     .hero-scroll-line {
       width: 1px;
-      height: 56px;
-      background: linear-gradient(to bottom, var(--ember), transparent);
+      height: 48px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent);
       animation: drop 2s ease-in-out infinite;
       transform-origin: top;
     }
@@ -802,10 +1034,334 @@
       margin-top: 3rem;
     }
 
+    /* ── GRAIN OVERLAY ───────────────────────────────── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    }
+
+    /* ── COUNTER ──────────────────────────────────────── */
+    .stat-num[data-count] { transition: none; }
+
+    /* ── MAGNETIC ─────────────────────────────────────── */
+    .nav-cta, .challenge-cta, .btn-primary {
+      transition: background 0.2s, color 0.2s, transform 0.25s cubic-bezier(0.23,1,0.32,1);
+    }
+
     /* ── REVEAL ───────────────────────────────────────── */
     [data-reveal] {
       opacity: 0;
       transform: translateY(32px);
+    }
+
+    /* ── AGENDA ──────────────────────────────────────── */
+    .agenda {
+      padding: 10rem 0 6rem;
+      background: var(--iron);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .agenda::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(232,93,4,0.07) 0%, transparent 70%);
+    }
+
+    .agenda-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 3rem;
+      margin-bottom: 4rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .agenda-title {
+      font-size: clamp(2.2rem, 4vw, 4rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+
+    .agenda-title em {
+      font-style: normal;
+      color: var(--ember);
+    }
+
+    .agenda-sub {
+      max-width: 320px;
+      font-size: 0.92rem;
+      line-height: 1.7;
+      color: var(--ash);
+    }
+
+    .agenda-ui {
+      position: relative;
+      background: rgba(8,8,8,0.5);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    /* Day tabs */
+    .agenda-days {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .agenda-day {
+      padding: 1.5rem 1rem 1.25rem;
+      text-align: center;
+      cursor: pointer;
+      border-right: 1px solid rgba(255,255,255,0.04);
+      transition: background 0.2s;
+      user-select: none;
+      position: relative;
+    }
+
+    .agenda-day:last-child { border-right: none; }
+    .agenda-day:hover { background: rgba(255,255,255,0.02); }
+
+    .agenda-day.active {
+      background: rgba(232,93,4,0.07);
+    }
+
+    .agenda-day.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--ember);
+    }
+
+    .day-name {
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(240,237,232,0.25);
+      margin-bottom: 0.5rem;
+    }
+
+    .agenda-day.active .day-name { color: var(--ember); }
+
+    .day-num {
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      color: rgba(240,237,232,0.2);
+    }
+
+    .agenda-day.active .day-num { color: #F0EDE8; }
+    .agenda-day.today .day-num { color: var(--ember); }
+
+    .day-today-badge {
+      font-size: 0.45rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-top: 0.3rem;
+    }
+
+    /* Schedule grid */
+    .agenda-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1px;
+      background: rgba(255,255,255,0.03);
+      min-height: 300px;
+    }
+
+    .agenda-slot {
+      background: var(--iron);
+      padding: 2rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      transition: background 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .agenda-slot::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 2px; height: 100%;
+      background: transparent;
+      transition: background 0.2s;
+    }
+
+    .agenda-slot.available:hover { background: rgba(232,93,4,0.05); cursor: pointer; }
+    .agenda-slot.available:hover::before { background: var(--ember); }
+    .agenda-slot.full { opacity: 0.35; cursor: not-allowed; }
+    .agenda-slot.booked { background: rgba(232,93,4,0.07); }
+    .agenda-slot.booked::before { background: var(--ember); }
+
+    .slot-time {
+      font-size: 2.5rem;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: #F0EDE8;
+      line-height: 1;
+      margin-bottom: 0.6rem;
+    }
+
+    .agenda-slot.full .slot-time { color: rgba(240,237,232,0.3); }
+
+    .slot-name {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 0.4rem;
+    }
+
+    .agenda-slot.full .slot-name { color: var(--smoke); }
+
+    .slot-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(240,237,232,0.3);
+      margin-bottom: 1.25rem;
+    }
+
+    .slot-spots {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .spots-bar {
+      display: flex;
+      gap: 3px;
+    }
+
+    .spot-pip {
+      width: 5px; height: 5px;
+      border-radius: 1px;
+      background: rgba(255,255,255,0.15);
+    }
+
+    .spot-pip.taken { background: var(--ember); }
+
+    .slot-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--black);
+      background: var(--ember);
+      border: none;
+      padding: 0.6rem 1.2rem;
+      cursor: pointer;
+      transition: background 0.15s;
+      align-self: flex-start;
+      margin-top: auto;
+    }
+
+    .slot-btn:hover { background: var(--gold); }
+
+    .slot-full-tag {
+      font-size: 0.55rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(240,237,232,0.2);
+      margin-top: auto;
+      align-self: flex-start;
+    }
+
+    .slot-booked-tag {
+      font-size: 0.55rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-top: auto;
+      align-self: flex-start;
+    }
+
+    /* Confirm toast */
+    .agenda-confirm {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: rgba(232,93,4,0.95);
+      padding: 1rem 1.5rem;
+      z-index: 10;
+    }
+
+    .confirm-inner {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .confirm-icon {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--black);
+      flex-shrink: 0;
+    }
+
+    .confirm-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .confirm-text strong {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--black);
+    }
+
+    .confirm-text span {
+      font-size: 0.65rem;
+      color: rgba(8,8,8,0.65);
+    }
+
+    .confirm-close {
+      background: transparent;
+      border: 1px solid rgba(8,8,8,0.25);
+      color: var(--black);
+      width: 28px; height: 28px;
+      display: grid;
+      place-items: center;
+      font-size: 0.7rem;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 768px) {
+      .agenda-header { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+      .agenda-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 500px) {
+      .agenda-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── WORD SPLIT ──────────────────────────────────── */
+    .hero-word {
+      display: inline-block;
+      opacity: 0;
     }
 
     /* ── RESPONSIVE ───────────────────────────────────── */
@@ -821,6 +1377,44 @@
       .hero-stats { gap: 2rem; }
       .visit-cell { padding: 2.5rem 1.5rem; }
     }
+  </style>
+
+  <style is:global>
+    /* Agenda dynamic elements (innerHTML — can't use scoped CSS) */
+    .agenda-day { padding: 1.5rem 1rem 1.25rem; text-align: center; cursor: pointer; border-right: 1px solid rgba(255,255,255,0.04); transition: background 0.2s; user-select: none; position: relative; }
+    .agenda-day:last-child { border-right: none; }
+    .agenda-day:hover { background: rgba(255,255,255,0.02); }
+    .agenda-day.active { background: rgba(232,93,4,0.07); }
+    .agenda-day.active::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:#E85D04; }
+    .day-name { font-size:0.55rem; font-weight:700; letter-spacing:0.3em; text-transform:uppercase; color:rgba(240,237,232,0.25); margin-bottom:0.5rem; font-family:'Space Grotesk',sans-serif; }
+    .agenda-day.active .day-name { color:#E85D04; }
+    .day-num { font-size:2rem; font-weight:900; letter-spacing:-0.04em; line-height:1; color:rgba(240,237,232,0.2); font-family:'Space Grotesk',sans-serif; }
+    .agenda-day.active .day-num { color:#F0EDE8; }
+    .agenda-day.today .day-num { color:#E85D04; }
+    .day-today-badge { font-size:0.45rem; letter-spacing:0.25em; text-transform:uppercase; color:#E85D04; margin-top:0.3rem; font-family:'Space Grotesk',sans-serif; }
+
+    .agenda-slot { background:#111111; padding:2rem 1.75rem; display:flex; flex-direction:column; transition:background 0.2s; position:relative; overflow:hidden; }
+    .agenda-slot::before { content:''; position:absolute; top:0; left:0; width:2px; height:100%; background:transparent; transition:background 0.2s; }
+    .agenda-slot.available:hover { background:rgba(232,93,4,0.05); cursor:pointer; }
+    .agenda-slot.available:hover::before { background:#E85D04; }
+    .agenda-slot.full { opacity:0.35; cursor:not-allowed; }
+    .agenda-slot.booked { background:rgba(232,93,4,0.07); }
+    .agenda-slot.booked::before { background:#E85D04; }
+
+    .slot-time { font-size:2.5rem; font-weight:900; letter-spacing:-0.04em; color:#F0EDE8; line-height:1; margin-bottom:0.6rem; font-family:'Space Grotesk',sans-serif; }
+    .agenda-slot.full .slot-time { color:rgba(240,237,232,0.25); }
+    .slot-name { font-size:0.7rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:#E85D04; margin-bottom:0.4rem; font-family:'Space Grotesk',sans-serif; }
+    .agenda-slot.full .slot-name { color:rgba(255,255,255,0.18); }
+    .slot-meta { display:flex; align-items:center; gap:0.5rem; font-size:0.6rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(240,237,232,0.3); margin-bottom:1.25rem; font-family:'Space Grotesk',sans-serif; }
+
+    .spots-bar { display:flex; gap:3px; margin-bottom:1rem; }
+    .spot-pip { width:5px; height:5px; border-radius:1px; background:rgba(255,255,255,0.12); }
+    .spot-pip.taken { background:#E85D04; }
+
+    .slot-btn { display:inline-flex; align-items:center; gap:0.5rem; font-size:0.6rem; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#080808; background:#E85D04; border:none; padding:0.6rem 1.2rem; cursor:pointer; transition:background 0.15s; align-self:flex-start; margin-top:auto; font-family:'Space Grotesk',sans-serif; }
+    .slot-btn:hover { background:#FFB703; }
+    .slot-full-tag { font-size:0.55rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(240,237,232,0.2); margin-top:auto; align-self:flex-start; font-family:'Space Grotesk',sans-serif; }
+    .slot-booked-tag { font-size:0.55rem; letter-spacing:0.22em; text-transform:uppercase; color:#E85D04; margin-top:auto; align-self:flex-start; font-family:'Space Grotesk',sans-serif; }
   </style>
 </head>
 
@@ -846,15 +1440,60 @@
     <!-- HERO -->
     <section class="hero" id="top">
       <div class="hero-bg"></div>
+      <div class="hero-bg-watermark" aria-hidden="true">
+        <span class="hero-bg-watermark-text">M</span>
+      </div>
       <div class="hero-grid"></div>
 
+
+      <!-- Corner decorations -->
+      <div class="hero-corner hero-corner-tl" aria-hidden="true">
+        <div class="corner-crosshair"></div>
+        <span class="corner-label">48.312°N</span>
+        <span class="corner-label">COORD.A</span>
+      </div>
+      <div class="hero-corner hero-corner-tr" aria-hidden="true">
+        <span class="corner-label">REV 2.4</span>
+        <span class="corner-label">UNIT / MJL-01</span>
+      </div>
+
+      <!-- Vertical side text -->
+      <div class="hero-vert-text" aria-hidden="true">FORJA DEL NORTE · ACERO · VOLUNTAD · TRIBU</div>
+
+      <!-- Next class badge -->
+      <div class="hero-next-class" id="heroNextClass" style="opacity:0; transform:translateX(16px)">
+        <div class="next-class-label">Próxima clase</div>
+        <div class="next-class-time">18:00</div>
+        <div class="next-class-name">CrossTraining Vikingo</div>
+        <div class="next-class-spots">
+          <span class="spots-dot"></span>
+          4 lugares disponibles
+        </div>
+      </div>
+
+      <!-- Scroll indicator -->
+      <div class="hero-scroll" id="heroScrollInd" aria-hidden="true">
+        <span class="hero-scroll-label">Scroll</span>
+        <div class="hero-scroll-line"></div>
+      </div>
+
+      <!-- Main content -->
       <div class="container hero-inner">
         <div class="hero-eyebrow" id="heroEyebrow">Forja del Norte · Est. MMXXIV</div>
 
         <h1 class="hero-headline" id="heroHeadline">
-          FORJA<br />
-          TU <em>FUERZ<span class="accent">A</span></em>
+          <span class="hero-word">FORJA&nbsp;</span><em><span class="hero-word">FUERZ<span class="accent">A</span></span></em>
         </h1>
+
+        <div class="hero-cta-row" id="heroCta">
+          <a href="#unete" class="hero-btn-primary nav-cta">
+            Únete ahora
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="#programas" class="hero-btn-ghost">
+            Ver programas
+          </a>
+        </div>
 
         <div class="hero-sub-row" id="heroSub">
           <p class="hero-sub">
@@ -871,15 +1510,22 @@
               <div class="stat-label">Diarias</div>
             </div>
             <div>
-              <div class="stat-num">1</div>
-              <div class="stat-label">Tribu</div>
+              <div class="stat-num">4</div>
+              <div class="stat-label">Programas</div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="hero-scroll" aria-hidden="true">
-        <div class="hero-scroll-line"></div>
+      <!-- Bottom marquee strip -->
+      <div class="hero-marquee-strip">
+        <div class="hero-marquee-track">
+          {['FUERZA MÁXIMA', 'CROSSTRAINING VIKINGO', 'COACHING 1 A 1', 'NUTRICIÓN DE GUERRERO', 'SIN EXCUSAS', 'FORJA TU FUERZA', 'FUERZA MÁXIMA', 'CROSSTRAINING VIKINGO', 'COACHING 1 A 1', 'NUTRICIÓN DE GUERRERO', 'SIN EXCUSAS', 'FORJA TU FUERZA'].map((item, i) => (
+            <span class="hero-marquee-item">
+              {item}<span class="hero-marquee-sep">✦</span>
+            </span>
+          ))}
+        </div>
       </div>
     </section>
 
@@ -1007,6 +1653,36 @@
       </div>
     </section>
 
+    <!-- AGENDA -->
+    <section class="agenda" id="agenda">
+      <div class="container">
+        <div class="agenda-header" data-reveal>
+          <div>
+            <div class="section-label">Reservas</div>
+            <h2 class="agenda-title">Si sos miembro,<br /><em>agendá tu sesión.</em></h2>
+          </div>
+          <p class="agenda-sub">Turnos disponibles esta semana. Seleccioná el horario y confirmá tu lugar en la tribu.</p>
+        </div>
+        <div class="agenda-ui" data-reveal data-reveal-delay="1">
+          <!-- Day tabs -->
+          <div class="agenda-days" id="agendaDays"></div>
+          <!-- Schedule grid -->
+          <div class="agenda-grid" id="agendaGrid"></div>
+          <!-- Confirm panel -->
+          <div class="agenda-confirm" id="agendaConfirm" style="display:none">
+            <div class="confirm-inner">
+              <div class="confirm-icon">✓</div>
+              <div class="confirm-text">
+                <strong id="confirmTitle">Lugar reservado</strong>
+                <span id="confirmDetail"></span>
+              </div>
+              <button class="confirm-close" id="confirmClose">✕</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- TESTIMONIAL -->
     <section class="testimonial">
       <div class="container">
@@ -1129,13 +1805,201 @@
     });
   });
 
-  // Hero entrance
-  const tl = gsap.timeline({ delay: 0.2 });
-  tl.to('#heroEyebrow', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' })
-    .to('#heroHeadline', { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }, '-=0.4')
-    .to('#heroSub',     { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.5');
+  // Set initial positions via JS (not CSS) to avoid layout shift on load
+  gsap.set('#heroEyebrow', { y: 14 });
+  gsap.set('.hero-word',   { y: 40, skewY: 4 });
+  gsap.set('#heroCta',     { y: 20 });
+  gsap.set('#heroSub',     { y: 16 });
+  gsap.set('#heroNextClass', { x: 16 });
 
-  // Scroll reveals
+  // Hero entrance
+  const tl = gsap.timeline({ delay: 0.3 });
+  tl.to('#heroEyebrow',   { opacity: 1, y: 0,  duration: 0.6, ease: 'power3.out', clearProps: 'transform' })
+    .to('.hero-word', {
+      opacity: 1, y: 0, skewY: 0,
+      duration: 0.9, ease: 'power3.out',
+      stagger: 0.09,
+      clearProps: 'transform'
+    }, '-=0.3')
+    .to('#heroCta',       { opacity: 1, y: 0,  duration: 0.6,  ease: 'power3.out', clearProps: 'transform' }, '-=0.45')
+    .to('#heroSub',       { opacity: 1, y: 0,  duration: 0.65, ease: 'power3.out', clearProps: 'transform' }, '-=0.45')
+    .to('#heroNextClass', { opacity: 1, x: 0,  duration: 0.55, ease: 'power3.out', clearProps: 'transform' }, '-=0.5')
+    .to('#heroScrollInd', { opacity: 1,         duration: 0.4,  ease: 'power2.out' }, '-=0.3');
+
+  // ── Parallax hero background ──────────────────────────
+  const heroBg = document.querySelector<HTMLElement>('.hero-bg');
+  if (heroBg) {
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY * 0.35;
+      heroBg.style.transform = `translateY(${y}px)`;
+    }, { passive: true });
+  }
+
+  // ── Counter animation on stats ────────────────────────
+  function animCount(el: HTMLElement, target: number, suffix: string, duration = 1400) {
+    let start: number | null = null;
+    const step = (ts: number) => {
+      if (!start) start = ts;
+      const progress = Math.min((ts - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(ease * target) + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  const counterData: { selector: string; target: number; suffix: string }[] = [
+    { selector: '.hero-stats .stat-num:nth-child(1)', target: 500, suffix: '+' },
+    { selector: '.hero-stats .stat-num:nth-child(2)', target: 16, suffix: 'h' },
+  ];
+
+  const statsSection = document.querySelector('.hero-stats');
+  if (statsSection) {
+    const statNums = statsSection.querySelectorAll<HTMLElement>('.stat-num');
+    const pairs = [
+      { el: statNums[0], target: 500, suffix: '+' },
+      { el: statNums[1], target: 16,  suffix: 'h' },
+    ];
+    new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        pairs.forEach(({ el, target, suffix }) => el && animCount(el, target, suffix));
+      }
+    }, { threshold: 0.5 }).observe(statsSection);
+  }
+
+  // ── Magnetic buttons ──────────────────────────────────
+  document.querySelectorAll<HTMLElement>('.nav-cta, .challenge-cta').forEach(btn => {
+    btn.addEventListener('mousemove', (e: MouseEvent) => {
+      const r = btn.getBoundingClientRect();
+      const x = (e.clientX - r.left - r.width / 2) * 0.35;
+      const y = (e.clientY - r.top - r.height / 2) * 0.35;
+      btn.style.transform = `translate(${x}px, ${y}px)`;
+    });
+    btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+  });
+
+  // ── Agenda dinámica ──────────────────────────────────
+  const CLASSES = [
+    { time: '06:00', name: 'Entrenamiento de Fuerza',  coach: 'Coach Marcos',    cap: 12 },
+    { time: '08:00', name: 'CrossTraining Vikingo',     coach: 'Coach Valentina', cap: 16 },
+    { time: '10:00', name: 'Coaching 1 a 1',            coach: 'Coach Marcos',    cap: 4  },
+    { time: '12:00', name: 'Entrenamiento de Fuerza',  coach: 'Coach Rodrigo',   cap: 12 },
+    { time: '17:00', name: 'CrossTraining Vikingo',     coach: 'Coach Valentina', cap: 16 },
+    { time: '19:00', name: 'Nutrición de Guerrero',     coach: 'Coach Luisa',     cap: 20 },
+    { time: '21:00', name: 'Entrenamiento de Fuerza',  coach: 'Coach Rodrigo',   cap: 12 },
+  ];
+
+  // Seed taken spots per slot (deterministic per day+slot index)
+  function takenSpots(dayIdx: number, slotIdx: number, cap: number): number {
+    const seed = (dayIdx * 7 + slotIdx * 3 + 11) % 13;
+    return Math.min(cap, Math.floor((seed / 13) * cap * 1.1));
+  }
+
+  const today = new Date();
+  const dayOfWeek = today.getDay(); // 0=Sun
+  const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+  const weekDays = Array.from({ length: 6 }, (_, i) => {
+    const d = new Date(today);
+    d.setDate(today.getDate() + mondayOffset + i);
+    return d;
+  });
+
+  const DAY_NAMES = ['LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SÁB'];
+  let activeDay = 0;
+  // Default to today's weekday if in range
+  const todayWeekIdx = today.getDay() === 0 ? -1 : today.getDay() - 1;
+  if (todayWeekIdx >= 0 && todayWeekIdx < 6) activeDay = todayWeekIdx;
+
+  const bookedSlots = new Set<string>();
+
+  function renderDays() {
+    const container = document.getElementById('agendaDays')!;
+    container.innerHTML = weekDays.map((d, i) => {
+      const isToday = d.toDateString() === today.toDateString();
+      return `
+        <div class="agenda-day${i === activeDay ? ' active' : ''}${isToday ? ' today' : ''}" data-day="${i}">
+          <div class="day-name">${DAY_NAMES[i]}</div>
+          <div class="day-num">${d.getDate()}</div>
+          ${isToday ? '<div class="day-today-badge">HOY</div>' : ''}
+        </div>`;
+    }).join('');
+    container.querySelectorAll('.agenda-day').forEach(el => {
+      el.addEventListener('click', () => {
+        activeDay = Number((el as HTMLElement).dataset.day);
+        renderDays();
+        renderGrid();
+      });
+    });
+  }
+
+  function renderGrid() {
+    const container = document.getElementById('agendaGrid')!;
+    const dayDate = weekDays[activeDay];
+    const isPast = dayDate < new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+    container.innerHTML = CLASSES.map((cls, i) => {
+      const key = `${activeDay}-${i}`;
+      const taken = bookedSlots.has(key) ? cls.cap : takenSpots(activeDay, i, cls.cap);
+      const avail = cls.cap - taken;
+      const isFull = avail <= 0;
+      const isBooked = bookedSlots.has(key);
+      const pips = Array.from({ length: Math.min(cls.cap, 8) }, (_, p) =>
+        `<span class="spot-pip${p < Math.round(taken * Math.min(cls.cap,8) / cls.cap) ? ' taken' : ''}"></span>`
+      ).join('');
+
+      let action = '';
+      if (isPast) {
+        action = `<span class="slot-full-tag">Sesión pasada</span>`;
+      } else if (isBooked) {
+        action = `<span class="slot-booked-tag">✓ Reservado</span>`;
+      } else if (isFull) {
+        action = `<span class="slot-full-tag">Completo</span>`;
+      } else {
+        action = `<button class="slot-btn" data-key="${key}" data-time="${cls.time}" data-name="${cls.name}">Reservar lugar</button>`;
+      }
+
+      return `
+        <div class="agenda-slot${isFull && !isBooked ? ' full' : ''}${isBooked ? ' booked' : ''} ${!isFull && !isPast ? 'available' : ''}">
+          <div class="slot-time">${cls.time}</div>
+          <div class="slot-name">${cls.name}</div>
+          <div class="slot-meta">
+            <span>${cls.coach}</span>
+            <span>·</span>
+            <span>${avail > 0 ? avail + ' lugares' : 'lleno'}</span>
+          </div>
+          <div class="spots-bar" style="margin-bottom:0">${pips}</div>
+          ${action}
+        </div>`;
+    }).join('');
+
+    // Book handlers
+    container.querySelectorAll('.slot-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const el = btn as HTMLElement;
+        const key = el.dataset.key!;
+        bookedSlots.add(key);
+        const detail = `${el.dataset.name} · ${DAY_NAMES[activeDay]} ${weekDays[activeDay].getDate()} a las ${el.dataset.time}`;
+        showConfirm(detail);
+        renderGrid();
+      });
+    });
+  }
+
+  function showConfirm(detail: string) {
+    const panel = document.getElementById('agendaConfirm')!;
+    const detailEl = document.getElementById('confirmDetail')!;
+    detailEl.textContent = detail;
+    panel.style.display = 'block';
+    gsap.fromTo(panel, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: 'power2.out' });
+    document.getElementById('confirmClose')?.addEventListener('click', () => {
+      gsap.to(panel, { y: 10, opacity: 0, duration: 0.2, onComplete: () => { panel.style.display = 'none'; } });
+    }, { once: true });
+  }
+
+  renderDays();
+  renderGrid();
+
+  // ── Scroll reveals ────────────────────────────────────
   document.querySelectorAll('[data-reveal]').forEach((el) => {
     const delay = parseFloat((el as HTMLElement).dataset.revealDelay || '0') * 0.15;
     gsap.to(el, {

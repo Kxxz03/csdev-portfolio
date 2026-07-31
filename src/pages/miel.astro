@@ -732,6 +732,43 @@
       transform: translateY(24px);
     }
 
+    /* ── NAV UNDERLINE SLIDE ────────────────────────────── */
+    .nav-links a {
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0;
+      width: 0; height: 1px;
+      background: var(--terracota);
+      transition: width 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* ── BADGE BOB ──────────────────────────────────────── */
+    @keyframes bobFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    .hero-badge-float {
+      animation: bobFloat 3.5s ease-in-out infinite;
+    }
+
+    /* ── PRODUCT CARD STAGGER ───────────────────────────── */
+    .product-card { transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.55s ease, translate 0s; }
+
+    /* ── DEL DÍA SLIDE ──────────────────────────────────── */
+    .del-dia-item {
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .del-dia-item.revealed {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
     /* SVG icons */
     .icon {
       display: inline-block;
@@ -1021,17 +1058,54 @@
   import ScrollTrigger from 'gsap/ScrollTrigger';
   gsap.registerPlugin(ScrollTrigger);
 
-  // Hero entrance
-  gsap.fromTo('#heroHeadline',
-    { opacity: 0, y: 30 },
-    { opacity: 1, y: 0, duration: 1, ease: 'power3.out', delay: 0.1 }
+  // ── Hero entrance with line stagger ──────────────────
+  const hlLines = document.querySelectorAll<HTMLElement>('#heroHeadline > *');
+  gsap.fromTo(
+    hlLines.length ? hlLines : '#heroHeadline',
+    { opacity: 0, y: 28, skewY: 2 },
+    { opacity: 1, y: 0, skewY: 0, duration: 0.9, ease: 'power3.out', stagger: 0.12, delay: 0.1 }
   );
   gsap.fromTo('#heroSub',
-    { opacity: 0, y: 20 },
-    { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.35 }
+    { opacity: 0, y: 18 },
+    { opacity: 1, y: 0, duration: 0.75, ease: 'power3.out', delay: 0.55 }
+  );
+  gsap.fromTo('.hero-actions',
+    { opacity: 0, y: 14 },
+    { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', delay: 0.72 }
   );
 
-  // Scroll reveals
+  // ── Hero image parallax ───────────────────────────────
+  const heroImgWrap = document.querySelector<HTMLElement>('.hero-img-wrap');
+  if (heroImgWrap) {
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY * 0.18;
+      heroImgWrap.style.transform = `translateY(${y}px)`;
+    }, { passive: true });
+  }
+
+  // ── Product card stagger reveal ───────────────────────
+  document.querySelectorAll<HTMLElement>('.product-card').forEach((card, i) => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(28px)';
+    new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          gsap.to(card, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' });
+        }, i * 90);
+      }
+    }, { threshold: 0.1 }).observe(card);
+  });
+
+  // ── Del día staggered slide from left ────────────────
+  document.querySelectorAll<HTMLElement>('.del-dia-item').forEach((item, i) => {
+    new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => item.classList.add('revealed'), i * 80);
+      }
+    }, { threshold: 0.1 }).observe(item);
+  });
+
+  // ── Scroll reveals (rest) ─────────────────────────────
   document.querySelectorAll('[data-reveal]').forEach((el) => {
     gsap.to(el, {
       opacity: 1,
