@@ -1,0 +1,1287 @@
+---
+import FondoPlasma from '../components/FondoPlasma.astro';
+const CUADROS = 36;
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ÑANDÚ TERRA 01 — 372 gramos</title>
+  <meta name="description" content="No es liviana. Está hecha para caminar todo el día. ÑANDÚ TERRA 01." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- La portada entra con la página; el giro se precarga después. -->
+  <link rel="preload" as="image" href="/nandu/par-1000.webp" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* Más oscuro que el #0E0F11 inicial: con el plasma detrás, un
+         grafito claro levantaba el conjunto y el producto blanco
+         perdía recorte. */
+      --grafito:  #08090B;
+      --carbon:   #101215;
+      --hueso:    #EDEAE3;
+      --gris:     #8A8C90;
+      --naranja:  #FF5A1F;
+
+      /* Los dos de abajo salen del degradado del fondo. El titular en
+         crema lo ata al plasma en vez de flotar en blanco puro; el punto
+         en terracota es el mismo naranja pero más profundo, así corta sin
+         competir con las cotas. */
+      --crema:    #FFE8C2;
+      --terracota:#C2402A;
+
+      /* El naranja es instrumento de medición, no decoración. Solo aparece
+         en cotas, números y líneas guía; nunca en superficies grandes. */
+      --linea:    rgba(237, 234, 227, 0.12);
+
+      --display: 'Archivo', system-ui, sans-serif;
+      --mono: 'IBM Plex Mono', ui-monospace, monospace;
+    }
+
+    html { background: var(--grafito); }
+
+    body {
+      font-family: var(--mono);
+      background: var(--grafito);
+      color: var(--hueso);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── Marco de instrumento ─────────────────────────────────────────
+       Cuatro líneas finas que enmarcan la pantalla, como la retícula de
+       un visor. Da el registro técnico sin agregar ningún elemento. */
+    .marco {
+      position: fixed;
+      inset: 20px;
+      border: 1px solid var(--linea);
+      pointer-events: none;
+      z-index: 40;
+    }
+    @media (max-width: 700px) { .marco { inset: 12px; } }
+
+    .marca {
+      position: fixed;
+      top: 40px; left: 44px;
+      z-index: 50;
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: 15px;
+      letter-spacing: 0.16em;
+    }
+    .marca span { color: var(--naranja); }
+
+    @media (max-width: 700px) {
+      .marca { top: 26px; left: 28px; font-size: 13px; }
+    }
+
+
+    /* ── Primera pantalla ─────────────────────────────────────────────
+       Estática y a máxima calidad. El giro llega recién al bajar: si lo
+       primero que ve el visitante ya se mueve, no queda un momento de
+       reposo donde mirar el producto. */
+    .portada {
+      position: relative;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      z-index: 1;
+      padding: 14vh 6vw 0;
+    }
+
+    /* El ancho se topea en el ancho nativo del render. Estirarlo más
+       lo dejaría blando, y este viene con piso y sombras: la nitidez de
+       la textura del piso es de lo que más se nota. */
+    .portada-caja {
+      position: relative;
+      width: min(92vw, 1000px);
+      text-align: center;
+    }
+
+    .portada img {
+      width: 100%;
+      height: auto;
+      display: block;
+      /* Este render viene sin piso, así que la sombra la pone el CSS.
+         Apoya el par sin dibujar una superficie. */
+      filter: drop-shadow(0 40px 46px rgba(0, 0, 0, 0.6));
+    }
+
+    .portada h1 {
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: clamp(3.4rem, 13vw, 11rem);
+      line-height: 0.82;
+      letter-spacing: -0.05em;
+      margin-bottom: -0.14em;
+      position: relative;
+      z-index: 2;
+    }
+    .portada h1 { color: var(--crema); }
+    .portada h1 i {
+      font-style: normal;
+      color: var(--terracota);
+    }
+
+    .bajada {
+      margin-top: 3vh;
+      font-size: clamp(0.85rem, 1.4vw, 1rem);
+      color: var(--gris);
+      letter-spacing: 0.02em;
+      line-height: 1.6;
+    }
+    .bajada b { color: var(--hueso); font-weight: 500; }
+
+    /* Aviso de scroll: una línea que respira. Sustituye a la flechita. */
+    .seguir {
+      position: absolute;
+      bottom: 5vh; left: 50%;
+      transform: translateX(-50%);
+      display: grid;
+      justify-items: center;
+      z-index: 2;
+    }
+    .seguir::after {
+      content: '';
+      width: 1px; height: 42px;
+      background: linear-gradient(var(--naranja), transparent);
+      animation: caer 2.4s ease-in-out infinite;
+    }
+    @keyframes caer {
+      0%, 100% { opacity: 0.25; transform: scaleY(0.55); }
+      50%      { opacity: 1;    transform: scaleY(1); }
+    }
+
+
+    @media (prefers-reduced-motion: reduce) {
+      .seguir::after { animation: none; opacity: 0.6; }
+    }
+
+
+    /* ── Transición ───────────────────────────────────────────────────
+       Entre la portada y el giro hacía falta un respiro. No es relleno:
+       es el único lugar donde se cuenta de dónde sale el nombre, y le da
+       al visitante un motivo para seguir bajando que no sea la inercia.
+
+       Sin anclaje: quedó fijada 260vh cuando las líneas se revelaban con
+       el scroll. Al sacar ese efecto, el anclaje solo trababa la página
+       sin que pasara nada. */
+    .relato { position: relative; z-index: 1; }
+
+
+    .relato-texto {
+      display: grid;
+      align-content: center;
+      justify-items: end;
+      text-align: right;
+    }
+
+
+    @media (max-width: 780px) {
+      .relato-fijo { justify-items: start; }
+      .relato-texto { justify-items: start; text-align: left; }
+      .relato-linea { margin-left: 0; }
+    }
+
+    /* Sin anclaje: la sección estuvo fijada 260vh mientras las líneas se
+       revelaban con el scroll. Al sacar ese efecto, el anclaje solo
+       trababa la página unos segundos sin que pasara nada. */
+    .relato-fijo {
+      min-height: 100svh;
+      display: grid;
+      align-content: center;
+      justify-items: end;
+      padding: 18vh 6vw;
+    }
+
+    .relato-linea {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: clamp(1.6rem, 4.4vw, 3.4rem);
+      line-height: 1.16;
+      letter-spacing: -0.03em;
+      max-width: 19ch;
+      color: var(--hueso);
+      margin-left: auto;
+    }
+    .relato-linea + .relato-linea { margin-top: 0.42em; }
+    .relato-linea b { color: var(--crema); font-weight: 700; }
+    .relato-linea i {
+      font-style: normal;
+      color: var(--terracota);
+    }
+
+
+
+    /* ── Escena anclada ───────────────────────────────────────────────
+       La altura define cuánto scroll cuesta una vuelta completa. Con
+       420vh el giro se sentía pesado: eran unos 64px de scroll por
+       cuadro. A 180vh quedan ~18px, que responde de inmediato. */
+    .escena { height: 180vh; position: relative; z-index: 1; }
+
+    .fijo {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+
+    /* El canvas ocupa el ancho disponible con un techo, para que en
+       pantallas grandes la zapatilla no se agigante. */
+    #giro {
+      width: min(88vw, 900px);
+      height: auto;
+      display: block;
+    }
+
+    /* ── Titular ──────────────────────────────────────────────────────
+       Se superpone al producto en vez de ponerse al lado: el peso es el
+       dato, y tiene que leerse sobre la zapatilla. */
+    .titular {
+      position: absolute;
+      left: 6vw;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      pointer-events: none;
+      mix-blend-mode: difference;
+    }
+
+    .modelo {
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: clamp(3rem, 9vw, 7.5rem);
+      line-height: 0.85;
+      letter-spacing: -0.04em;
+      display: block;
+    }
+    .modelo em {
+      font-style: normal;
+      display: block;
+      font-size: 0.3em;
+      letter-spacing: 0.28em;
+      font-weight: 500;
+      margin-top: 0.9em;
+      color: var(--gris);
+    }
+
+    .frase {
+      position: absolute;
+      right: 6vw;
+      bottom: 16vh;
+      z-index: 10;
+      max-width: 22ch;
+      font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+      line-height: 1.55;
+      color: var(--hueso);
+    }
+    .frase b { font-weight: 500; }
+    .frase em {
+      font-style: normal;
+      color: var(--gris);
+      display: block;
+      margin-top: 0.6em;
+    }
+    @media (max-width: 700px) {
+      .titular { left: 8vw; top: 22%; transform: none; }
+      .frase { right: auto; left: 8vw; bottom: 10vh; max-width: 26ch; }
+    }
+
+    /* ── Cotas técnicas ───────────────────────────────────────────────
+       Se escriben una por una al cargar, como si un instrumento las
+       fuera midiendo. Es el único momento animado que no depende del
+       scroll. */
+    .cotas {
+      position: absolute;
+      right: 6vw;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      display: grid;
+      gap: 0.9rem;
+      text-align: right;
+    }
+    .cota { opacity: 0; }
+    .cota dt {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      color: var(--gris);
+      margin-bottom: 0.25em;
+    }
+    .cota dd {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: -0.01em;
+    }
+    .cota dd i {
+      font-style: normal;
+      color: var(--naranja);
+      margin-left: 0.15em;
+      font-size: 0.7em;
+    }
+    @media (max-width: 900px) { .cotas { display: none; } }
+
+    /* Marca de progreso del giro: una línea que se llena. Sustituye a
+       cualquier indicador de scroll explícito. */
+    .progreso {
+      position: absolute;
+      left: 6vw; right: 6vw; bottom: 8vh;
+      height: 1px;
+      background: var(--linea);
+      z-index: 10;
+    }
+    .progreso span {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: var(--naranja);
+      transform-origin: left;
+    }
+
+    .cargando {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--gris);
+      z-index: 20;
+      transition: opacity 0.4s ease;
+    }
+    .cargando[hidden] { opacity: 0; pointer-events: none; }
+
+    /* ── Reducción de movimiento ──────────────────────────────────────
+       No es apagar todo: el giro deja de estar anclado al scroll y la
+       zapatilla queda en su vista de perfil. La información llega igual
+       sin el movimiento continuo. */
+    @media (prefers-reduced-motion: reduce) {
+      .escena { height: auto; }
+      .fijo { position: relative; height: auto; padding: 18vh 0; }
+      .progreso { display: none; }
+      .cota { opacity: 1 !important; }
+    }
+
+
+
+
+    /* ── Materiales y construcción ────────────────────────────────────
+       La sección se ancla y el scroll separa las capas. El despiece no
+       es un adorno: es la única forma de mostrar de qué está hecha una
+       zapatilla sin cortarla por la mitad.
+
+       El texto va al lado y no encima, porque acá hay que leer y mirar a
+       la vez: superponerlos obligaría a elegir. */
+    /* Ya no necesita scroll: el giro lo controla el arrastre, así que
+       la sección ocupa una pantalla y nada más. */
+    .obra { min-height: 100svh; position: relative; z-index: 1; }
+
+    .obra-fijo {
+      min-height: 100svh;
+      padding-bottom: 7rem;
+      display: grid;
+      grid-template-columns: 1fr minmax(280px, 0.85fr);
+      align-items: center;
+      gap: clamp(2rem, 6vw, 6rem);
+      padding: 0 6vw;
+    }
+
+    .obra-pieza {
+      justify-self: center;
+      position: relative;
+      cursor: grab;
+      touch-action: pan-y;   /* deja pasar el scroll vertical del dedo */
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .obra-pieza:active { cursor: grabbing; }
+
+    .pista {
+      position: absolute;
+      left: 50%; bottom: -1.7rem;
+      transform: translateX(-50%);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--gris);
+      white-space: nowrap;
+      pointer-events: none;
+      animation: latir 2.6s ease-in-out infinite;
+    }
+    .pista[hidden] { display: none; }
+    @keyframes latir { 0%,100% { opacity: 0.35 } 50% { opacity: 0.85 } }
+    #despiece {
+      width: auto;
+      height: min(74vh, 620px);
+      display: block;
+    }
+
+    .obra-datos h2 {
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: clamp(1.7rem, 3.4vw, 2.9rem);
+      letter-spacing: -0.035em;
+      line-height: 1;
+      margin-bottom: 0.35em;
+      color: var(--crema);
+    }
+    .obra-datos > p {
+      color: var(--gris);
+      font-size: 0.86rem;
+      line-height: 1.65;
+      max-width: 32ch;
+      margin-bottom: 2.4rem;
+    }
+
+    /* Cada capa aparece cuando le toca separarse. La numeración sale del
+       propio orden del despiece, de abajo hacia arriba. */
+    .capa {
+      display: grid;
+      grid-template-columns: 2.2rem 1fr;
+      gap: 0 1rem;
+      padding: 0.85rem 0;
+      border-top: 1px solid var(--linea);
+    }
+    .capa-n {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: var(--terracota);
+      padding-top: 0.15em;
+    }
+    .capa-nombre {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 0.98rem;
+      letter-spacing: -0.015em;
+    }
+    .capa-nombre span {
+      float: right;
+      font-family: var(--mono);
+      font-weight: 400;
+      font-size: 0.72rem;
+      color: var(--naranja);
+    }
+    .capa-que {
+      grid-column: 2;
+      font-size: 0.76rem;
+      line-height: 1.55;
+      color: var(--gris);
+      margin-top: 0.25em;
+    }
+
+    .obra-cargando {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--gris);
+      transition: opacity 0.4s ease;
+    }
+    .obra-cargando[hidden] { opacity: 0; }
+
+    @media (max-width: 900px) {
+      .obra-fijo { grid-template-columns: 1fr; gap: 1.5rem; align-content: center; }
+      #despiece { height: min(42vh, 340px); }
+      .obra-datos > p { display: none; }
+      .capa-que { display: none; }
+      .capa { padding: 0.5rem 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+    }
+
+
+
+    /* Control de apertura. Un rango y no un botón: dejar elegir cuánto se
+       abre invita a jugar, y ese es el punto de la sección. */
+    .mando {
+      position: absolute;
+      left: 50%; bottom: -3.8rem;
+      transform: translateX(-50%);
+      display: grid;
+      justify-items: center;
+      gap: 0.55rem;
+      width: min(74%, 240px);
+    }
+    .mando label {
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      color: var(--gris);
+    }
+    .mando input {
+      width: 100%;
+      appearance: none;
+      -webkit-appearance: none;
+      background: transparent;
+      cursor: pointer;
+    }
+    .mando input::-webkit-slider-runnable-track { height: 1px; background: rgba(237,234,227,0.2); }
+    .mando input::-moz-range-track { height: 1px; background: rgba(237,234,227,0.2); }
+    .mando input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: #FF5A1F;
+      margin-top: -5.5px;
+    }
+    .mando input::-moz-range-thumb {
+      width: 12px; height: 12px; border: none;
+      border-radius: 50%; background: #FF5A1F;
+    }
+
+    /* ── Comercial ────────────────────────────────────────────────────
+       Una página de producto que no dice precio ni talles no es una
+       página de producto, es un catálogo de fotos. Este bloque cierra:
+       cuánto sale, qué talles hay y qué pasa si no te va. */
+    .venta {
+      position: relative;
+      z-index: 1;
+      padding: 18vh 6vw 12vh;
+      border-top: 1px solid var(--linea);
+    }
+
+    .venta-grilla {
+      display: grid;
+      grid-template-columns: 1fr minmax(300px, 26rem);
+      gap: clamp(2rem, 7vw, 7rem);
+      align-items: start;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .venta h2 {
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: clamp(2.2rem, 6vw, 4.6rem);
+      line-height: 0.94;
+      letter-spacing: -0.04em;
+      color: var(--crema);
+      margin-bottom: 0.5em;
+    }
+    .venta-nota {
+      color: var(--gris);
+      font-size: 0.86rem;
+      line-height: 1.7;
+      max-width: 40ch;
+    }
+    .venta-nota + .venta-nota { margin-top: 1.2em; }
+    .venta-nota b { color: var(--hueso); font-weight: 500; }
+
+    .precio {
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    .precio small {
+      display: block;
+      font-family: var(--mono);
+      font-weight: 400;
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      color: var(--gris);
+      margin-top: 0.7em;
+    }
+
+    .titulo-campo {
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      color: var(--gris);
+      margin: 2.4rem 0 0.9rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Los talles agotados se muestran, no se esconden. Un catálogo donde
+       todo está siempre disponible no le cree nadie. */
+    .talles { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+    .talle {
+      /* Sin esto el navegador le pone su gris de botón por defecto, y
+         quedaba texto blanco hueso sobre fondo casi blanco. */
+      background: transparent;
+      appearance: none;
+      font-family: var(--mono);
+      border: 1px solid var(--linea);
+      border-radius: 3px;
+      padding: 0.8rem 0;
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--hueso);
+      cursor: pointer;
+      transition: border-color 0.18s ease, background-color 0.18s ease;
+    }
+    .talle:hover { border-color: rgba(237,234,227,0.4); }
+    .talle[aria-pressed='true'] {
+      border-color: var(--naranja);
+      background: rgba(255, 90, 31, 0.1);
+    }
+    .talle[disabled] {
+      background: transparent;
+      color: var(--gris);
+      opacity: 0.35;
+      text-decoration: line-through;
+      cursor: not-allowed;
+    }
+    .talle[disabled]:hover { border-color: var(--linea); }
+
+    .comprar {
+      margin-top: 1.6rem;
+      width: 100%;
+      background: var(--crema);
+      color: #0A0B0C;
+      border: none;
+      border-radius: 4px;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      padding: 1.15rem 0;
+      cursor: pointer;
+      transition: transform 0.12s ease, background-color 0.18s ease;
+    }
+    .comprar:hover { background: #fff; }
+    /* Respuesta al apretar, no al soltar: esperar al click se siente muerto. */
+    .comprar:active { transform: scale(0.985); }
+    .comprar[disabled] {
+      background: transparent;
+      color: var(--gris);
+      border: 1px solid var(--linea);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .garantias {
+      margin-top: 1.6rem;
+      display: grid;
+      gap: 0.7rem;
+      font-size: 0.74rem;
+      color: var(--gris);
+      line-height: 1.5;
+    }
+    .garantias div { display: grid; grid-template-columns: 1.6rem 1fr; }
+    .garantias i { font-style: normal; color: var(--naranja); }
+
+    .pie {
+      margin-top: 14vh;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--linea);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      color: var(--gris);
+    }
+
+    @media (max-width: 860px) {
+      .venta-grilla { grid-template-columns: 1fr; gap: 3rem; }
+    }
+
+
+    /* ── Serie fundadora ──────────────────────────────────────────────
+       Es lo único que una marca grande no puede ofrecer: el primer
+       modelo, numerado. La escasez acá es real, no un contador que baja
+       solo. */
+    .serie {
+      margin: 2.6rem 0 0;
+      border: 1px solid rgba(255, 90, 31, 0.28);
+      border-radius: 4px;
+      padding: 1.3rem 1.4rem;
+      background: rgba(255, 90, 31, 0.05);
+    }
+    .serie-alto {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.7rem;
+    }
+    .serie-numero {
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: 1.9rem;
+      letter-spacing: -0.03em;
+      color: var(--naranja);
+      line-height: 1;
+    }
+    .serie-numero span { color: var(--gris); font-size: 0.5em; }
+    .serie-rotulo {
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      color: var(--naranja);
+    }
+    .serie p {
+      font-size: 0.76rem;
+      line-height: 1.6;
+      color: var(--gris);
+    }
+    /* Barra de la tirada. El ancho es un dato fijo, no una animación:
+       si bajara sola sería mentira. */
+    .serie-barra {
+      height: 2px;
+      background: rgba(255, 90, 31, 0.2);
+      margin: 0.9rem 0 0.7rem;
+    }
+    .serie-barra i { display: block; height: 100%; background: var(--naranja); }
+
+    /* ── WhatsApp ─────────────────────────────────────────────────────
+       En Paraguay una marca nueva sin WhatsApp visible pierde ventas que
+       ya tenía ganadas: la gente quiere preguntar el talle antes de
+       gastar Gs. 890.000. */
+    .wsp {
+      position: fixed;
+      right: 26px; bottom: 26px;
+      z-index: 60;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--crema);
+      color: #0A0B0C;
+      text-decoration: none;
+      border-radius: 999px;
+      padding: 0.85rem 1.25rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      box-shadow: 0 12px 28px -10px rgba(0, 0, 0, 0.8);
+      transition: transform 0.14s ease, background-color 0.18s ease;
+    }
+    .wsp:hover { background: #fff; }
+    .wsp:active { transform: scale(0.97); }
+    .wsp svg { width: 15px; height: 15px; flex: none; }
+    @media (max-width: 700px) {
+      .wsp { right: 16px; bottom: 16px; padding: 0.8rem; }
+      .wsp span { display: none; }
+    }
+
+    /* Con ?movimiento se recupera el anclaje aunque el sistema pida
+       menos movimiento. Va después para ganarle a la regla de arriba. */
+    html[data-movimiento='forzado'] .escena { height: 180vh; }
+    html[data-movimiento='forzado'] .fijo {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 0;
+    }
+    html[data-movimiento='forzado'] .progreso { display: block; }
+  </style>
+</head>
+
+<body>
+  <div class="marco" aria-hidden="true"></div>
+  <div class="marca">ÑANDÚ<span>.</span></div>
+
+
+  <FondoPlasma fuerza={0.3} />
+
+  <header class="portada">
+    <div class="portada-caja">
+      <h1>TERRA<i>.</i></h1>
+      <img
+       
+        src="/nandu/par-1000.webp"
+        srcset="/nandu/par-640.webp 640w, /nandu/par-1000.webp 1000w"
+        sizes="(max-width: 700px) 92vw, 1000px"
+        width="1000" height="755"
+        alt="ÑANDÚ TERRA 01, el par"
+        fetchpriority="high"
+      />
+      <p class="bajada">
+        <b>372 gramos.</b> No es liviana.<br />
+        Está hecha para caminar todo el día.
+      </p>
+    </div>
+    <div class="seguir"></div>
+  </header>
+
+
+  <section class="relato" id="relato">
+    <div class="relato-fijo">
+
+      <div class="relato-texto">
+        <p class="relato-linea">El ñandú <b>no vuela</b>.</p>
+        <p class="relato-linea">Corre porque es lo que tiene.</p>
+        <p class="relato-linea">Pesa cuarenta kilos y aun así <b>alcanza los 60 km/h</b>.</p>
+        <p class="relato-linea"><i>Nadie lo llamaría liviano.</i></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="escena" id="escena">
+    <div class="fijo">
+      <canvas id="giro" width="1096" height="648" aria-label="ÑANDÚ TERRA 01 girando sobre su eje"></canvas>
+
+      <div class="cargando" id="cargando">CARGANDO 00 / {CUADROS}</div>
+
+      <h1 class="titular">
+        <span class="modelo">TERRA<em>01</em></span>
+      </h1>
+
+      <p class="frase">
+        <b>No es liviana.</b>
+        <em>Está hecha para caminar todo el día.</em>
+      </p>
+
+      <dl class="cotas" id="cotas">
+        <div class="cota"><dt>CAÍDA</dt><dd>10<i>mm</i></dd></div>
+        <div class="cota"><dt>TALÓN</dt><dd>34<i>mm</i></dd></div>
+        <div class="cota"><dt>ANTEPIÉ</dt><dd>24<i>mm</i></dd></div>
+        <div class="cota"><dt>SUELA</dt><dd>4<i>mm</i></dd></div>
+        <div class="cota"><dt>MEDIASUELA</dt><dd>EVA <i>×3</i></dd></div>
+      </dl>
+
+      <div class="progreso"><span id="barra"></span></div>
+    </div>
+  </section>
+
+
+
+
+  <section class="obra" id="obra">
+    <div class="obra-fijo">
+      <div class="obra-pieza" id="obraPieza">
+        <canvas id="despiece" width="480" height="856"
+          aria-label="Despiece de la ÑANDÚ TERRA 01"></canvas>
+        <div class="obra-cargando" id="obraCargando">CARGANDO</div>
+        <p class="pista" id="pista">Arrastrá para girar</p>
+        <div class="mando">
+          <label for="apertura">DESARMAR</label>
+          <input type="range" id="apertura" min="0" max="4" step="1" value="0" />
+        </div>
+      </div>
+
+      <div class="obra-datos">
+        <h2>Cuatro capas.<br />Ninguna de adorno.</h2>
+        <p>
+          Todo lo que suma peso tiene que justificarlo. Acá está lo que hay
+          entre el pie y el piso, en el orden en que se apila.
+        </p>
+
+        <div class="capa" data-capa="0">
+          <div class="capa-n">04</div>
+          <div class="capa-nombre">Cordón plano <span>encerado</span></div>
+          <div class="capa-que">
+            Plano y no redondo: agarra en el ojal y no se afloja sola a las
+            dos horas de caminata.
+          </div>
+        </div>
+
+        <div class="capa" data-capa="1">
+          <div class="capa-n">03</div>
+          <div class="capa-nombre">Upper <span>malla técnica</span></div>
+          <div class="capa-que">
+            Malla de monofilamento con refuerzos termosellados, sin costura
+            interna. Lo que no se cose, no roza.
+          </div>
+        </div>
+
+        <div class="capa" data-capa="2">
+          <div class="capa-n">02</div>
+          <div class="capa-nombre">Mediasuela <span>EVA ×3</span></div>
+          <div class="capa-que">
+            Tres densidades: firme en el talón, blanda en el medio, firme
+            otra vez en el antepié. Es la mitad de los 372 gramos.
+          </div>
+        </div>
+
+        <div class="capa" data-capa="3">
+          <div class="capa-n">01</div>
+          <div class="capa-nombre">Suela <span>caucho 4 mm</span></div>
+          <div class="capa-que">
+            Caucho de carbono con tacos de 4 mm. Pesa más que una suela de
+            goma común y dura tres veces lo mismo.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="venta" id="venta">
+    <div class="venta-grilla">
+      <div>
+        <h2>Se compra una vez<br />y se camina tres años.</h2>
+        <p class="venta-nota">
+          <b>Producción corta.</b> Se fabrican 400 pares por color y no se
+          repone. Preferimos quedarnos cortos antes que liquidar stock a
+          mitad de precio en marzo.
+        </p>
+        <p class="venta-nota">
+          <b>Fabricada en Paraguay.</b> Upper y armado en Ciudad del Este;
+          la suela viene de Brasil. Está escrito en la caja, con el nombre
+          del taller.
+        </p>
+        <p class="venta-nota">
+          <b>Se resuela.</b> Cuando la suela se termina, la cambiamos por
+          Gs. 180.000. Tirar una zapatilla entera porque se gastaron 4
+          milímetros de caucho no tiene sentido.
+        </p>
+      </div>
+
+      <div>
+        <div class="precio">
+          Gs. 890.000
+          <small>O 6 CUOTAS DE GS. 148.333 SIN INTERÉS</small>
+        </div>
+
+
+        <div class="serie">
+          <div class="serie-alto">
+            <div class="serie-numero">047<span> / 400</span></div>
+            <div class="serie-rotulo">SERIE FUNDADORA</div>
+          </div>
+          <div class="serie-barra"><i style="width:11.75%"></i></div>
+          <p>
+            Cada par de la primera tirada lleva su número grabado en la
+            plantilla. Cuando se terminen los 400, TERRA 01 no se vuelve a
+            fabricar en este color.
+          </p>
+        </div>
+
+        <div class="titulo-campo">
+          <span>TALLE</span><span id="avisoTalle">39 AL 44</span>
+        </div>
+        <div class="talles" id="talles">
+          <button class="talle" aria-pressed="false">39</button>
+          <button class="talle" aria-pressed="false">40</button>
+          <button class="talle" aria-pressed="false">41</button>
+          <button class="talle" disabled>42</button>
+          <button class="talle" aria-pressed="false">43</button>
+        </div>
+
+        <button class="comprar" id="comprar" disabled>ELEGÍ UN TALLE</button>
+
+        <div class="garantias">
+          <div><i>·</i><span>Envío sin cargo a todo el país desde Gs. 500.000</span></div>
+          <div><i>·</i><span>30 días para cambiar el talle, usada o no</span></div>
+          <div><i>·</i><span>Garantía de 1 año contra defectos de fábrica</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pie">
+      <span>ÑANDÚ · TERRA 01 · 2026</span>
+      <span>PARAGUAY</span>
+    </div>
+  </section>
+
+
+  <a class="wsp" href="https://wa.me/595982531706?text=Hola,%20quiero%20consultar%20por%20las%20TERRA%2001"
+     target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-1.7-.9-2.9-1.6-4-3.5-.3-.5.3-.5.9-1.6.1-.2 0-.4 0-.5s-.7-1.6-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5 1.9.8 2.6.9 3.5.7.6-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3z"/>
+      <path d="M12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.4 1.3 4.9L2 22l5.3-1.4c1.4.8 3 1.2 4.7 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3.1.8.8-3-.2-.3c-.8-1.3-1.3-2.9-1.3-4.4C3.6 7.4 7.4 3.6 12 3.6S20.4 7.4 20.4 12 16.6 20.2 12 20.2z"/>
+    </svg>
+    <span>Consultanos</span>
+  </a>
+
+  <script define:vars={{ CUADROS }}>
+    // Astro pasa CUADROS desde el frontmatter, para no repetir el número.
+    window.__NANDU_CUADROS = CUADROS;
+  </script>
+
+  <script>
+    import Lenis from 'lenis'
+    import gsap from 'gsap'
+    import ScrollTrigger from 'gsap/ScrollTrigger'
+
+    gsap.registerPlugin(ScrollTrigger)
+
+    const TOTAL: number = (window as any).__NANDU_CUADROS
+
+    /* ?movimiento fuerza el giro aunque el sistema pida menos movimiento.
+       Sirve para revisar la pieza desde un equipo con esa preferencia
+       activada, que si no solo ve la variante estática. */
+    const forzado = new URLSearchParams(location.search).has('movimiento')
+    const suave =
+      forzado || !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    if (forzado) document.documentElement.dataset.movimiento = 'forzado'
+
+    const lienzo = document.getElementById('giro') as HTMLCanvasElement
+    const ctx = lienzo.getContext('2d')!
+    const aviso = document.getElementById('cargando')!
+    const barra = document.getElementById('barra')!
+
+    /* ── Elección del juego de imágenes ────────────────────────────────
+       Se decide una sola vez, al cargar. Cambiar de juego a mitad de un
+       giro obligaría a precargar de nuevo y se vería el corte. */
+    const anchoReal = window.innerWidth * Math.min(window.devicePixelRatio || 1, 2)
+    const JUEGO = anchoReal > 1100 ? '1096' : '548'
+
+    const cuadros: HTMLImageElement[] = []
+    let listos = 0
+    let actual = -1
+
+    function ruta(i: number): string {
+      return `/nandu/giro/${JUEGO}/${String(i + 1).padStart(2, '0')}.webp`
+    }
+
+    /* Dibuja el cuadro pedido. Sale temprano si ya es el que está en
+       pantalla: durante un scrub la misma imagen se pide muchas veces
+       seguidas y redibujar cuesta sin cambiar nada. */
+    function dibujar(indice: number): void {
+      const i = Math.max(0, Math.min(TOTAL - 1, indice))
+      if (i === actual) return
+      const img = cuadros[i]
+      if (!img || !img.complete) return
+
+      actual = i
+      ctx.clearRect(0, 0, lienzo.width, lienzo.height)
+      ctx.drawImage(img, 0, 0, lienzo.width, lienzo.height)
+    }
+
+    /* ── Precarga completa ─────────────────────────────────────────────
+       El giro no arranca hasta tener los 36. Con carga perezosa, el
+       primer barrido muestra huecos justo en el momento que tiene que
+       impresionar. Un MB entero es barato a cambio de eso. */
+    function precargar(): Promise<void> {
+      return new Promise((resolve) => {
+        for (let i = 0; i < TOTAL; i++) {
+          const img = new Image()
+          img.decoding = 'async'
+          img.src = ruta(i)
+          img.onload = img.onerror = () => {
+            listos++
+            aviso.textContent = `CARGANDO ${String(listos).padStart(2, '0')} / ${TOTAL}`
+            if (i === 0) dibujar(0)
+            if (listos === TOTAL) resolve()
+          }
+          cuadros[i] = img
+        }
+      })
+    }
+
+
+
+
+
+
+
+    /* El corte de un bloque viejo se llevó esta llamada y el giro quedó
+       en "CARGANDO 00 / 36" para siempre. */
+    precargar().then(() => {
+      aviso.hidden = true
+      if (suave) anclarGiro()
+    })
+
+    function anclarGiro(): void {
+      const lenis = new Lenis({
+        duration: 1.1,
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      })
+      gsap.ticker.add((t) => lenis.raf(t * 1000))
+      gsap.ticker.lagSmoothing(0)
+
+      /* Lenis toma el control del desplazamiento y ScrollTrigger no se
+         entera solo: sin esta línea la escena queda anclada pero el
+         progreso nunca avanza, y la zapatilla no gira. */
+      lenis.on('scroll', ScrollTrigger.update)
+      ;(window as any).__lenis = lenis
+
+      const avance = { valor: 0 }
+      gsap.to(avance, {
+        valor: TOTAL - 1,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '#escena',
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: 0.3,
+          onUpdate: (self) => {
+            barra.style.transform = `scaleX(${self.progress})`
+          },
+        },
+        onUpdate: () => dibujar(Math.round(avance.valor)),
+      })
+
+      /* Las cotas se escriben una por una al entrar. Es el único momento
+         que no depende del scroll. */
+      gsap.to('.cota', {
+        opacity: 1,
+        duration: 0.5,
+        stagger: 0.09,
+        delay: 0.2,
+        ease: 'power2.out',
+      })
+    }
+
+    /* ── Visor del despiece ───────────────────────────────────────────
+       Dos ejes a la vez: girar y desarmar. Un giro solo, o un desarme
+       solo, se resuelven con una secuencia; poder hacer las dos cosas
+       necesita una malla de 18 ángulos por 5 estados de apertura.
+
+       Los 90 cuadros NO se cargan de una: primero los 18 del estado
+       armado, que es con lo que ya se puede girar, y el resto detrás.
+       Esperar 3 MB antes de poder tocar nada arruina justo el momento
+       que tiene que enganchar.
+
+       El arrastre sigue los principios de manipulación directa: 1 a 1
+       mientras se arrastra, sigue girando al soltar con la velocidad que
+       traía, y se puede agarrar en pleno giro para cambiarle el sentido. */
+    // 18 ángulos, uno cada 20 grados. Con 24 la matriz pesaba 5 MB
+    // entre los dos juegos; el salto entre cuadros casi no se nota.
+    const ANGULOS = 18
+    const ESTADOS = 5
+    const JUEGO_OBRA = anchoReal > 900 ? '480' : '320'
+
+    const lienzoObra = document.getElementById('despiece') as HTMLCanvasElement
+    const ctxObra = lienzoObra.getContext('2d')!
+    const avisoObra = document.getElementById('obraCargando')!
+    const zonaGiro = document.getElementById('obraPieza')!
+    const pista = document.getElementById('pista')
+    const mando = document.getElementById('apertura') as HTMLInputElement | null
+
+    const malla: HTMLImageElement[][] = Array.from({ length: ESTADOS }, () => [])
+    let angulo = 0
+    let estado = 0
+    let ultimoDibujo = ''
+
+    function rutaMalla(e: number, a: number): string {
+      const n = String(a + 1).padStart(2, '0')
+      return '/nandu/matriz/' + JUEGO_OBRA + '/e' + e + '/' + n + '.webp'
+    }
+
+    function cargarEstado(e: number): Promise<void> {
+      return new Promise((listo) => {
+        let n = 0
+        for (let a = 0; a < ANGULOS; a++) {
+          const imgMalla = new Image()
+          imgMalla.decoding = 'async'
+          imgMalla.src = rutaMalla(e, a)
+          imgMalla.onload = imgMalla.onerror = () => {
+            if (++n === ANGULOS) listo()
+          }
+          malla[e][a] = imgMalla
+        }
+      })
+    }
+
+    function indiceAngulo(grados: number): number {
+      const paso = 360 / ANGULOS
+      return ((Math.round(grados / paso) % ANGULOS) + ANGULOS) % ANGULOS
+    }
+
+    function dibujarMalla(): void {
+      const a = indiceAngulo(angulo)
+      const clave = estado + ':' + a
+      // Durante un arrastre el mismo cuadro se pide muchas veces seguidas
+      if (clave === ultimoDibujo) return
+
+      const imgMalla = malla[estado][a]
+      if (!imgMalla || !imgMalla.complete || !imgMalla.naturalWidth) return
+
+      ultimoDibujo = clave
+      ctxObra.clearRect(0, 0, lienzoObra.width, lienzoObra.height)
+      ctxObra.drawImage(imgMalla, 0, 0, lienzoObra.width, lienzoObra.height)
+    }
+
+    // Primero lo armado: con eso ya se puede girar. El resto entra detrás.
+    cargarEstado(0).then(() => {
+      avisoObra.hidden = true
+      dibujarMalla()
+      for (let e = 1; e < ESTADOS; e++) cargarEstado(e)
+    })
+
+    mando?.addEventListener('input', () => {
+      estado = Math.min(ESTADOS - 1, Math.max(0, Number(mando.value)))
+      dibujarMalla()
+    })
+
+    /* ── Girar arrastrando ────────────────────────────────────────── */
+    const GRADOS_POR_PIXEL = 0.6
+    const ROCE = 0.94
+    const CORTE = 0.02
+
+    let velocidad = 0
+    let arrastrando = false
+    let ultimoX = 0
+    let historia: { x: number; t: number }[] = []
+    let inercia = 0
+
+    function girarSolo(): void {
+      if (arrastrando) return
+      velocidad *= ROCE
+      if (Math.abs(velocidad) < CORTE) {
+        velocidad = 0
+        return
+      }
+      angulo += velocidad
+      dibujarMalla()
+      inercia = requestAnimationFrame(girarSolo)
+    }
+
+    zonaGiro.addEventListener('pointerdown', (e) => {
+      zonaGiro.setPointerCapture(e.pointerId)
+      arrastrando = true
+      cancelAnimationFrame(inercia)
+      velocidad = 0
+      ultimoX = e.clientX
+      historia = [{ x: e.clientX, t: performance.now() }]
+      pista?.setAttribute('hidden', '')
+    })
+
+    zonaGiro.addEventListener('pointermove', (e) => {
+      if (!arrastrando) return
+      angulo += (e.clientX - ultimoX) * GRADOS_POR_PIXEL
+      ultimoX = e.clientX
+      dibujarMalla()
+
+      // Solo los últimos 90 ms: con el gesto entero, un arrastre largo
+      // que frena al final igual saldría despedido al soltar.
+      const ahora = performance.now()
+      historia.push({ x: e.clientX, t: ahora })
+      historia = historia.filter((h) => ahora - h.t < 90)
+    })
+
+    function soltar(e: PointerEvent): void {
+      if (!arrastrando) return
+      arrastrando = false
+      zonaGiro.releasePointerCapture(e.pointerId)
+
+      const primero = historia[0]
+      const ahora = performance.now()
+      if (primero && ahora - primero.t > 0) {
+        velocidad =
+          ((e.clientX - primero.x) / (ahora - primero.t)) * 16 * GRADOS_POR_PIXEL
+      }
+      if (Math.abs(velocidad) > CORTE) inercia = requestAnimationFrame(girarSolo)
+    }
+
+    zonaGiro.addEventListener('pointerup', soltar)
+    zonaGiro.addEventListener('pointercancel', soltar)
+
+    /* ── Selección de talle ───────────────────────────────────────────
+       El botón de compra arranca deshabilitado y dice qué falta. Un
+       botón activo que después tira un error es peor que uno que avisa
+       antes. */
+    const talles = document.getElementById('talles')
+    const botonComprar = document.getElementById('comprar') as HTMLButtonElement
+    const avisoTalle = document.getElementById('avisoTalle')!
+
+    talles?.addEventListener('click', (e) => {
+      const b = (e.target as HTMLElement).closest('.talle') as HTMLButtonElement | null
+      if (!b || b.disabled) return
+
+      talles.querySelectorAll('.talle').forEach((o) =>
+        o.setAttribute('aria-pressed', String(o === b))
+      )
+      avisoTalle.textContent = `TALLE ${b.textContent}`
+      botonComprar.disabled = false
+      botonComprar.textContent = 'AGREGAR AL CARRITO'
+    })
+  </script>
+</body>
+</html>

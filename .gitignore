@@ -22,3 +22,19 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# ÑANDÚ: fuentes de render y descartes
+# Los PNG que salen de Blender pesan 124 MB y no se usan en el sitio: lo
+# que se publica son los WebP recortados de public/nandu. Se regeneran
+# con los scripts de scripts/nandu.
+scripts/nandu/fuentes/
+scripts/nandu/descartes/
+
+# hojas de contacto de revisión
+hoja-*.png
+vista-*.png
+diagnostico.png
+
+# cache de Python
+__pycache__/
+*.pyc
