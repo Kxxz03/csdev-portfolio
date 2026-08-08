@@ -361,13 +361,15 @@ const CUADROS = 36;
     .cargando[hidden] { opacity: 0; pointer-events: none; }
 
     /* ── Reducción de movimiento ──────────────────────────────────────
-       No es apagar todo: el giro deja de estar anclado al scroll y la
-       zapatilla queda en su vista de perfil. La información llega igual
-       sin el movimiento continuo. */
+       El giro NO se apaga. Esa preferencia apunta al movimiento que
+       arranca solo: animaciones automáticas, paralaje, cosas que se
+       mueven sin que nadie las pida. Un giro atado al scroll se mueve
+       únicamente cuando el usuario lo mueve, y además es el contenido de
+       la sección, no un adorno.
+
+       Lo que sí se apaga está más abajo: la línea que late, el fondo
+       animado y las entradas escalonadas. */
     @media (prefers-reduced-motion: reduce) {
-      .escena { height: auto; }
-      .fijo { position: relative; height: auto; padding: 18vh 0; }
-      .progreso { display: none; }
       .cota { opacity: 1 !important; }
     }
 
@@ -498,8 +500,6 @@ const CUADROS = 36;
       .capa { padding: 0.5rem 0; }
     }
 
-    @media (prefers-reduced-motion: reduce) {
-    }
 
 
 
@@ -766,16 +766,6 @@ const CUADROS = 36;
       .wsp span { display: none; }
     }
 
-    /* Con ?movimiento se recupera el anclaje aunque el sistema pida
-       menos movimiento. Va después para ganarle a la regla de arriba. */
-    html[data-movimiento='forzado'] .escena { height: 180vh; }
-    html[data-movimiento='forzado'] .fijo {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      padding: 0;
-    }
-    html[data-movimiento='forzado'] .progreso { display: block; }
   </style>
 </head>
 
@@ -1001,14 +991,10 @@ const CUADROS = 36;
 
     const TOTAL: number = (window as any).__NANDU_CUADROS
 
-    /* ?movimiento fuerza el giro aunque el sistema pida menos movimiento.
-       Sirve para revisar la pieza desde un equipo con esa preferencia
-       activada, que si no solo ve la variante estática. */
-    const forzado = new URLSearchParams(location.search).has('movimiento')
-    const suave =
-      forzado || !window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
-    if (forzado) document.documentElement.dataset.movimiento = 'forzado'
+    /* El giro corre siempre: lo mueve el scroll del usuario, no un
+       temporizador. Lo que se respeta de la preferencia es el movimiento
+       automático, y eso se resuelve en CSS y en el fondo WebGL. */
+    const suave = true
 
     const lienzo = document.getElementById('giro') as HTMLCanvasElement
     const ctx = lienzo.getContext('2d')!
